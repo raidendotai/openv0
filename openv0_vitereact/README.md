@@ -1,1 +1,1 @@
-[React + Vite + TypeScript + shadcn/ui Template (react-vite-ui)](https://github.com/Dan5py/react-vite-ui/)
+Based on [React + Vite + TypeScript + shadcn/ui Template (react-vite-ui)](https://github.com/Dan5py/react-vite-ui/)
