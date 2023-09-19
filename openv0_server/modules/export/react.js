@@ -125,7 +125,7 @@ async function dump_webapp(){
     _mkdir(`${process.env.REACT_WEBAPP_DIR}/src/components/openv0_generated/${dir.toLowerCase()}`)
 
     fs.writeFileSync(
-      `${process.env.REACT_WEBAPP_DIR}/src/components/openv0_generated/${dir}/metadata.json`,
+      `${process.env.REACT_WEBAPP_DIR}/src/components/openv0_generated/${dir.toLowerCase()}/metadata.json`,
       JSON.stringify(metadata_json)
     )
 
@@ -146,7 +146,7 @@ async function dump_webapp(){
 
       fs.copyFileSync(
         `./generated/components/${dir}/${tsx_file}`,
-        `${process.env.REACT_WEBAPP_DIR}/src/components/openv0_generated/${dir}/${tsx_file}`,
+        `${process.env.REACT_WEBAPP_DIR}/src/components/openv0_generated/${dir.toLowerCase()}/${tsx_file}`,
       )
     })
 
