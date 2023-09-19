@@ -1,0 +1,47 @@
+const babel = require('@babel/core');
+const babelParser = require('@babel/parser');
+const babelTypes = require('@babel/types');
+const babelTraverse = require('@babel/traverse');
+const babelGenerate = require('@babel/generator');
+const babelPresetEnv = require('@babel/preset-env');
+const babelPresetReact = require('@babel/preset-react');
+const babelPresetTypescript = require('@babel/preset-typescript');
+
+const babelEslintParser = require('babel-eslint');
+const fs = require('fs');
+
+const babelConfig = {
+  presets: [babelPresetEnv, babelPresetReact, babelPresetTypescript]
+};
+
+function validate_babel(codeString){
+  try {
+    // Parse the code using Babel parser
+    const ast = babelParser.parse(codeString, {
+      sourceType: 'module',
+      plugins: ['jsx'],
+    });
+
+    // Validate the AST (Abstract Syntax Tree)
+    babelTraverse.default(ast, {
+      enter(path) {
+        // You can add custom validation logic here if needed
+      },
+    });
+
+    // Generate transpiled code
+    const { code } = babelGenerate.default(ast);
+
+    // If there are no errors, code is valid
+    return true
+  } catch (error) {
+    // Handle validation errors
+    console.error('Code is invalid:');
+    console.error(error.message);
+    return false
+  }
+}
+
+module.exports = {
+  validate_babel,
+};
