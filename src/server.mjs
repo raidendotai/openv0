@@ -1,27 +1,32 @@
 import "dotenv/config";
 import mongoose from "mongoose";
-import mongooseJSONSchema from "mongoose-schema-jsonschema";
-import express from "express";
-import cors from "cors";
 import fs from "node:fs";
+import mongooseJSONSchema from "mongoose-schema-jsonschema";
+import {
+  createApp,
+  createRouter,
+  readBody,
+  getQuery,
+  eventHandler,
+  toNodeListener,
+} from "h3";
 import { createProxyServer } from "httpxy";
 import { listen } from "listhen";
 import consola from "consola";
 import { waitForPort } from "get-port-please";
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
+import * as generate from "./generate.mjs";
+import * as export_react from "./modules/export/react.mjs";
 
 mongooseJSONSchema(mongoose);
 
-import * as generate from "./generate.mjs";
-import * as export_react from "./modules/export/react.mjs";
+const app = createApp();
+const router = createRouter();
+app.use(router);
 
 const EXPORT_PING_INTERVAL = parseInt(
   process.env.REACT_WEBAP_COMPONENT_PING_INTERVAL_MS,
 );
+
 let EXPORT_PING_STATUS = true;
 
 async function export_validity_check(query) {
@@ -54,66 +59,68 @@ async function exported_new_component(query) {
   export_validity_check(query);
 }
 
-app.post(`/component/new`, async (req, res) => {
-  try {
+router.post(
+  `/component/new`,
+  eventHandler(async (event) => {
+    const body = await readBody(event);
     const response = await generate.new_component({
-      query: req.body.query,
+      query: body.query,
     });
     exported_new_component({
       componentId: response.componentId,
       version: response.version,
     });
-    res.json(response);
-  } catch (e) {
-    console.log(e);
-  }
-});
+    return response;
+  }),
+);
 
-app.post(`/component/iterate`, async (req, res) => {
-  try {
+router.post(
+  `/component/iterate`,
+  eventHandler(async (event) => {
+    const body = await readBody(event);
     const response = await generate.iterate_component({
-      componentId: req.body.componentId,
-      query: req.body.query,
+      componentId: body.componentId,
+      query: body.query,
     });
     exported_new_component({
       componentId: response.componentId,
       version: response.version,
     });
-    res.json(response);
-  } catch (e) {
-    console.log(e);
-  }
-});
+    return response;
+  }),
+);
 
 // is used after generating and exporting a new component/iteration
 // if ping not received within time interval, component is likely invalid (ie. hallucinated imports)
 // and component is added to generated/export_ignore.txt, then webapp exports are refreshed
-app.get(`/component/ping`, async (req, res) => {
-  /*
-		exported_new_component({
-			componentId: req.query.componentId,
-			version: req.query.version,
-		})
-		*/
-  console.dir({
-    ping: `received ping from webapp; components loaded successfully :)`,
-    ...req.query,
-  });
-  EXPORT_PING_STATUS = true;
-  res.json({ status: true });
-});
+router.get(
+  `/component/ping`,
+  eventHandler(async (event) => {
+    const query = getQuery(event);
+    // exported_new_component({
+    //   componentId: query.componentId,
+    //   version: query.version,
+    // });
+    console.dir({
+      ping: `received ping from webapp; components loaded successfully :)`,
+      ...query,
+    });
+    EXPORT_PING_STATUS = true;
+    return { status: true };
+  }),
+);
 
 const viteDevPort = "5173";
 const uiProxy = createProxyServer({
   target: `http://localhost:${viteDevPort}`,
 });
 
-app.use("/", (req, res) => {
-  uiProxy.web(req, res);
+app.use((event) => {
+  return uiProxy.web(event.node.req, event.node.res);
 });
 
 consola.info(`Waiting for vite dev port ${viteDevPort} to be ready...`);
 
 await waitForPort(viteDevPort, { retries: 10, delay: 500, host: "localhost" });
 
-await listen(app);
+await listen(toNodeListener(app));
