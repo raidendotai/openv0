@@ -115,9 +115,11 @@ const uiProxy = createProxyServer({
   target: `http://localhost:${viteDevPort}`,
 });
 
-app.use((event) => {
-  return uiProxy.web(event.node.req, event.node.res);
-});
+app.use(
+  eventHandler((event) => {
+    return uiProxy.web(event.node.req, event.node.res);
+  }),
+);
 
 consola.info(`Waiting for vite dev port ${viteDevPort} to be ready...`);
 
