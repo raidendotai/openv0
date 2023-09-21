@@ -2,3 +2,17 @@ node_modules
 .cache
 dist
 build
+.env*
+!.env.example
+
+*/generated/*
+!*/generated/export_ignore.txt
+
+*/library/lucide
+*/library/shadcn
+
+_ui
+lucide_with_embeddings_dump.json
+
+ui/src/components/openv0_generated
+ui/src/components/generated_components_dump.json
