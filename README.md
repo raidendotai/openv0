@@ -25,7 +25,9 @@ npx openv0
 It will download openv0 and install dependencies *(alternatively, you can also clone this repo and install manually)*
 
 * Replace your OpenAI API key in `openv0_server/.env`
+* Make sure you have MongoDB on your system or provide your mongo uri in `openv0_server/.env`
 * Start the local server + webapp
+  * Bulk shadcn components into the database `cd openv0_server/modules/db/scripts && node bulk-shadcn.js`
   * start server `cd openv0_server && node index.js`
   * start webapp `cd openv0_vitereact && npm run dev`
 * Open you web browser, go to `http://localhost:5173/`

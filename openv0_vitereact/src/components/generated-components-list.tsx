@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import { cn } from '@/lib/utils';
-// import generatedComponents from './generated_components_dump.json';
 import ErrorBoundary from "./ErrorBoundary";
 import axios from "axios";
 //@ts-ignore

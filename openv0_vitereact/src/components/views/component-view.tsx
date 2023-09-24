@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { cn } from "@/lib/utils";
+import { useLocation } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,7 +7,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -30,7 +28,7 @@ export default function ComponentView() {
   const [selectedComponentIndex, setSelectedComponentIndex] = useState(0);
   const [componentIdOg, setComponentIdOg] = useState("");
 
-  const navigateTo = useNavigate();
+  // const navigateTo = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const componentId = searchParams.get("componentId");
@@ -49,22 +47,15 @@ export default function ComponentView() {
 
     try {
       // Make the API POST request with the user input
-      const response = await fetch("http://localhost:3000/component/iterate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ query: userInput, componentId: componentIdOg }),
-      });
+      const { data } = await axios.post(
+        "http://localhost:3000/api/components/iterate",
+        { query: userInput, componentId: componentIdOg }
+      );
 
-      if (response.ok) {
+     
         // Handle a successful response here
-        console.log("API response:", await response.json());
+        console.log("API response:", data);
         setUserInput("");
-      } else {
-        // Handle an error response here
-        console.error("API error:", response.statusText);
-      }
     } catch (error) {
       console.error("API request failed:", error);
     } finally {
@@ -98,7 +89,7 @@ export default function ComponentView() {
             console.log(selectedComponentIndex);
           }
           fetch(
-            `http://localhost:3000/component/ping/?from=View Component&component=${componentId}`
+            `http://localhost:3000/api/components/ping/?from=View Component&component=${componentId}`
           );
         });
       } catch (error) {
@@ -118,8 +109,8 @@ export default function ComponentView() {
           <Button
             className={
               darkModeToggle
-                ? "rounded rounded-full dark"
-                : "rounded rounded-full"
+                ? "rounded-full dark"
+                : "rounded-full"
             }
             onClick={() => setDarkModeToggle(() => !darkModeToggle)}
           >
@@ -152,7 +143,7 @@ export default function ComponentView() {
                   <TabsTrigger value="iterate">Iterate</TabsTrigger>
                 </TabsList>
                 <TabsContent value="view">
-                  <Card className="shadow-none py-4 bg-opacity-0 shadow overflow-x-auto">
+                  <Card className="shadow-none py-4 bg-opacity-0 overflow-x-auto">
                     <CardContent className="space-y-2">
                       <div className="max-w-6xl mx-auto p-4">
                         {generatedComponentImports
@@ -234,14 +225,14 @@ export default function ComponentView() {
               </Tabs>
             </div>
 
-            <div className="xl:col-span-2 grid grid-cols-3 xl:grid-cols-1 max-h-screen items-start overflow-y-auto border-l border-b border-r pb-12 rounder rounded-xl shadow shadow-xl xl:max-w-[25vw] overflow-x-auto">
+            <div className="xl:col-span-2 grid grid-cols-3 xl:grid-cols-1 max-h-screen items-start overflow-y-auto border-l border-b border-r pb-12 rounder rounded-xl shadow-xl xl:max-w-[25vw] overflow-x-auto">
               <p className="p-2 pl-4 opacity-70 text-base break-words">
                 Iterations History
               </p>
 
               {generatedComponentImports
                 .map(
-                  (item, idx) =>
+                  (_, idx) =>
                     generatedComponentImports[
                       generatedComponentImports.length - 1 - idx
                     ]
@@ -249,7 +240,7 @@ export default function ComponentView() {
                 .map((item, index) => (
                   <div
                     key={index}
-                    className="mt-0 m-1 mx-0 border-t hover:p-1 duration-200 cursor-pointer shadow shadow-xl"
+                    className="mt-0 m-1 mx-0 border-t hover:p-1 duration-200 cursor-pointer shadow-xl"
                     onClick={() => {
                       setSelectedComponentIndex(
                         generatedComponentImports.length - 1 - index

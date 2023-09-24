@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import axios from "axios";
 
 export default function GenerateNewComponent() {
   const [userInput, setUserInput] = useState("");
@@ -24,23 +25,17 @@ export default function GenerateNewComponent() {
 
     try {
       // Make the API POST request with the user input
-      const response = await fetch("http://localhost:3000/component/new", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ query: userInput }),
-      });
+      const { data } = await axios.post(
+        "http://localhost:3000/api/components/new",
+        {
+          query: userInput,
+        }
+      );
 
-      if (response.ok) {
-        // Handle a successful response here
-        const data = await response.json();
-        console.log("API response:", data);
-        navigateTo(`/view/?componentId=${data.componentId}`);
-      } else {
-        // Handle an error response here
-        console.error("API error:", response.statusText);
-      }
+      // Handle a successful response here
+
+      console.log("API response:", data);
+      navigateTo(`/view/?componentId=${data.componentId}`);
     } catch (error) {
       console.error("API request failed:", error);
     } finally {
