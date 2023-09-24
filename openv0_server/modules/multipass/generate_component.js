@@ -1,5 +1,3 @@
-const fs = require('fs')
-const path = require('path');
 //const mongoose = require('mongoose-schema-jsonschema')();
 //const config = require('mongoose-schema-jsonschema/config');
 //const {Schema} = require('mongoose');
@@ -8,22 +6,13 @@ const path = require('path');
 const { OpenAI } = require('openai')
 const tiktoken = require("@dqbd/tiktoken");
 const tiktokenEncoder = tiktoken.get_encoding("cl100k_base");
+const LogModel = require('../db/models/generated_log.model.js');
 
 
 require('dotenv').config();
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-
-function _mkdir(path){
-	if (!fs.existsSync(path)) fs.mkdirSync(path)
-}
-_mkdir(`./generated/logs`)
-_mkdir(`./generated/logs/generate_component`)
-_mkdir(`./generated/components`)
-
-
 
 async function new_component(query){
   // { task{ name,description{by_user,by_llm},icons,library_components } , context[{role,content},...] }
@@ -107,14 +96,21 @@ async function new_component(query){
   console.log('******************************************')
   console.dir( {generated_code} , {depth:null} )
 
-  fs.writeFileSync(
-    `./generated/logs/generate_component/${Date.now()}.json`,
-    JSON.stringify({
-      task: query.task,
-      context,
-      completion,
-    })
-  )
+  // fs.writeFileSync(
+  //   `./generated/logs/generate_component/${Date.now()}.json`,
+  //   JSON.stringify({
+  //     task: query.task,
+  //     context,
+  //     completion,
+  //   })
+  // )
+
+  await LogModel.create({
+    type: 'generate_component',
+    task: query.task,
+    context,
+    completion
+  })
 
   return generated_code
 
@@ -221,14 +217,21 @@ async function iterate_component(query){
   console.log('******************************************')
   console.dir( {generated_code} , {depth:null} )
 
-  fs.writeFileSync(
-    `./generated/logs/generate_component/${Date.now()}.json`,
-    JSON.stringify({
-      task: query.task,
-      context,
-      completion,
-    })
-  )
+  // fs.writeFileSync(
+  //   `./generated/logs/generate_component/${Date.now()}.json`,
+  //   JSON.stringify({
+  //     task: query.task,
+  //     context,
+  //     completion,
+  //   })
+  // )
+
+  await LogModel.create({
+    type: 'iterate_component',
+    task: query.task,
+    context,
+    completion
+  })
 
   return generated_code
 

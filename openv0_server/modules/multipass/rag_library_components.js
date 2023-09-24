@@ -1,7 +1,8 @@
-const shadcn_db = require(`../../library/shadcn_dump.json`)
+const ShadcnModel = require('../db/models/shadcn_component.model.js');
+const shadcn_db = ShadcnModel
 
 async function run(query){
-  return shadcn_db.filter(e=> query.library_components.map(e=>e.toLowerCase()).includes(e.name.toLowerCase()) )
+  return (await shadcn_db.find({})).filter(e=> query.library_components.map(e=>e.toLowerCase()).includes(e.name.toLowerCase())) || []
 }
 
 module.exports = {

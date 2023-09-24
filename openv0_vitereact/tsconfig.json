@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2020", "DOM", "DOM.Iterable", "ESNext", "ES2015"],
     "module": "ESNext",
     "skipLibCheck": true,
 
@@ -26,6 +26,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "plugins/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

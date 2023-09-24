@@ -3,21 +3,17 @@ const mongoose = require('mongoose-schema-jsonschema')();
 const config = require('mongoose-schema-jsonschema/config');
 const {Schema} = require('mongoose');
 const schema = require('schm');
+const ShadcnModel = require('../db/models/shadcn_component.model.js');
 const {validate} = schema;
 const { OpenAI } = require('openai')
+const LogModel = require('../db/models/generated_log.model.js');
 require('dotenv').config();
 
-const db_shadcn = require(`../../library/shadcn_dump.json`)
+const db_shadcn = ShadcnModel
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-function _mkdir(path){
-	if (!fs.existsSync(path)) fs.mkdirSync(path)
-}
-_mkdir(`./generated/logs`)
-_mkdir(`./generated/logs/iterate_task`)
 
 /*
   in  -> gets a new component generation query string
@@ -25,7 +21,7 @@ _mkdir(`./generated/logs/iterate_task`)
 */
 
 
-const components_schema = {
+const getComponentsSchema = async () => ({
 
   // new_component_name: { type: String, required: true, },
   new_component_description: {
@@ -42,12 +38,12 @@ const components_schema = {
     {
       library_component_name: {
         type: String,
-        enum: db_shadcn.map(e=>e.name)
+        enum: (await db_shadcn.find({})).map(e=>e.name)
       },
       library_component_usage_reason: String,
     }
   ]
-}
+})
 
 async function run(req){
   /*
@@ -68,7 +64,7 @@ async function run(req){
     },
     {
       role: `user`,
-      content: "Multiple library components can be used while creating a new component in order to help you do a better design job, faster.\n\nAVAILABLE LIBRARY COMPONENTS:\n```\n" + db_shadcn.map(e=> { return `${e.name} : ${e.description.slice(0,-1)};`  } ).join('\n') + "\n```"
+      content: "Multiple library components can be used while creating a new component in order to help you do a better design job, faster.\n\nAVAILABLE LIBRARY COMPONENTS:\n```\n" + (await db_shadcn.find({})).map(e=> { return `${e.name} : ${e.description.slice(0,-1)};`  } ).join('\n') + "\n```"
     },
     {
       role: `user`,
@@ -91,7 +87,7 @@ async function run(req){
 			{
 			  name: `design_updated_component_api`,
 			  description: `generate the required design details to updated the provided component`,
-			  parameters : (new Schema( components_schema , {_id:false})).jsonSchema() ,
+			  parameters : (new Schema( await  getComponentsSchema() , {_id:false})).jsonSchema() ,
 			}
 		],
 	}
@@ -156,14 +152,21 @@ async function run(req){
                             }),
   }
 
-  fs.writeFileSync(
-    `./generated/logs/iterate_task/${Date.now()}.json`,
-    JSON.stringify({
-      ...req,
-      context,
-      completion,
-    })
-  )
+  // fs.writeFileSync(
+  //   `./generated/logs/iterate_task/${Date.now()}.json`,
+  //   JSON.stringify({
+  //     ...req,
+  //     context,
+  //     completion,
+  //   })
+  // )
+
+  await LogModel.create({
+    ...req,
+    context,
+    completion,
+    type: 'iterate_task',
+  })
 
   return component_task
 

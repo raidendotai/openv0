@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const crypto = require('crypto');
+const mongoose = require('mongoose');
+const ApiRouter = require('./routes/api/index.js')
 
 require('dotenv').config();
 const app = express();
@@ -90,9 +92,12 @@ app.get(`/component/ping`, async (req, res) => {
 		res.json({status:true})
 });
 
+app.use('/api', ApiRouter)
+
 // Start the server
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+app.listen(port, async () => {
+	await mongoose.connect('mongodb://127.0.0.1:27017/openv0');
 	console.log(`Server is running on port ${port} --------------------\n`);
 	export_react.dump_webapp()
 });

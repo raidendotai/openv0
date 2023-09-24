@@ -5,6 +5,7 @@ const iterate_task = require(`./modules/multipass/iterate_task.js`)
 
 const context_builder = require(`./modules/multipass/context_builder.js`)
 const generate_component = require(`./modules/multipass/generate_component.js`)
+const GeneratedComponentModel = require(`./modules/db/models/generated_component.model.js`);
 
 const export_react = require(`./modules/export/react.js`)
 
@@ -22,8 +23,7 @@ function _randomId(length) {
 
 async function new_component(req) {
   // {query}
-
-
+  
   const task = await design_task.run(req) // -> { name, description{by_user,by_llm}, icons, library_components }
   const context = await context_builder.run(task) // -> context[]
   const code = await generate_component.new_component({task,context}) // -> generated_code
@@ -46,6 +46,7 @@ async function new_component(req) {
     version: `${timestamp}`,
     code,
   })
+
   await export_react.dump_webapp()
   return {
     componentId,
@@ -57,15 +58,8 @@ async function iterate_component(req) {
   // {query : `user_query` , componentId ,}
 
   // fetch last version of component
-  const components_list = fs.readdirSync(`./generated/components/${req.componentId}`).filter(e=>e.endsWith(`.json`)).sort()
-  const previous_component = {
-    ...JSON.parse( fs.readFileSync(`./generated/components/${req.componentId}/${components_list.slice(-1)[0]}`,'utf-8') ),
-    code: fs.readFileSync(`./generated/components/${req.componentId}/${components_list.slice(-1)[0].split('.')[0]}.tsx`,'utf-8'),
-  }
-  const first_component = {
-    ...JSON.parse( fs.readFileSync(`./generated/components/${req.componentId}/${components_list[0]}`,'utf-8') ),
-    code: fs.readFileSync(`./generated/components/${req.componentId}/${components_list[0].split('.')[0]}.tsx`,'utf-8'),
-  }
+  const previous_component = (await GeneratedComponentModel.find({ componentId: req.componentId }).sort({ timestamp: -1 }).limit(1).exec())[0]
+  const first_component = (await GeneratedComponentModel.find({ componentId: req.componentId }).sort({ timestamp: 1 }).limit(1).exec())[0]
 
   const iteration_task = await iterate_task.run({
     query: req.query,
