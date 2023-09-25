@@ -54,6 +54,10 @@ router.get("/:componentId", async (req, res) => {
     const components = await LogModel.find({
       componentId: req.params.componentId,
     });
+    if (components.length === 0) {
+      res.status(404).json({ message: `Component ${req.params.componentId} not found` });
+      return;
+    }
     res.json({
       ...components[0].toObject(),
       iterations: components.sort(),
