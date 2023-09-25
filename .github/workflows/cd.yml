@@ -1,0 +1,90 @@
+name: Release libs
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Release libs
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Build binaries
+        run: deno compile -A --output dist/cli ./openv0_cli/mod.ts
+
+      - name: Rename MacOS binary
+        if: runner.os == 'MacOS'
+        run: mv dist/cli dist/cli-darwin
+
+      - name: Zip MacOS binary
+        if: runner.os == 'MacOS'
+        uses: vimtor/action-zip@v1
+        with:
+          files: dist/cli-darwin
+          dest: cli.zip
+
+      - name: Release MacOS binary Zip
+        if: runner.os == 'MacOS'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_name: denyncrawford/openv0
+          repo_token: ${{ secrets.TOKEN }}
+          file: cli.zip
+          tag: ${{ github.event.release.tag_name }}
+          asset_name: cli-macos.zip
+          overwrite: true
+
+      - name: Rename Linux binary
+        if: runner.os == 'Linux'
+        run: mv dist/cli dist/cli-linux
+
+      - name: Zip Linux binary
+        if: runner.os == 'Linux'
+        uses: vimtor/action-zip@v1
+        with:
+          files: dist/cli-linux
+          dest: cli.zip
+
+      - name: Release Linux binary Zip
+        if: runner.os == 'Linux'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_name: denyncrawford/openv0
+          repo_token: ${{ secrets.TOKEN }}
+          file: cli.zip
+          tag: ${{ github.event.release.tag_name }}
+          asset_name: cli-linux.zip
+          overwrite: true
+
+      - name: Rename Windows binary
+        if: runner.os == 'Windows'
+        run: mv dist/cli.exe dist/cli-windows.exe
+
+      - name: Zip Windows binary
+        if: runner.os == 'Windows'
+        uses: vimtor/action-zip@v1
+        with:
+          files: dist/cli-windows.exe
+          dest: cli.zip
+
+      - name: Release Windows binary Zip
+        if: runner.os == 'Windows'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_name: denyncrawford/openv0
+          repo_token: ${{ secrets.TOKEN }}
+          file: cli.zip
+          tag: ${{ github.event.release.tag_name }}
+          asset_name: cli-windows.zip
+          overwrite: true
