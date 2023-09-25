@@ -8,6 +8,9 @@ Please note that running with `npx` is not supported at the moment. The intentio
 
 **NOTE:** This CLI is compatible with the new database/api implementation only.
 
+## Why?
+The openv0 CLI offers a quick and efficient method to incorporate a generated component into your project. This concept draws inspiration from `npx v0 add`, a tool designed to streamline the process of copying, creating files, and pasting code from a web client. Additionally, it proves beneficial when operating or consuming an instance from a remote origin.
+
 ## Run
 To execute the CLI directly, you can use the following command:
 ```bash
@@ -43,9 +46,11 @@ openv0 install
 - `[destination]`: Specify the name of the destination folder. By default, it installs it in `/openv0-main`.
 
 ### Setting the Server
-Since openv0 doesn't have an official host, you need to set an openv0 server to make it work:
+Since openv0 doesn't have an official host, you need to set an openv0 server to make it work (usually http://localhost:3000):
+> Please note that openv0 server must be running on cli operations
+
 ```bash
-openv0 set "https://localhost:3000"
+openv0 set "http://localhost:3000"
 ```
 
 ### Getting a Component
