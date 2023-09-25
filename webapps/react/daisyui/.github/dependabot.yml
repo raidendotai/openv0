@@ -1,0 +1,13 @@
+# Dependabot can create pull requests to upgrade your packages and/or resolve
+# to a different version when a vulnerability is discovered. Ensure dependabot
+# is enabled under secruity in the settings tab of your repo.
+#
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'daily'

@@ -1,0 +1,83 @@
+{
+  "name": "flowbite-next-starter",
+  "version": "0.0.0",
+  "homepage": "https://github.com/tulupinc/flowbite-next-starter",
+  "bugs": "https://github.com/tulupinc/flowbite-next-starter/issues",
+  "license": "MIT",
+  "author": "Conner Davis <conner@tulup.io>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tulupinc/flowbite-next-starter.git"
+  },
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "format": "prettier --check --ignore-path .gitignore --write .",
+    "lint": "next lint",
+    "start": "next start"
+  },
+  "dependencies": {
+    "flowbite": "^1.5.5",
+    "flowbite-react": "^0.3.7",
+    "lucide-react": "^0.279.0",
+    "next": "^13.0.6",
+    "react": "18",
+    "react-dom": "18",
+    "react-icons": "^4.7.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.12",
+    "@types/react": "18",
+    "@typescript-eslint/eslint-plugin": "^5.46.0",
+    "@typescript-eslint/parser": "^5.46.0",
+    "autoprefixer": "10.4.13",
+    "eslint": "^8.29.0",
+    "eslint-config-next": "^13.0.6",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.11",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-tailwindcss": "^3.7.1",
+    "postcss": "^8.4.19",
+    "prettier": "^2.8.1",
+    "prettier-plugin-organize-imports": "^3.2.1",
+    "tailwindcss": "^3.2.4",
+    "typescript": "^4.9.4"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "next/core-web-vitals",
+      "plugin:@typescript-eslint/strict",
+      "plugin:jsx-a11y/recommended",
+      "plugin:prettier/recommended",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended",
+      "plugin:tailwindcss/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "project": "./tsconfig.json"
+    },
+    "root": true,
+    "rules": {
+      "no-undef": "off",
+      "react/react-in-jsx-scope": "off",
+      "tailwindcss/classnames-order": [
+        "warn",
+        {
+          "officialSorting": true
+        }
+      ]
+    }
+  }
+}
