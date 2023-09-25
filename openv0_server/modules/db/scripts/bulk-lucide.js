@@ -54,7 +54,7 @@ async function build_from_docs(){
 // }
 
 async function bulk(){
-    await mongoose.connect('mongodb://127.0.0.1:27017/openv0');
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/openv0');
 	const db = await build_from_docs()
     await LucideIcon.create(db)
 }

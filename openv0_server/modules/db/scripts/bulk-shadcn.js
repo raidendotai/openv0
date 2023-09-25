@@ -3,6 +3,7 @@ const path = require('path');
 const markdownIt = require('markdown-it')();
 const ShadcnModel = require('../models/shadcn_component.model.js');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 function extractTsxCodeBlocks(markdownFilePath) {
 	const markdownContent = fs.readFileSync(markdownFilePath, 'utf-8');
@@ -85,7 +86,7 @@ async function build_from_docs_and_examples(){
 }
 
 async function build(){
-    await mongoose.connect('mongodb://127.0.0.1:27017/openv0');
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/openv0');
 	const db = await build_from_docs_and_examples()
 	await ShadcnModel.insertMany(db)
 }
