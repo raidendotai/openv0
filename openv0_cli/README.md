@@ -11,16 +11,16 @@ Please note that running with `npx` is not supported at the moment. The intentio
 ## Run
 To execute the CLI directly, you can use the following command:
 ```bash
-deno run -A openv0.crawford.ml
+deno run -A https://openv0-run.deno.dev
 ```
-> Please note that "openv0.crawford.ml" is a temporary domain.
+> Please note that "openv0-run.deno.dev" is a temporary domain.
 
 ## Install
 
 ### Using Deno
 You can install the CLI using Deno with the following command:
 ```bash
-deno install -A -n openv0 -f openv0.crawford.ml
+deno install -A -n openv0 -f https://openv0-run.deno.dev
 ```
 
 ### System-wide Installation
@@ -66,4 +66,4 @@ Example:
 openv0 add HelloWorldButton_i9n25 1695552737252
 ```
 
-Please note that this documentation assumes that "openv0.crawford.ml" and related domain-specific details are temporary and subject to change based on upstreams.
+Please note that this documentation assumes that "openv0-run.deno.dev" and related domain-specific details are temporary and subject to change based on upstreams.
