@@ -4,7 +4,7 @@ This module is a CLI designed for managing operations related to openv0. It is w
 
 Please note that running with `npx` is not supported at the moment. The intention is to build the binaries and publish them to npm so that the Node.js binary can be spawned as a child process.
 
-> If Deno is not a suitable approach for this use case, we can consider using Deno Cliffy, which can be easily ported to [cliffy](https://github.com/drew-y/cliffy).
+> If Deno is not a suitable approach for this use case, we can consider using node Cliffy, this module can be easily ported to [cliffy](https://github.com/drew-y/cliffy).
 
 **NOTE:** This CLI is compatible with the new database/api implementation only.
 
