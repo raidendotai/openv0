@@ -27,7 +27,7 @@ deno install -A -n openv0 -f https://openv0-run.deno.dev
 ```
 
 ### System-wide Installation
-You can install the CLI withot Deno with the following command:
+You can install the CLI without Deno with the following command:
 | Platform | Command |
 |----------|---------------------------------------------------------|
 | Windows  | `iwr instl.sh/denyncrawford/openv0/windows \| iex`      |
