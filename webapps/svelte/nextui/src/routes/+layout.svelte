@@ -7,8 +7,13 @@ import { renderToString } from "react-dom/server";
 const reactToSvelte = (components) => {
 	return components.map((component)=>{return sveltify(component,createPortal,ReactDOM,renderToString);})
 }
+
+// instead of wrapping individual component, wrap the whole generated react component
+// to be determined
+
 import { Button as _Button, Card as _Card } from '@nextui-org/react';
 const [ Button, Card ] = reactToSvelte([_Button,_Card])
+
 </script>
 
 <div class="dark">

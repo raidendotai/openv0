@@ -5,14 +5,13 @@ async function everything(){
       (
         [
           `react`,
-          // `next`,
-          // `svelte`
+          `next`,
+          `svelte`
         ].map( framework => {
           return [
-            // `daisyui`,
             `flowbite`,
-            // `nextui`,
-            // `shadcn`
+            `nextui`,
+            `shadcn`
           ].map(
             (component_library) => {
               return `./build/components/${framework}/${component_library}.js`

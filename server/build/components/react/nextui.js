@@ -52,9 +52,7 @@ async function build(){
 
     const use = [
       {
-        source: `./build/gits/nextui-org$nextui/apps/docs/content/components/`
-                + doc_file.split('/').slice(-1)[0].split(`.mdx`)[0]
-                + `/usage.ts`,
+        source: `usage.jsx`,
         code : eval(
                   _replaceLastOccurrence(
                     fs.readFileSync(
@@ -72,6 +70,7 @@ async function build(){
                 .join(`\n`)
       }
     ]
+
     const examples = fs.readdirSync(
       `./build/gits/nextui-org$nextui/apps/docs/content/components/`
       + doc_file.split('/').slice(-1)[0].split(`.mdx`)[0]
@@ -103,8 +102,12 @@ async function build(){
                       .split(`commands={{`)[1].split(`individual`)[0]
                       .split(`main:`)[1].trim().slice(1,-2).trim().split(/\s+/).join(' '),
       },
-      use,
-      examples,
+      use : use.filter(e=>e)
+            .filter(e=>e.code.includes(`export default function App`))
+            .filter(e=>!e.source.includes(`custom`)),
+      examples : examples.filter(e=>e)
+                  .filter(e=>e.code.includes(`export default function App`))
+                  .filter(e=>!e.source.includes(`custom`)),
     }
     return {
       name,
