@@ -101,7 +101,7 @@ async function build(){
         }
       }catch(e){
         // console.log(fs.readFileSync(f,'utf-8'))
-        console.log(`> cannot parse ${f}`)
+        console.log(`skip : ${f}`)
         return false
       }
     }).filter(e=>e)//.filter(e=>e.code.includes(`export default function App`))

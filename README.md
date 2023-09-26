@@ -21,7 +21,7 @@ tasks in progress
   * svelte
     * ✅ shadcn : `huntabyte/shadcn-svelte` - *icons use lucide-svelte, careful to adapt this in server generation passes later*
     * ✅ nextui : `nextui-org/nextui` *still need to inject <react:> and do react-preprocess imports, probably at validation pass during generation*
-    * flowbite : `themesberg/flowbite-svelte`
+    * ✅ flowbite : `themesberg/flowbite-svelte`
 
 * ⏳ prettify all code blocks inside json files in library/{framework}/{library} db dumps    
 * ⏳ [...] (will add here as i go )
