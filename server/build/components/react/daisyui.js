@@ -1,6 +1,6 @@
 const fs = require(`fs`)
 async function build(){
-  console.dir({build:`react/daisyui`})
+  console.dir({skip:`react/daisyui`})
   const db = fs.readdirSync(
     `./build/gits/daisyui$react-daisyui/src`
   ).filter(e=>!e.includes(`.`))

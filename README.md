@@ -16,12 +16,12 @@ tasks in progress
   * next
     * ✅ shadcn : `shadcn-ui/ui`
     * nextui : `nextui-org/nextui` - *base on react, needs extra replace step to import components from individual exports as specified in docs*
-    * ✅ flowbite : `themesberg/flowbite-react` - *should port directly from react, yet to be tested*
+    * ✅ flowbite : `themesberg/flowbite-react`
 
   * svelte
     * ✅ shadcn : `huntabyte/shadcn-svelte` - *icons use lucide-svelte, careful to adapt this in server generation passes later*
-    * ✅ nextui : `nextui-org/nextui` *still need to inject <react:> and do react-preprocess imports, probably at validation pass during generation*
     * ✅ flowbite : `themesberg/flowbite-svelte`
+    * ~~✅ nextui : `nextui-org/nextui` *ported with react-preprocess, is buggy for dynamic data - disregard now, port library later*~~
 
 * ⏳ prettify all code blocks inside json files in library/{framework}/{library} db dumps    
 * ⏳ [...] (will add here as i go )

@@ -1,7 +1,9 @@
 const fs = require(`fs`);
 const path = require('path');
 const markdownIt = require('markdown-it')();
-const cheerio = require('cheerio');
+//const cheerio = require('cheerio');
+const parser = require('@babel/parser');
+const traverse = require('@babel/traverse').default;
 
 function _titleCase(str) {
   return str.replace(/(^|\s)\S/g, function(t) { return t.toUpperCase() });
@@ -11,6 +13,8 @@ function _camelCase(str) {
     return index === 0 ? word.toLowerCase() : word.toUpperCase();
   }).replace(/\s+/g, '');
 }
+
+
 function extractJsxCodeBlocks(markdownContent) {
 	const tokens = markdownIt.parse(markdownContent, {});
 
@@ -86,9 +90,24 @@ async function build(){
 
         let __codeContent
         if ( ! (__code || __functionBody) ) {
-          const $ = cheerio.load(blockCodePreview, { xmlMode: true , decodeEntities: false })
-          __codeContent = $('CodePreview').html()
-          __className = $('CodePreview').attr('className');
+          // const $ = cheerio.load(blockCodePreview, { xmlMode: true , decodeEntities: false })
+          // __codeContent = $('CodePreview').html()
+          // __className = $('CodePreview').attr('className');
+          const ast = parser.parse(blockCodePreview, {
+            sourceType: 'module',
+            plugins: ['jsx'],
+          });
+
+          traverse(ast, {
+            JSXElement(path) {
+              if (path.node.openingElement.name.name === 'CodePreview') {
+                const start = path.node.openingElement.end;
+                const end = path.node.closingElement.start;
+                __codeContent = blockCodePreview.slice(start,end);
+              }
+            },
+          });
+
         } else {
           let _blockCodePreview = `${blockCodePreview}`
           if (__code) {
@@ -101,9 +120,22 @@ async function build(){
                                               + ']}'
             _blockCodePreview = _blockCodePreview.replace(problematic_functionBody,'')
           }
-          const $ = cheerio.load(_blockCodePreview, { xmlMode: true , decodeEntities: false })
-          __codeContent = $('CodePreview').html()
-          __className = $('CodePreview').attr('className');
+          // const $ = cheerio.load(_blockCodePreview, { xmlMode: true , decodeEntities: false })
+          // __codeContent = $('CodePreview').html()
+          // __className = $('CodePreview').attr('className');
+          const ast = parser.parse(blockCodePreview, {
+            sourceType: 'module',
+            plugins: ['jsx'],
+          });
+          traverse(ast, {
+            JSXElement(path) {
+              if (path.node.openingElement.name.name === 'CodePreview') {
+                const start = path.node.openingElement.end;
+                const end = path.node.closingElement.start;
+                __codeContent = blockCodePreview.slice(start,end);
+              }
+            },
+          });
         }
 
         //----------------------------------------
@@ -137,7 +169,8 @@ async function build(){
         componentCode += `\n\n`
 
         // wrap with export default fuction CamelName() { return (<html>) }
-        const componentName = _titleCase(_camelCase(__title))
+        const componentName = _titleCase(_camelCase(__title)).replace(/[^a-zA-Z0-9]/g, '') + 'Component';
+
         const __functionInject = __functionBody ? (__functionBody + `\n`) : ''
 
         // react <> </> thing (if i understood right lol)
@@ -156,11 +189,10 @@ async function build(){
         */
 
         const __wrappedCode = __mainCode
-        const __codeInject = __code
-                              ? `\n  <>\n`
+        const __codeInject = /*/__code ? */ `\n  <>\n`
                                 + __wrappedCode
                                 + `\n  </>\n`
-                              : __wrappedCode
+                              /* : __wrappedCode */
 
         componentCode += `export default function ${componentName}() {\n`
                           + __functionInject

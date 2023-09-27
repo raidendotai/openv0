@@ -1,5 +1,5 @@
 const fs = require(`fs`)
 async function build(){
-  // console.dir({build:`svelte/daisyui`})
+  console.dir({skip:`svelte/daisyui`})
 }
 module.exports = { build }
