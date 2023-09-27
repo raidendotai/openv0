@@ -1,8 +1,7 @@
-
 const fs = require(`fs`);
-const parser = require('@babel/parser');
-const traverse = require('@babel/traverse').default;
-const generator = require('@babel/generator').default;
+const parser = require("@babel/parser");
+const traverse = require("@babel/traverse").default;
+const generator = require("@babel/generator").default;
 
 /*
 async function babelInsteadOfCheerio(){
@@ -102,40 +101,27 @@ babelInsteadOfCheerio()
 process.exit(0)
 */
 
-const build = require(`./build.js`)
-async function buildTest(){
-  await build.everything()
+const build = require(`./build.js`);
+async function buildTest() {
+  await build.everything();
 }
 // buildTest()
 
-
-
-
-
-
 function _extractImports(code) {
-
   const ast = parser.parse(code, {
-    sourceType: 'module',
+    sourceType: "module",
     plugins: [
-      'jsx',
-      'tsx',
-      'typescript',
-      'react',
+      "jsx",
+      "tsx",
+      "typescript",
+      "react",
       //"@babel/plugin-proposal-class-properties",
       //"@babel/plugin-proposal-object-rest-spread"
     ],
     allowJSX: true,
-    parser: 'babel-eslint',
-    extends: [
-      'eslint:recommended',
-      'plugin:react/recommended'
-    ],
-    presets: [
-      "@babel/env",
-      '@babel/preset-react'
-    ],
-
+    parser: "babel-eslint",
+    extends: ["eslint:recommended", "plugin:react/recommended"],
+    presets: ["@babel/env", "@babel/preset-react"],
   });
 
   const imports = {};
@@ -150,10 +136,10 @@ function _extractImports(code) {
       }
 
       specifiers.forEach((specifier) => {
-        if (specifier.type === 'ImportSpecifier') {
+        if (specifier.type === "ImportSpecifier") {
           imports[source].push(specifier.imported.name);
-        } else if (specifier.type === 'ImportDefaultSpecifier') {
-          imports[source].push('default');
+        } else if (specifier.type === "ImportDefaultSpecifier") {
+          imports[source].push("default");
         }
       });
     },
@@ -166,8 +152,6 @@ function _extractImports(code) {
 
   return importList;
 }
-
-
 
 const tsxCode = `
 import {User, Link} from "@nextui-org/react";
@@ -197,7 +181,7 @@ export default function App() {
 		</Card>
 	)
 }
-`.trim()
+`.trim();
 
 const svelteCode = `
 <script>
@@ -212,9 +196,9 @@ const svelteCode = `
     Read more <ArrowRightOutline class="w-3.5 h-3.5 ml-2 text-white" />
   </Button>
 </Card>
-`
-async function parseTest(){
-  await buildTest()
+`;
+async function parseTest() {
+  await buildTest();
 
   //process.exit(0)
 
@@ -229,44 +213,51 @@ async function parseTest(){
     `./library/components/next/flowbite/dump.json`,
     `./library/components/next/shadcn/dump.json`,
     `./library/components/next/nextui/dump.json`,
-  ]
-  db_libs.map(db_lib=>{
-      const db = JSON.parse( fs.readFileSync( db_lib , `utf-8`) )
-      let success = 0
-      let fail = 0
-      db.map(c=>{
-        (
-          [ c.docs.import.code , c.docs.use.map(_c=>_c.code) , c.docs.examples.map(_c=>_c.code)  ].flat()
-        ).map(code=>{
-
-          if (db_lib.includes('svelte')) {
-            code = code.split('</script')[0].trim().split('\n').slice(1,).join('\n')  // svelte, imports
+  ];
+  db_libs.map((db_lib) => {
+    const db = JSON.parse(fs.readFileSync(db_lib, `utf-8`));
+    let success = 0;
+    let fail = 0;
+    db.map((c) => {
+      [
+        c.docs.import.code,
+        c.docs.use.map((_c) => _c.code),
+        c.docs.examples.map((_c) => _c.code),
+      ]
+        .flat()
+        .map((code) => {
+          if (db_lib.includes("svelte")) {
+            code = code
+              .split("</script")[0]
+              .trim()
+              .split("\n")
+              .slice(1)
+              .join("\n"); // svelte, imports
           }
 
           try {
             _extractImports(
-              code
+              code,
               // code.split('</script')[0].trim().split('\n').slice(1,).join('\n') // svelte, imports
               // '<div>\n' + code.split('</script')[1].trim().split('\n').slice(1,).join('\n') + '\n</div>' // svelte, html
-
-            )
-            success++
-          }catch(e){
+            );
+            success++;
+          } catch (e) {
             console.dir({
               db_lib,
               c,
               code,
               // code: code.split('</script')[0].trim().split('\n').slice(1,).join('\n'), // svelte, imports
               // code: '<div>\n'+code.split('</script')[1].trim().split('\n').slice(1,).join('\n')+'\n</div>', // svelte html
-              e
-            })
-            fail++
+              e,
+            });
+            fail++;
           }
-        })
-      })
-      console.dir({db_lib,success,fail})
+        });
+    });
+    console.dir({ db_lib, success, fail });
 
-      /*
+    /*
       console.dir(
         _extractImports(
           svelteCode.split(`<script>`)[1].split(`</script>`)[0].trim()
@@ -274,6 +265,6 @@ async function parseTest(){
         {depth:null}
       )
       */
-  })
+  });
 }
-parseTest()
+parseTest();

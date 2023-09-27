@@ -1,145 +1,178 @@
 const fs = require(`fs`);
-const path = require('path');
-const markdownIt = require('markdown-it')();
+const path = require("path");
+const markdownIt = require("markdown-it")();
 //const cheerio = require('cheerio');
-const parser = require('@babel/parser');
-const traverse = require('@babel/traverse').default;
+const parser = require("@babel/parser");
+const traverse = require("@babel/traverse").default;
 
 function _titleCase(str) {
-  return str.replace(/(^|\s)\S/g, function(t) { return t.toUpperCase() });
+  return str.replace(/(^|\s)\S/g, function (t) {
+    return t.toUpperCase();
+  });
 }
 function _camelCase(str) {
-  return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
-    return index === 0 ? word.toLowerCase() : word.toUpperCase();
-  }).replace(/\s+/g, '');
+  return str
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+      return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    })
+    .replace(/\s+/g, "");
 }
-
 
 function extractJsxCodeBlocks(markdownContent) {
-	const tokens = markdownIt.parse(markdownContent, {});
+  const tokens = markdownIt.parse(markdownContent, {});
 
-	let tsxCodeBlocks = [];
-	let currentCodeBlock = '';
+  let tsxCodeBlocks = [];
+  let currentCodeBlock = "";
 
-	for (const token of tokens) {
-		if (token.type === 'fence' && token.info === 'jsx') {
-			currentCodeBlock = token.content;
-			tsxCodeBlocks.push(currentCodeBlock);
-		} else if (currentCodeBlock && token.type === 'fence') {
-			currentCodeBlock = '';
-		} else if (currentCodeBlock) {
-			currentCodeBlock += '\n' + token.content;
-		}
-	}
+  for (const token of tokens) {
+    if (token.type === "fence" && token.info === "jsx") {
+      currentCodeBlock = token.content;
+      tsxCodeBlocks.push(currentCodeBlock);
+    } else if (currentCodeBlock && token.type === "fence") {
+      currentCodeBlock = "";
+    } else if (currentCodeBlock) {
+      currentCodeBlock += "\n" + token.content;
+    }
+  }
 
-	return tsxCodeBlocks;
+  return tsxCodeBlocks;
 }
 
-async function build(){
-  console.dir({build:`react/flowbite`})
-  const db = fs.readdirSync(`./build/gits/themesberg$flowbite-react/app/docs/components`)
-              .filter(component_dir => !component_dir.includes(`.`))
-              //.slice(0,10)
-              //.filter(component_dir => component_dir.includes('modal'))
-              .map( (component_dir)=>{
-    const meta = fs.readFileSync(
-      `./build/gits/themesberg$flowbite-react/app/docs/components/${component_dir}/${component_dir}.mdx` ,
-      `utf-8`
-    )
-    const index = fs.readFileSync(
-      `./build/gits/themesberg$flowbite-react/app/docs/components/${component_dir}/index.tsx` ,
-      `utf-8`
-    )
-    const page = fs.readFileSync(
-      `./build/gits/themesberg$flowbite-react/app/docs/components/${component_dir}/page.tsx` ,
-      `utf-8`
-    )
+async function build() {
+  console.dir({ build: `react/flowbite` });
+  const db = fs
+    .readdirSync(`./build/gits/themesberg$flowbite-react/app/docs/components`)
+    .filter((component_dir) => !component_dir.includes(`.`))
+    //.slice(0,10)
+    //.filter(component_dir => component_dir.includes('modal'))
+    .map((component_dir) => {
+      const meta = fs.readFileSync(
+        `./build/gits/themesberg$flowbite-react/app/docs/components/${component_dir}/${component_dir}.mdx`,
+        `utf-8`,
+      );
+      const index = fs.readFileSync(
+        `./build/gits/themesberg$flowbite-react/app/docs/components/${component_dir}/index.tsx`,
+        `utf-8`,
+      );
+      const page = fs.readFileSync(
+        `./build/gits/themesberg$flowbite-react/app/docs/components/${component_dir}/page.tsx`,
+        `utf-8`,
+      );
 
-    const codeBlocks = meta.split(`## Table of Contents`)[1].split(`## Theme`)[0].trim().split(`##`).slice(1,)
-    .map( block => {
-        const blockSlug = block.trim().split(`\n`)[0].trim().toLowerCase().replaceAll(` `,`-`).replace(/[^a-zA-Z0-9-]/g, '') + `.jsx`
-        const blockCodePreview = `<CodePreview` + block.trim().split(`<CodePreview`)[1].split(`</CodePreview>`)[0] + `</CodePreview>`
-        //-------------------------------------------------
+      const codeBlocks = meta
+        .split(`## Table of Contents`)[1]
+        .split(`## Theme`)[0]
+        .trim()
+        .split(`##`)
+        .slice(1)
+        .map((block) => {
+          const blockSlug =
+            block
+              .trim()
+              .split(`\n`)[0]
+              .trim()
+              .toLowerCase()
+              .replaceAll(` `, `-`)
+              .replace(/[^a-zA-Z0-9-]/g, "") + `.jsx`;
+          const blockCodePreview =
+            `<CodePreview` +
+            block.trim().split(`<CodePreview`)[1].split(`</CodePreview>`)[0] +
+            `</CodePreview>`;
+          //-------------------------------------------------
 
-        let [
-          __code,
-          __functionBody,
-          __title,
-          __importExternal,
-          __importFlowbiteReact,
-          __className
-        ] = [...Array(6).keys()].map(e=>false)
+          let [
+            __code,
+            __functionBody,
+            __title,
+            __importExternal,
+            __importFlowbiteReact,
+            __className,
+          ] = [...Array(6).keys()].map((e) => false);
 
-        if (blockCodePreview.includes('code={`')){
-          __code = blockCodePreview.split('code={`')[1].split('`}')[0]
-        }
-        if (blockCodePreview.includes('functionBody={[')){
-          __functionBody = eval( `[` + blockCodePreview.split('functionBody={[')[1].split(']}')[0] + `]` )
-                            .map(l=>` ${l}`).join(`\n`)
-        }
-        if (blockCodePreview.includes('title=')){
-          __title = blockCodePreview.split('title="')[1].split('"')[0]
-        }
-        if (blockCodePreview.includes('importExternal=')){
-          __importExternal = blockCodePreview.split('importExternal="')[1].split('"')[0]
-        }
-        if (blockCodePreview.includes('importFlowbiteReact=')){
-          __importFlowbiteReact = blockCodePreview.split('importFlowbiteReact="')[1].split('"')[0]
-        }
-
-
-        let __codeContent
-        if ( ! (__code || __functionBody) ) {
-          // const $ = cheerio.load(blockCodePreview, { xmlMode: true , decodeEntities: false })
-          // __codeContent = $('CodePreview').html()
-          // __className = $('CodePreview').attr('className');
-          const ast = parser.parse(blockCodePreview, {
-            sourceType: 'module',
-            plugins: ['jsx'],
-          });
-
-          traverse(ast, {
-            JSXElement(path) {
-              if (path.node.openingElement.name.name === 'CodePreview') {
-                const start = path.node.openingElement.end;
-                const end = path.node.closingElement.start;
-                __codeContent = blockCodePreview.slice(start,end);
-              }
-            },
-          });
-
-        } else {
-          let _blockCodePreview = `${blockCodePreview}`
-          if (__code) {
-            const problematic_code = 'code={`' + __code + '`}'
-            _blockCodePreview = _blockCodePreview.replace(problematic_code,'')
+          if (blockCodePreview.includes("code={`")) {
+            __code = blockCodePreview.split("code={`")[1].split("`}")[0];
           }
-          if (__functionBody) {
-            const problematic_functionBody = 'functionBody={['
-                                              + blockCodePreview.split('functionBody={[')[1].split(']}')[0]
-                                              + ']}'
-            _blockCodePreview = _blockCodePreview.replace(problematic_functionBody,'')
+          if (blockCodePreview.includes("functionBody={[")) {
+            __functionBody = eval(
+              `[` +
+                blockCodePreview.split("functionBody={[")[1].split("]}")[0] +
+                `]`,
+            )
+              .map((l) => ` ${l}`)
+              .join(`\n`);
           }
-          // const $ = cheerio.load(_blockCodePreview, { xmlMode: true , decodeEntities: false })
-          // __codeContent = $('CodePreview').html()
-          // __className = $('CodePreview').attr('className');
-          const ast = parser.parse(blockCodePreview, {
-            sourceType: 'module',
-            plugins: ['jsx'],
-          });
-          traverse(ast, {
-            JSXElement(path) {
-              if (path.node.openingElement.name.name === 'CodePreview') {
-                const start = path.node.openingElement.end;
-                const end = path.node.closingElement.start;
-                __codeContent = blockCodePreview.slice(start,end);
-              }
-            },
-          });
-        }
+          if (blockCodePreview.includes("title=")) {
+            __title = blockCodePreview.split('title="')[1].split('"')[0];
+          }
+          if (blockCodePreview.includes("importExternal=")) {
+            __importExternal = blockCodePreview
+              .split('importExternal="')[1]
+              .split('"')[0];
+          }
+          if (blockCodePreview.includes("importFlowbiteReact=")) {
+            __importFlowbiteReact = blockCodePreview
+              .split('importFlowbiteReact="')[1]
+              .split('"')[0];
+          }
 
-        //----------------------------------------
-        /*
+          let __codeContent;
+          if (!(__code || __functionBody)) {
+            // const $ = cheerio.load(blockCodePreview, { xmlMode: true , decodeEntities: false })
+            // __codeContent = $('CodePreview').html()
+            // __className = $('CodePreview').attr('className');
+            const ast = parser.parse(blockCodePreview, {
+              sourceType: "module",
+              plugins: ["jsx"],
+            });
+
+            traverse(ast, {
+              JSXElement(path) {
+                if (path.node.openingElement.name.name === "CodePreview") {
+                  const start = path.node.openingElement.end;
+                  const end = path.node.closingElement.start;
+                  __codeContent = blockCodePreview.slice(start, end);
+                }
+              },
+            });
+          } else {
+            let _blockCodePreview = `${blockCodePreview}`;
+            if (__code) {
+              const problematic_code = "code={`" + __code + "`}";
+              _blockCodePreview = _blockCodePreview.replace(
+                problematic_code,
+                "",
+              );
+            }
+            if (__functionBody) {
+              const problematic_functionBody =
+                "functionBody={[" +
+                blockCodePreview.split("functionBody={[")[1].split("]}")[0] +
+                "]}";
+              _blockCodePreview = _blockCodePreview.replace(
+                problematic_functionBody,
+                "",
+              );
+            }
+            // const $ = cheerio.load(_blockCodePreview, { xmlMode: true , decodeEntities: false })
+            // __codeContent = $('CodePreview').html()
+            // __className = $('CodePreview').attr('className');
+            const ast = parser.parse(blockCodePreview, {
+              sourceType: "module",
+              plugins: ["jsx"],
+            });
+            traverse(ast, {
+              JSXElement(path) {
+                if (path.node.openingElement.name.name === "CodePreview") {
+                  const start = path.node.openingElement.end;
+                  const end = path.node.closingElement.start;
+                  __codeContent = blockCodePreview.slice(start, end);
+                }
+              },
+            });
+          }
+
+          //----------------------------------------
+          /*
         if (__codeContent) return false
         return {
           source: blockSlug,
@@ -150,36 +183,42 @@ async function build(){
         }
         */
 
-        let componentCode = ``
+          let componentCode = ``;
 
-        // 0. component imports *************
-        //  either normal import from top block
-        //  or codePreviewImportFlowbiteReact ; check if no conflicts with normal import ?
-        if (__importFlowbiteReact) {
-          componentCode += `'use client';\n\n`
-                           + `import { ${__importFlowbiteReact} } from 'flowbite-react';`
-        } else {
-          // import from example block
-          componentCode += extractJsxCodeBlocks(meta)[0].trim()
-        }
-        // 1. external imports *************
-        if (__importExternal) {
-          componentCode += `\n${__importExternal}`
-        }
-        componentCode += `\n\n`
+          // 0. component imports *************
+          //  either normal import from top block
+          //  or codePreviewImportFlowbiteReact ; check if no conflicts with normal import ?
+          if (__importFlowbiteReact) {
+            componentCode +=
+              `'use client';\n\n` +
+              `import { ${__importFlowbiteReact} } from 'flowbite-react';`;
+          } else {
+            // import from example block
+            componentCode += extractJsxCodeBlocks(meta)[0].trim();
+          }
+          // 1. external imports *************
+          if (__importExternal) {
+            componentCode += `\n${__importExternal}`;
+          }
+          componentCode += `\n\n`;
 
-        // wrap with export default fuction CamelName() { return (<html>) }
-        const componentName = _titleCase(_camelCase(__title)).replace(/[^a-zA-Z0-9]/g, '') + 'Component';
+          // wrap with export default fuction CamelName() { return (<html>) }
+          const componentName =
+            _titleCase(_camelCase(__title)).replace(/[^a-zA-Z0-9]/g, "") +
+            "Component";
 
-        const __functionInject = __functionBody ? (__functionBody + `\n`) : ''
+          const __functionInject = __functionBody ? __functionBody + `\n` : "";
 
-        // react <> </> thing (if i understood right lol)
+          // react <> </> thing (if i understood right lol)
 
-        const __mainCode = __code
-                            ? __code.split(`\n`).map(l=>`   ${l}`).join(`\n`)
-                            : __codeContent
+          const __mainCode = __code
+            ? __code
+                .split(`\n`)
+                .map((l) => `   ${l}`)
+                .join(`\n`)
+            : __codeContent;
 
-        /*
+          /*
         // overkill <--------
         const __wrappedCode = __className && __className.length
                                 ? `\n   <div className=${__className}>\n`
@@ -188,19 +227,19 @@ async function build(){
                                 : __mainCode
         */
 
-        const __wrappedCode = __mainCode
-        const __codeInject = /*/__code ? */ `\n  <>\n`
-                                + __wrappedCode
-                                + `\n  </>\n`
-                              /* : __wrappedCode */
+          const __wrappedCode = __mainCode;
+          const __codeInject =
+            /*/__code ? */ `\n  <>\n` + __wrappedCode + `\n  </>\n`;
+          /* : __wrappedCode */
 
-        componentCode += `export default function ${componentName}() {\n`
-                          + __functionInject
-                          + ` return (`
-                          + __codeInject
-                          + ` )\n}`
+          componentCode +=
+            `export default function ${componentName}() {\n` +
+            __functionInject +
+            ` return (` +
+            __codeInject +
+            ` )\n}`;
 
-        /*
+          /*
 
         // -------- legacy, cheerio fails to parse because of multiline attributes and react syntax, had to go manual
 
@@ -241,45 +280,49 @@ async function build(){
                           + ` )\n}`
         */
 
-
-
-
-        return {
-          source: blockSlug,
-          code: componentCode,
-          // {
+          return {
+            source: blockSlug,
+            code: componentCode,
+            // {
             //componentCode
             // componentName,
             // codePreviewImportExternal,
             // codePreviewClassName,
             // codePreviewContent: codePreviewContent.slice(0,20),
-          // }
-        }
-    }).filter(block=>block)
+            // }
+          };
+        })
+        .filter((block) => block);
 
-    // console.dir({meta,index,page},{depth:null})
-    return {
-      name: _titleCase(component_dir),
-      description: page.split(`description:`)[1].split(`title:`)[0].trim().slice(1,-2),
-      docs_path: `./build/gits/themesberg$flowbite-react/app/docs/components/${component_dir}/${component_dir}.mdx`,
-      docs: {
-        import : {
-          source : `${component_dir}.mdx`,
-          code : extractJsxCodeBlocks(meta)[0],
+      // console.dir({meta,index,page},{depth:null})
+      return {
+        name: _titleCase(component_dir),
+        description: page
+          .split(`description:`)[1]
+          .split(`title:`)[0]
+          .trim()
+          .slice(1, -2),
+        docs_path: `./build/gits/themesberg$flowbite-react/app/docs/components/${component_dir}/${component_dir}.mdx`,
+        docs: {
+          import: {
+            source: `${component_dir}.mdx`,
+            code: extractJsxCodeBlocks(meta)[0],
+          },
+          use: [codeBlocks[0]],
+          examples: codeBlocks.slice(1),
         },
-        use : [ codeBlocks[0] ],
-        examples: codeBlocks.slice(1,),
-      }
-    }
-  })
+      };
+    });
 
   // console.dir(db,{depth:null})
 
-  fs.writeFileSync( `./library/components/react/flowbite/dump.json`, JSON.stringify(db) )
+  fs.writeFileSync(
+    `./library/components/react/flowbite/dump.json`,
+    JSON.stringify(db),
+  );
   console.dir({
-    build:`./build/components/react/flowbite.js`,
+    build: `./build/components/react/flowbite.js`,
     dump: `./library/components/react/flowbite/dump.json`,
-  })
-
+  });
 }
-module.exports = { build }
+module.exports = { build };
