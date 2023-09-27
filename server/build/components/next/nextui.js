@@ -111,7 +111,7 @@ async function pre_build(){
 
     const use = [
       {
-        source: `usage.jsx`,
+        source: `usage.tsx`,
         code : eval(
                   _replaceLastOccurrence(
                     fs.readFileSync(
@@ -139,7 +139,7 @@ async function pre_build(){
             + `/${f}`
     }).map(f=>{
       return {
-        source: f.split('/').slice(-1)[0].split(`.`)[0] + `.jsx`,
+        source: f.split('/').slice(-1)[0].split(`.`)[0] + `.tsx`,
         code: eval(
           _replaceLastOccurrence(
             fs.readFileSync(f,'utf-8'),
@@ -170,7 +170,7 @@ async function pre_build(){
     }
     return {
       name,
-      description:description.slice(0,-1),
+      description:description,
       docs_path: doc_file,
       docs,
     }
@@ -179,7 +179,11 @@ async function pre_build(){
 
 async function build(){
   const pre_db = await pre_build()
-  let IMPORT_MAP = {}
+  let IMPORT_MAP = {
+    "useDisclosure" : "@nextui-org/react",
+    "cn" : "@nextui-org/react",
+    "getKeyValue" : "@nextui-org/react",
+  }
   fs.readdirSync(
     `./build/gits/nextui-org$nextui/packages/components/`
   ).map( component_dir => {
@@ -203,9 +207,33 @@ async function build(){
       else
         libraries_to_import[ IMPORT_MAP[imp] ].push(imp)
     })
-    return Object.keys(libraries_to_import).map( key =>{
-      return `'use client';\n\nimport { ${libraries_to_import[key].join(', ')} } from "${key}";`
+    return `'use client';\n\n` +  Object.keys(libraries_to_import).map( key =>{
+      return `import { ${libraries_to_import[key].join(', ')} } from "${key}";`
     }).join(`\n`)
+  }
+
+  function _adaptBlockCode(code , trace) {
+    const _import_block = code.split(`export default`)[0].trim()
+    const import_block_head = _adaptImports(_import_block)
+
+    if (import_block_head.includes(`from "undefined"`)) {
+      console.dir({
+        skip: trace,
+        //code,
+        reason: `component examples with import such as `
+                + `"next/image" , "swr" , "@react-stately/data" , "@nextui-org/use-infinite-scroll" ... will be problematic, skipping`,
+      })
+      return false
+    }
+
+    const import_block_body = _import_block.split(`\n`).filter(line=>{
+      !line.includes(`@nextui-org`)
+      &&
+      !( Object.keys(IMPORT_MAP).map(key=> line.includes(key)).filter(e=>e).length )
+    }).join(`\n`).trim()
+
+    return `${import_block_head}\n${import_block_body}\nexport default${code.split('export default')[1]}`
+    //return {import_block_head , import_block_body , _import_block}
   }
 
   const db = pre_db.map( (component) => {
@@ -215,7 +243,20 @@ async function build(){
         import : {
           source: component.docs.import.source,
           code: _adaptImports( component.docs.import.code ),
-        }
+        },
+        use: component.docs.use.map(block=>{
+          return {
+            source: block.source,
+            code: _adaptBlockCode( block.code , `${component.name} -> ${block.source}` )
+          }
+        }).filter(block => block.code),
+        examples: component.docs.examples.map(block=>{
+          return {
+            source: block.source,
+            code: _adaptBlockCode( block.code , `${component.name} -> ${block.source}` )
+          }
+        }).filter(block => block.code),
+
       }
     }
   })
@@ -227,13 +268,7 @@ async function build(){
       split on \n, filter out any line that has @next or a component Name
         in case stuff like useState (verify by running dump.json in babel in _test.js next)
       prefix inject _adaptImports return and dont forget 'use client'
-
   */
-
-  console.dir(pre_db[0].docs,{depth:null})
-  process.exit(0)
-  console.dir(db,{depth:null})
-  process.exit(0)
 
   fs.writeFileSync( `./library/components/next/nextui/dump.json`, JSON.stringify(db) )
   console.dir({

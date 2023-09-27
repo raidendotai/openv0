@@ -228,7 +228,7 @@ async function parseTest(){
 
     `./library/components/next/flowbite/dump.json`,
     `./library/components/next/shadcn/dump.json`,
-    // `./library/components/next/nextui/dump.json`,
+    `./library/components/next/nextui/dump.json`,
   ]
   db_libs.map(db_lib=>{
       const db = JSON.parse( fs.readFileSync( db_lib , `utf-8`) )

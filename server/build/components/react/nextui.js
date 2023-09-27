@@ -111,7 +111,7 @@ async function build(){
     }
     return {
       name,
-      description:description.slice(0,-1),
+      description:description,
       docs_path: doc_file,
       docs,
     }
