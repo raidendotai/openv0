@@ -9,25 +9,25 @@ async function run(req) {
     ...req,
   });
   let execution_multipass = {
-    passes : {},
+    passes: {},
     stages: {},
-  }
+  };
   for (let [index, pass] of req.passes.entries()) {
     console.log(`> pass ${index}/${req.passes.length - 1}`);
     const response = await require(`./passes/${pass}/index.js`).run({
       stream: req.stream,
       query: req.query,
       pipeline: execution_multipass,
-    })
+    });
     const execution_pass = {
       index,
       response,
     };
     execution_multipass.passes[pass] = execution_pass;
     execution_multipass.stages[response.type] = {
-      success : response.success,
-      data : response.data,
-    }
+      success: response.success,
+      data: response.data,
+    };
   }
 
   console.log(

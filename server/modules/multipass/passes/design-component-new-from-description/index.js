@@ -34,8 +34,7 @@ fs.readdirSync(`./library/components`)
           };
         });
       });
-});
-
+  });
 
 async function run(req) {
   console.log("> init : " + __dirname.split(path.sep).slice(-2).join(`/`));
@@ -170,10 +169,10 @@ async function run(req) {
   };
 
   return {
-    type : `component-design-task`,
+    type: `component-design-task`,
     success: true,
     data: component_task,
-  }
+  };
 }
 
 module.exports = {

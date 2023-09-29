@@ -7,7 +7,7 @@ module.exports = {
       `generate-component-new`,
       `postprocess-generated-component`,
       `validate-generated-component`,
-      `store-component`
+      `store-component`,
     ],
   },
 
@@ -19,7 +19,7 @@ module.exports = {
       `generate-component-new`,
       `postprocess-generated-component`,
       `validate-generated-component`,
-      `store-component`
+      `store-component`,
     ],
   },
 
@@ -31,7 +31,7 @@ module.exports = {
       `generate-component-iteration`,
       `postprocess-generated-component`,
       `validate-generated-component`,
-      `store-component`
+      `store-component`,
     ],
   },
 
