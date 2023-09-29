@@ -64,7 +64,7 @@ async function build() {
 
       const use = [
         {
-          source: `usage.jsx`,
+          source: `usage.tsx`,
           code: eval(
             _replaceLastOccurrence(
               fs.readFileSync(
@@ -98,7 +98,7 @@ async function build() {
         })
         .map((f) => {
           return {
-            source: f.split("/").slice(-1)[0].split(`.`)[0] + `.jsx`,
+            source: f.split("/").slice(-1)[0].split(`.`)[0] + `.tsx`,
             code: eval(
               _replaceLastOccurrence(
                 fs.readFileSync(f, "utf-8"),

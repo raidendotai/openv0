@@ -73,7 +73,7 @@ async function build() {
               .trim()
               .toLowerCase()
               .replaceAll(` `, `-`)
-              .replace(/[^a-zA-Z0-9-]/g, "") + `.jsx`;
+              .replace(/[^a-zA-Z0-9-]/g, "") + `.tsx`;
           const blockCodePreview =
             `<CodePreview` +
             block.trim().split(`<CodePreview`)[1].split(`</CodePreview>`)[0] +

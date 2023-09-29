@@ -12,8 +12,8 @@ async function test() {
     preset: `componentNew_text`,
     query: {
       description: `a tweet component`,
-      framework: `react`,
-      components: `nextui`,
+      framework: `svelte`,
+      components: `shadcn`,
       icons: `lucide`,
     },
   });

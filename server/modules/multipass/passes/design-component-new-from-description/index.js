@@ -34,7 +34,8 @@ fs.readdirSync(`./library/components`)
           };
         });
       });
-  });
+});
+
 
 async function run(req) {
   console.log("> init : " + __dirname.split(path.sep).slice(-2).join(`/`));
@@ -158,7 +159,7 @@ async function run(req) {
       : component_design.new_component_icons_elements.if_so_what_new_component_icons_elements_are_needed.map(
           (e) => e.toLowerCase(),
         ),
-    library_components: !component_design.use_library_components
+    components: !component_design.use_library_components
       ? false
       : component_design.use_library_components.map((e) => {
           return {
@@ -168,7 +169,11 @@ async function run(req) {
         }),
   };
 
-  return component_task;
+  return {
+    type : `component-design-task`,
+    success: true,
+    data: component_task,
+  }
 }
 
 module.exports = {

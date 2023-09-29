@@ -1,3 +1,4 @@
 node_modules/
 gits/
 .env
+server/.env
