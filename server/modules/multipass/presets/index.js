@@ -1,5 +1,5 @@
 module.exports = {
-  componentNew_text: {
+  componentNew_description: {
     description: `generate a new component from a text description`,
     passes: [
       `design-component-new-from-description`,
@@ -23,7 +23,7 @@ module.exports = {
     ],
   },
 
-  componentIterate_text: {
+  componentIterate_description: {
     description: `iterate on a previously generated component from a text that describes new updates`,
     passes: [
       `design-component-iteration-from-description`,

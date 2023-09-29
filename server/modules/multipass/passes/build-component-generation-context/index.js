@@ -25,25 +25,25 @@ async function run(req) {
   console.log("> init : " + __dirname.split(path.sep).slice(-2).join(`/`));
 
   const design_task = {
-    components: req.pipeline.stages[`component-design-task`].data.components,
-    icons: req.pipeline.stages[`component-design-task`].data.icons,
+    components: req.pipeline.stages[`component-design-task`].data.components
+      ? req.pipeline.stages[`component-design-task`].data.components
+      : [],
+    icons: req.pipeline.stages[`component-design-task`].data.icons
+      ? req.pipeline.stages[`component-design-task`].data.icons
+      : [],
   };
 
   let retrieved = {
-    icons: !design_task.icons
-      ? []
-      : await RAG.icons.run({
-          icons: design_task.icons,
-          framework: req.query.framework,
-          library: req.query.icons,
-        }),
-    components: !design_task.components
-      ? []
-      : await RAG.components.run({
-          components: design_task.components.map((e) => e.name),
-          framework: req.query.framework,
-          library: req.query.components,
-        }),
+    icons: await RAG.icons.run({
+      icons: design_task.icons,
+      framework: req.query.framework,
+      library: req.query.icons,
+    }),
+    components: await RAG.components.run({
+      components: design_task.components.map((e) => e.name),
+      framework: req.query.framework,
+      library: req.query.components,
+    }),
   };
 
   // for now, picking random components from examples

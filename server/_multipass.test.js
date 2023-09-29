@@ -9,11 +9,11 @@ async function test() {
   const generated = await multipass.preset({
     // stream: `__DUPLEX_STREAM_PLACEHOLDER__`,
     stream,
-    preset: `componentNew_text`,
+    preset: `componentNew_description`,
     query: {
-      description: `a tweet component`,
-      framework: `svelte`,
-      components: `shadcn`,
+      description: `a sleek invoice table`,
+      framework: `react`,
+      components: `nextui`,
       icons: `lucide`,
     },
   });
