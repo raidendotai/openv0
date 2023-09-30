@@ -28,13 +28,13 @@ import {
 export default function Home() {
 	return (
 		<section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 bg-black dark">
-		
-		
+
+
 			<div className="">
 				<Dropdown>
 				  <DropdownTrigger>
-					<Button 
-					  variant="bordered" 
+					<Button
+					  variant="bordered"
 					>
 					  Open Menu
 					  <Camera className="text-red-500 w-4 h-4 ml-4" />
@@ -50,7 +50,7 @@ export default function Home() {
 				  </DropdownMenu>
 				</Dropdown>
 			</div>
-		
+
 			<div className="inline-block max-w-lg text-center justify-center">
 				<h1 className={title()}>Make&nbsp;</h1>
 				<h1 className={title({ color: "violet" })}>beautiful&nbsp;</h1>

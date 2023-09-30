@@ -35,7 +35,7 @@ async function run(query) {
                 model: `text-embedding-ada-002`,
               })
             ).data[0].embedding,
-            6,
+            10,
           )
         )
           .slice(1)

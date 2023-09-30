@@ -95,7 +95,7 @@ function _replaceLastOccurrence(inputString, search, replacement) {
 }
 
 async function pre_build() {
-  console.dir({ build: `next/nextui` });
+  console.dir({ "build/components": `next/nextui` });
   const docs_files = fs
     .readdirSync(
       `./build/gits/nextui-org$nextui/apps/docs/content/docs/components`,

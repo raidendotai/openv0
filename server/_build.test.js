@@ -102,9 +102,6 @@ process.exit(0)
 */
 
 const build = require(`./build.js`);
-async function buildTest() {
-  await build.everything();
-}
 // buildTest()
 
 function _extractImports(code) {
@@ -198,8 +195,6 @@ const svelteCode = `
 </Card>
 `;
 async function parseTest() {
-  await buildTest();
-
   //process.exit(0)
 
   const db_libs = [
@@ -214,10 +209,16 @@ async function parseTest() {
     `./library/components/next/shadcn/dump.json`,
     `./library/components/next/nextui/dump.json`,
   ];
+
+  let ALL_IMPORTS_MAP = {};
+
   db_libs.map((db_lib) => {
     const db = JSON.parse(fs.readFileSync(db_lib, `utf-8`));
     let success = 0;
     let fail = 0;
+
+    ALL_IMPORTS_MAP[db_lib] = [];
+
     db.map((c) => {
       [
         c.docs.import.code,
@@ -236,10 +237,13 @@ async function parseTest() {
           }
 
           try {
-            _extractImports(
+            const retrieved_imports = _extractImports(
               code,
               // code.split('</script')[0].trim().split('\n').slice(1,).join('\n') // svelte, imports
               // '<div>\n' + code.split('</script')[1].trim().split('\n').slice(1,).join('\n') + '\n</div>' // svelte, html
+            );
+            ALL_IMPORTS_MAP[db_lib].push(
+              retrieved_imports.map((e) => e.from).flat(),
             );
             success++;
           } catch (e) {
@@ -257,6 +261,27 @@ async function parseTest() {
     });
     console.dir({ db_lib, success, fail });
 
+    const unique_imports = [...new Set(ALL_IMPORTS_MAP[db_lib].flat())];
+    ALL_IMPORTS_MAP[db_lib] = [...[]];
+    for (let _imp of unique_imports) {
+      let _skip = false;
+      for (let _e of [
+        `@nextui-org/`,
+        `@/components/ui/`,
+        `@radix-ui/react-dropdown-menu`,
+        `$lib/components/ui/`,
+        `react-icons/`,
+        `flowbite-svelte`,
+        `flowbite-svelte-icons`,
+        `@/lib/utils`,
+      ]) {
+        if (_imp.startsWith(_e)) {
+          _skip = true;
+        }
+      }
+      if (!_skip) ALL_IMPORTS_MAP[db_lib].push(_imp);
+    }
+
     /*
       console.dir(
         _extractImports(
@@ -266,5 +291,13 @@ async function parseTest() {
       )
       */
   });
+
+  console.dir(ALL_IMPORTS_MAP, { depth: null });
 }
-parseTest();
+
+async function test() {
+  await build.allowed_imports();
+  await build.components();
+  await parseTest();
+}
+test();

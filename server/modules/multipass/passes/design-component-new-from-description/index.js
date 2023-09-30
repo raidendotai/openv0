@@ -69,7 +69,7 @@ async function run(req) {
     {
       role: `system`,
       content:
-        `Your task is to design a new React component for a web app, according to the user's request.\n` +
+        `Your task is to design a new ${req.query.framework} component for a web app, according to the user's request.\n` +
         `If you judge it is relevant to do so, you can specify pre-made library components to use in the task.\n` +
         `You can also specify the use of icons if you see that the user's request requires it.`,
     },
@@ -90,7 +90,7 @@ async function run(req) {
         "USER QUERY : \n```\n" +
         req.query.description +
         "\n```\n\n" +
-        `Design the new React web component task for the user as the creative genius you are`,
+        `Design the new ${req.query.framework} web component task for the user as the creative genius you are`,
     },
   ];
 

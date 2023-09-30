@@ -39,7 +39,7 @@ function extractJsxCodeBlocks(markdownContent) {
 }
 
 async function build() {
-  console.dir({ build: `react/flowbite` });
+  console.dir({ "build/components": `react/flowbite` });
   const db = fs
     .readdirSync(`./build/gits/themesberg$flowbite-react/app/docs/components`)
     .filter((component_dir) => !component_dir.includes(`.`))

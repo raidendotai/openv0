@@ -96,8 +96,24 @@ async function build_from_docs_and_examples() {
             ),
             docs: {
               import: tsx_blocks_docs[0],
-              use: tsx_blocks_docs.slice(1),
-              examples: tsx_blocks_examples,
+              use: tsx_blocks_docs
+                .slice(1)
+                .filter(
+                  (__block) =>
+                    !__block.code.includes(`@/registry/new-york/`) &&
+                    !__block.code.includes(`@/components/icons`) &&
+                    !__block.code.includes(`next`) &&
+                    !__block.code.includes(`next`) &&
+                    !__block.code.includes(`@hookform/`),
+                ),
+              examples: tsx_blocks_examples.filter(
+                (__block) =>
+                  !__block.code.includes(`@/registry/new-york/`) &&
+                  !__block.code.includes(`@/components/icons`) &&
+                  !__block.code.includes(`next/image`) &&
+                  !__block.code.includes(`next`) &&
+                  !__block.code.includes(`@hookform/`),
+              ),
             },
           };
         }),
@@ -106,6 +122,7 @@ async function build_from_docs_and_examples() {
 }
 
 async function build() {
+  console.dir({ "build/components": `react/shadcn` });
   const db = await build_from_docs_and_examples();
   fs.writeFileSync(
     `./library/components/react/shadcn/dump.json`,

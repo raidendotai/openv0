@@ -83,12 +83,12 @@
     "docs": {
       "import": {
         "source": "aspect-ratio.svelte",
-        "code": "<script lang=\"ts\">\n  import { AspectRatio } from \"lib/components/ui/aspect-ratio\";\n</script>"
+        "code": "<script lang=\"ts\">\n  import { AspectRatio } from \"$lib/components/ui/aspect-ratio\";\n</script>"
       },
       "use": [
         {
           "source": "aspect-ratio.svelte",
-          "code": "<script lang=\"ts\">\n  import { AspectRatio } from \"lib/components/ui/aspect-ratio\";\n</script>\n\n<div class=\"w-[450px]\">\n  <AspectRatio ratio={16 / 9} class=\"bg-muted\">\n    <img src=\"...\" alt=\"...\" class=\"rounded-md object-cover\" />\n  </AspectRatio>\n</div>\n"
+          "code": "<script lang=\"ts\">\n  import { AspectRatio } from \"$lib/components/ui/aspect-ratio\";\n</script>\n\n<div class=\"w-[450px]\">\n  <AspectRatio ratio={16 / 9} class=\"bg-muted\">\n    <img src=\"...\" alt=\"...\" class=\"rounded-md object-cover\" />\n  </AspectRatio>\n</div>\n"
         }
       ],
       "examples": [

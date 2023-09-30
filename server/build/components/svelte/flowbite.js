@@ -26,7 +26,7 @@ function extractCodeBlocks(markdownContent, lang) {
 }
 
 async function build() {
-  console.dir({ build: `svelte/flowbite` });
+  console.dir({ "build/components": `svelte/flowbite` });
   const db = fs
     .readdirSync(
       `./build/gits/themesberg$flowbite-svelte/src/routes/docs/components`,
@@ -92,11 +92,19 @@ async function build() {
             code: extractCodeBlocks(_import, `svelte`)[0],
           },
           use: [codeBlocks[0]].filter(
-            (block) => !block.source.includes(`custom`),
+            (block) =>
+              !block.source.includes(`custom`) &&
+              !block.code.includes(`./imageData/`) &&
+              !block.code.includes(`$app/stores`),
           ),
           examples: codeBlocks
             .slice(1)
-            .filter((block) => !block.source.includes(`custom`)),
+            .filter(
+              (block) =>
+                !block.source.includes(`custom`) &&
+                !block.code.includes(`./imageData/`) &&
+                !block.code.includes(`$app/stores`),
+            ),
         },
       };
     })

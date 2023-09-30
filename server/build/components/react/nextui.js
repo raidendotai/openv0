@@ -39,7 +39,7 @@ function _replaceLastOccurrence(inputString, search, replacement) {
 }
 
 async function build() {
-  console.dir({ build: `react/nextui` });
+  console.dir({ "build/components": `react/nextui` });
   const docs_files = fs
     .readdirSync(
       `./build/gits/nextui-org$nextui/apps/docs/content/docs/components`,
@@ -131,11 +131,19 @@ async function build() {
         use: use
           .filter((e) => e)
           .filter((e) => e.code.includes(`export default function App`))
-          .filter((e) => !e.source.includes(`custom`)),
+          .filter(
+            (e) =>
+              !e.source.includes(`custom`) &&
+              !e.source.includes(`@react-stately/data`),
+          ),
         examples: examples
           .filter((e) => e)
           .filter((e) => e.code.includes(`export default function App`))
-          .filter((e) => !e.source.includes(`custom`)),
+          .filter(
+            (e) =>
+              !e.source.includes(`custom`) &&
+              !e.source.includes(`@react-stately/data`),
+          ),
       };
       return {
         name,

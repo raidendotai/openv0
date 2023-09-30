@@ -47,13 +47,13 @@ async function run(req) {
   };
 
   // for now, picking random components from examples
-  // until reaching token limit from process.env.CONTEXT__COMPONENTS_LIBRARY_EXAMPLES__TOKEN_LIMIT
+  // until reaching token limit from process.env.PASS__CONTEXT__COMPONENTS_LIBRARY_EXAMPLES__TOKEN_LIMIT
   // later : more elaborate with vectordb (need to make embeddings for components libraries)
 
   retrieved.components = retrieved.components.map((library_component, idx) => {
     let _library_component_examples = [...library_component.docs.examples];
     const _tokens_limit = parseInt(
-      process.env.CONTEXT__COMPONENTS_LIBRARY_EXAMPLES__TOKEN_LIMIT,
+      process.env.PASS__CONTEXT__COMPONENTS_LIBRARY_EXAMPLES__TOKEN_LIMIT,
     );
     let _consumed_tokens = 0;
     let _examples = [];
@@ -77,7 +77,7 @@ async function run(req) {
 
     console.log(
       `tokens for context entry ${library_component.name} : ${_consumed_tokens} ` +
-        `(limit : ${process.env.CONTEXT__COMPONENTS_LIBRARY_EXAMPLES__TOKEN_LIMIT})`,
+        `(limit : ${process.env.PASS__CONTEXT__COMPONENTS_LIBRARY_EXAMPLES__TOKEN_LIMIT})`,
     );
 
     let updated_library_component = { ...library_component };

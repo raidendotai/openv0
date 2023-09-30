@@ -27,7 +27,7 @@ function extractCodeBlocks(markdownContent, lang) {
   demos : ./build/gits/huntabyte$shadcn-svelte/apps/www/src/lib/registry/default/example
 */
 async function build() {
-  console.dir({ build: `svelte/shadcn` });
+  console.dir({ "build/components": `svelte/shadcn` });
 
   const examples_files = fs
     .readdirSync(
