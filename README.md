@@ -14,7 +14,7 @@ tasks in progress
 
   * next
     * ✅ shadcn : `shadcn-ui/ui`
-    * ✅ nextui : `nextui-org/nextui` - *based on react, extra parsing done to import components from individual exports as specified in docs*
+    * ✅ nextui : `nextui-org/nextui`
     * ✅ flowbite : `themesberg/flowbite-react`
 
   * svelte
@@ -22,9 +22,11 @@ tasks in progress
     * ✅ flowbite : `themesberg/flowbite-svelte`
     * ~~✅ nextui : `nextui-org/nextui`~~ *ported with react-preprocess, is buggy for dynamic data - disregard now, port library later*
 
+* ✅ prettify
+* ✅ modular multipass, each pass definition in new folder
+* ✅ new feature : component from API response
 * ⏳ dashboard+reactivity for each starter template
-* ⏳ prettify all code blocks inside json files in library/{framework}/{library} db dumps
-* ⏳ modular multipass, each pass definition in new folder
 * ⏳ validation pass with babel, for each {framework x component} specifics
-* ⏳ [...] (will add here as i go )
+* ⏳ setup openv0.com and npx CLI
+* ⏳ new feature : views/app from description
 * ⏳ @pi0 structure & @denyncrawford virtual components + db
