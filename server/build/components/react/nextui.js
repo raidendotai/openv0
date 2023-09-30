@@ -134,7 +134,9 @@ async function build() {
           .filter(
             (e) =>
               !e.source.includes(`custom`) &&
-              !e.source.includes(`@react-stately/data`),
+              !e.code.includes(`@react-stately/data`) &&
+              !e.code.includes(`next/`) &&
+              !e.code.includes(`swr`),
           ),
         examples: examples
           .filter((e) => e)
@@ -142,7 +144,9 @@ async function build() {
           .filter(
             (e) =>
               !e.source.includes(`custom`) &&
-              !e.source.includes(`@react-stately/data`),
+              !e.code.includes(`@react-stately/data`) &&
+              !e.code.includes(`next/`) &&
+              !e.code.includes(`swr`),
           ),
       };
       return {

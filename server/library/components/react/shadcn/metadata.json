@@ -3,6 +3,7 @@
     "@/components/ui/",
     "@/lib/utils",
     "@radix-ui/react-dropdown-menu",
+    "react-day-picker",
     "framer-motion"
   ]
 }

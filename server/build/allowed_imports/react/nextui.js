@@ -6,7 +6,7 @@ async function build() {
   // would write something like {import : [`flowbite-react` , /*any additional library required */]}
 
   const metadata = {
-    import: [`@nextui-org/react`, `framer-motion`],
+    import: [`@nextui-org/react`, `react-day-picker`, `framer-motion`],
   };
 
   fs.writeFileSync(

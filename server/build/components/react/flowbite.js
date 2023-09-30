@@ -308,8 +308,18 @@ async function build() {
             source: `${component_dir}.mdx`,
             code: extractJsxCodeBlocks(meta)[0],
           },
-          use: [codeBlocks[0]],
-          examples: codeBlocks.slice(1),
+          use: [codeBlocks[0]].filter(
+            (__block) =>
+              !__block.code.includes(`next/image`) &&
+              !__block.code.includes(`next`),
+          ),
+          examples: codeBlocks
+            .slice(1)
+            .filter(
+              (__block) =>
+                !__block.code.includes(`next/image`) &&
+                !__block.code.includes(`next`),
+            ),
         },
       };
     });

@@ -266,6 +266,7 @@ async function parseTest() {
     for (let _imp of unique_imports) {
       let _skip = false;
       for (let _e of [
+        /*
         `@nextui-org/`,
         `@/components/ui/`,
         `@radix-ui/react-dropdown-menu`,
@@ -274,6 +275,7 @@ async function parseTest() {
         `flowbite-svelte`,
         `flowbite-svelte-icons`,
         `@/lib/utils`,
+        */
       ]) {
         if (_imp.startsWith(_e)) {
           _skip = true;
@@ -281,6 +283,7 @@ async function parseTest() {
       }
       if (!_skip) ALL_IMPORTS_MAP[db_lib].push(_imp);
     }
+    ALL_IMPORTS_MAP[db_lib] = ALL_IMPORTS_MAP[db_lib].sort();
 
     /*
       console.dir(
@@ -292,7 +295,7 @@ async function parseTest() {
       */
   });
 
-  console.dir(ALL_IMPORTS_MAP, { depth: null });
+  console.dir({ ALL_IMPORTS_MAP }, { depth: null });
 }
 
 async function test() {

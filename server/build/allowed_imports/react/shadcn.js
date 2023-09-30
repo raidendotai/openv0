@@ -10,6 +10,7 @@ async function build() {
       `@/components/ui/`, // checks in multipass postprocess/validation are prefix style
       `@/lib/utils`,
       `@radix-ui/react-dropdown-menu`,
+      `react-day-picker`,
       `framer-motion`,
     ],
   };

@@ -1,6 +1,6 @@
 const path = require("path");
 
-const ALLOWED_IMPORTS_GENERAL = [`axios`, `zod`];
+const ALLOWED_IMPORTS_GENERAL = [`axios`, `zod`, `date-fns`];
 
 async function run(req) {
   /*

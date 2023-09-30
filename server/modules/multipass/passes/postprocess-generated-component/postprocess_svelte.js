@@ -1,3 +1,3 @@
 /*
-  svelte packages
+  svelte/*
 */
