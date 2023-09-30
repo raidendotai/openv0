@@ -1,1 +1,1 @@
-{ "import": ["flowbite-react", "react-icons/", "framer-motion"] }
+{ "import": ["flowbite-react", "react-icons", "framer-motion"] }

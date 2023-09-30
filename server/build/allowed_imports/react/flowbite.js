@@ -8,7 +8,7 @@ async function build() {
   const metadata = {
     import: [
       `flowbite-react`,
-      `react-icons/`, // is in docs, might be used in generated code
+      `react-icons`, // is in docs, might be used in generated code
       `tailwind-merge`,
       `react-day-picker`,
       `framer-motion`,
