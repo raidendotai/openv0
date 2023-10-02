@@ -56,7 +56,9 @@ async function run(req) {
         req.query.component.description +
         "\n```\n\n" +
         `- CURRENT COMPONENT CODE :\n\n` +
-        "```" + FRAMEWORKS_EXTENSION_MAP[req.query.framework] +  "\n" +
+        "```" +
+        FRAMEWORKS_EXTENSION_MAP[req.query.framework] +
+        "\n" +
         req.query.component.code +
         "\n```\n\n" +
         `- DESIRED COMPONENT UPDATES :\n\n` +

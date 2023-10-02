@@ -153,7 +153,10 @@ function _imports_list_from_code(framework, _code) {
     return {
       error: e,
       code,
-      code_with_line_numbers: code.split(`\n`).map((l, idx) => `${idx} > ${l}`).join(`\n`),
+      code_with_line_numbers: code
+        .split(`\n`)
+        .map((l, idx) => `${idx} > ${l}`)
+        .join(`\n`),
     };
   }
   return false;
@@ -233,7 +236,7 @@ async function validate(query) {
   );
 
   if (__import_fixer_response.error) {
-    console.dir({skip : __import_fixer_response});
+    console.dir({ skip: __import_fixer_response });
     // decide what to do here ; skip or further validation
   } else {
     // "use client" check
@@ -299,10 +302,10 @@ async function validate(query) {
     // console.dir({__component_code_after_resvelting : __component_code},{depth:null}) ; process.exit()
 
     console.dir({
-      "validate-check-generated-component" : {
-        success : !found_errors_stack.length ? true : false,
-      }
-    })
+      "validate-check-generated-component": {
+        success: !found_errors_stack.length ? true : false,
+      },
+    });
 
     return {
       type: `component-validation-check`,
@@ -323,7 +326,6 @@ async function validate(query) {
     __component_code,
   );
 
-
   if (_code_imports.error) {
     // if babel AST fails, cannot proceed with further validation
     // console.dir({ bad_syntax_error: _code_imports });
@@ -336,10 +338,10 @@ async function validate(query) {
     });
 
     console.dir({
-      "validate-check-generated-component" : {
-        success : !found_errors_stack.length ? true : false,
-      }
-    })
+      "validate-check-generated-component": {
+        success: !found_errors_stack.length ? true : false,
+      },
+    });
 
     return {
       type: `component-validation-check`,
@@ -349,7 +351,6 @@ async function validate(query) {
         code: __component_code,
       },
     };
-
   }
 
   const imports_lists = {
@@ -468,10 +469,10 @@ async function validate(query) {
   }
 
   console.dir({
-    "validate-check-generated-component" : {
-      success : !found_errors_stack.length ? true : false,
-    }
-  })
+    "validate-check-generated-component": {
+      success: !found_errors_stack.length ? true : false,
+    },
+  });
 
   return {
     type: `component-validation-check`,

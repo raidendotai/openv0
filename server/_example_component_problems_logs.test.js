@@ -579,9 +579,7 @@ badImportsAxios.pipeline.stages[`component-code`].data =
   "\n" +
   "export default UserInputWithSendButton;";
 
-let badImportsLocalView = JSON.parse(
-  JSON.stringify(userInputComponents),
-);
+let badImportsLocalView = JSON.parse(JSON.stringify(userInputComponents));
 badImportsLocalView.pipeline.stages[`component-code`].data =
   "" +
   'import React from "react";\n' +
@@ -605,8 +603,6 @@ badImportsLocalView.pipeline.stages[`component-code`].data =
   "\n" +
   "export default UserInputWithSendButton;";
 
-
-
 let missingImportsPlusIllegalImports = JSON.parse(
   JSON.stringify(userInputComponents),
 );
@@ -625,9 +621,7 @@ export default function App() {
     </div>
   )
 }
-`.trim()
-
-
+`.trim();
 
 let badSyntaxSneaky = JSON.parse(JSON.stringify(userInputComponents));
 badSyntaxSneaky.pipeline.stages[`component-code`].data =
@@ -792,7 +786,6 @@ export default function App() {
 }
 `.trim();
 
-
 let axiosReact = JSON.parse(JSON.stringify(userInputComponents));
 axiosReact.pipeline.stages[`component-code`].data = `
 import axios from "axios";
@@ -848,5 +841,4 @@ module.exports = {
   noImportsSvelte,
   noImportsNoScriptSvelte,
   axiosReact,
-
 };

@@ -177,7 +177,6 @@ async function run(req) {
         }),
   };
 
-
   return {
     type: `component-design-task`,
     success: true,
