@@ -1,9 +1,6 @@
 async function test() {
-  const postprocess = require(
-    `./modules/multipass/passes/postprocess-generated-component/index.js`,
-  );
   const validate = require(
-    `./modules/multipass/passes/validate-generated-component/index.js`,
+    `./modules/multipass/passes/validate-check-generated-component/index.js`,
   );
 
   const stream = {
@@ -16,11 +13,12 @@ async function test() {
   const userInputComponents_logs = require(
     `./_example_component_problems_logs.test.js`,
   );
-  console.dir(userInputComponents_logs);
+  const example = userInputComponents_logs.duplicateImports;
+  console.dir(example.pipeline.stages["component-code"]);
 
-  process.exit(0);
-  const generated = await postprocess.run({
+  const generated = await validate.run({
     stream,
+    ...example,
   });
 }
 test();

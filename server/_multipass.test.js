@@ -8,6 +8,7 @@ async function test() {
     },
   };
 
+  /*
   const generated = await multipass.preset({
     stream,
     preset: `componentNew_description`,
@@ -18,19 +19,18 @@ async function test() {
       icons: `lucide`,
     },
   });
+  */
 
-  /*
   const generated = await multipass.preset({
     stream,
     preset: `componentNew_json`,
     query: {
-      json: require('./_example_json_generate.test.js').soccer_game,
+      json: require("./_example_json_generate.test.js").stripe_products,
       framework: `react`,
-      components: `shadcn`,
+      components: `nextui`,
       icons: `lucide`,
     },
   });
-  */
 
   /*
   const component_code_demo = `

@@ -555,15 +555,14 @@ const userInputComponents = {
   },
 };
 
-let userInputComponents_badImportsAxios = { ...userInputComponents };
-userInputComponents_badImportsAxios.pipeline.stages[`component-code`].data =
+let badImportsAxios = JSON.parse(JSON.stringify(userInputComponents));
+badImportsAxios.pipeline.stages[`component-code`].data =
   "" +
   'import React from "react";\n' +
   'import { Button } from "@/components/ui/button";\n' +
   'import { Textarea } from "@/components/ui/textarea";\n' +
   'import { SendHorizontal } from "lucide-react";\n' +
   'import axios from "axios";\n' +
-  `import * as Yup from 'axios';\n` +
   "\n" +
   "const UserInputWithSendButton: React.FC = () => (\n" +
   '  <div className="w-full h-full flex flex-row items-center space-x-4">\n' +
@@ -580,12 +579,34 @@ userInputComponents_badImportsAxios.pipeline.stages[`component-code`].data =
   "\n" +
   "export default UserInputWithSendButton;";
 
-let userInputComponents_badImportsLocalViewPlusAxios = {
-  ...userInputComponents,
-};
-userInputComponents_badImportsLocalViewPlusAxios.pipeline.stages[
-  `component-code`
-].data =
+let badImportsLocalViewPlusAxios = JSON.parse(
+  JSON.stringify(userInputComponents),
+);
+badImportsLocalViewPlusAxios.pipeline.stages[`component-code`].data =
+  "" +
+  'import React from "react";\n' +
+  'import { Button } from "@/components/ui/button";\n' +
+  'import { Textarea } from "@/components/ui/textarea";\n' +
+  'import { SendHorizontal } from "lucide-react";\n' +
+  'import { WhateverLocal } from "./Whatever.tsx";\n' +
+  "\n" +
+  "const UserInputWithSendButton: React.FC = () => (\n" +
+  '  <div className="w-full h-full flex flex-row items-center space-x-4">\n' +
+  "    <WhateverLocal\n" +
+  '      placeholder="Type your message here..."\n' +
+  '      className="flex-grow border-gray-300 focus:border-blue-300 rounded-md shadow-sm p-2"\n' +
+  "    />\n" +
+  "    <Button>\n" +
+  '      <SendHorizontal className="h-4 w-4 mr-2" />\n' +
+  "      Send\n" +
+  "    </Button>\n" +
+  "  </div>\n" +
+  ");\n" +
+  "\n" +
+  "export default UserInputWithSendButton;";
+
+let badSyntax = JSON.parse(JSON.stringify(userInputComponents));
+badSyntax.pipeline.stages[`component-code`].data =
   "" +
   'import React from "react";\n' +
   'import { Button } from "@/components/ui/button";\n' +
@@ -607,11 +628,10 @@ userInputComponents_badImportsLocalViewPlusAxios.pipeline.stages[
   "\n" +
   "export default UserInputWithSendButton;";
 
-let userInputComponents_badSyntax = { ...userInputComponents };
-userInputComponents_badSyntax.pipeline.stages[`component-code`].data =
+let missingImports = JSON.parse(JSON.stringify(userInputComponents));
+missingImports.pipeline.stages[`component-code`].data =
   "" +
   'import React from "react";\n' +
-  'import { Button } from "@/components/ui/button";\n' +
   'import { Textarea } from "@/components/ui/textarea";\n' +
   'import { SendHorizontal } from "lucide-react";\n' +
   "\n" +
@@ -630,12 +650,13 @@ userInputComponents_badSyntax.pipeline.stages[`component-code`].data =
   "\n" +
   "export default UserInputWithSendButton;";
 
-let userInputComponents_missingImports = { ...userInputComponents };
-userInputComponents_missingImports.pipeline.stages[`component-code`].data =
+let duplicateImports = JSON.parse(JSON.stringify(userInputComponents));
+duplicateImports.pipeline.stages[`component-code`].data =
   "" +
   'import React from "react";\n' +
   'import { Button } from "@/components/ui/button";\n' +
   'import { Textarea } from "@/components/ui/textarea";\n' +
+  'import { SendHorizontal } from "lucide-react";\n' +
   'import { SendHorizontal } from "lucide-react";\n' +
   "\n" +
   "const UserInputWithSendButton: React.FC = () => (\n" +
@@ -653,36 +674,80 @@ userInputComponents_missingImports.pipeline.stages[`component-code`].data =
   "\n" +
   "export default UserInputWithSendButton;";
 
-let userInputComponents_duplicateImports = {
-  ...userInputComponents,
-};
-userInputComponents_duplicateImports.pipeline.stages[`component-code`].data =
-  "" +
-  'import React from "react";\n' +
-  'import { Button } from "@/components/ui/button";\n' +
-  'import { Textarea } from "@/components/ui/textarea";\n' +
-  'import { SendHorizontal } from "lucide-react";\n' +
-  'import { SendHorizontal } from "lucide-react";\n' +
-  "\n" +
-  "const UserInputWithSendButton: React.FC = () => (\n" +
-  '  <div className="w-full h-full flex flex-row items-center space-x-4">\n' +
-  "    <Textarea\n" +
-  '      placeholder="Type your message here..."\n' +
-  '      className="flex-grow border-gray-300 focus:border-blue-300 rounded-md shadow-sm p-2"\n' +
-  "    />\n" +
-  "    <Button>\n" +
-  '      <SendHorizontal className="h-4 w-4 mr-2" />\n' +
-  "      Send\n" +
-  "    </Button>\n" +
-  "  </div>\n" +
-  ");\n" +
-  "\n" +
-  "export default UserInputWithSendButton;";
+let svelteExample = JSON.parse(JSON.stringify(userInputComponents));
+svelteExample.pipeline.stages[`component-code`].data = `
+<script lang="ts">
+  import { Bell, Check } from "radix-icons-svelte";
+  import { Button } from "$lib/components/ui/button";
+  import * as Card from "$lib/components/ui/card";
+  import { Switch } from "$lib/components/ui/switch";
+  import { Switch , Blades } from "$lib/components/ui/switch";
+
+  const notifications = [
+    {
+      title: "Your call has been confirmed.",
+      description: "1 hour ago"
+    },
+    {
+      title: "You have a new message!",
+      description: "1 hour ago"
+    },
+    {
+      title: "Your subscription is expiring soon!",
+      description: "2 hours ago"
+    }
+  ];
+</script>
+
+<Card.Root class="w-[380px]">
+  <Card.Header>
+    <Card.Title>Notifications</Card.Title>
+    <Card.Description>You have 3 unread messages.</Card.Description>
+  </Card.Header>
+  <Card.Content class="grid gap-4">
+    <div class="flex items-center space-x-4 rounded-md border p-4">
+      <Bell />
+      <div class="flex-1 space-y-1">
+        <p class="text-sm font-medium leading-none">Push Notifications</p>
+        <p class="text-sm text-muted-foreground">
+          Send notifications to device.
+        </p>
+      </div>
+      <Switch />
+    </div>
+    <div>
+      {#each notifications as notification, idx (idx)}
+        <div
+          class="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
+        >
+          <span class="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+          <div class="space-y-1">
+            <p class="text-sm font-medium leading-none">
+              {notification.title}
+            </p>
+            <p class="text-sm text-muted-foreground">
+              {notification.description}
+            </p>
+          </div>
+        </div>
+      {/each}
+    </div>
+  </Card.Content>
+  <Card.Footer>
+    <Button class="w-full">
+      <Check class="mr-2 h-4 w-4" /> Mark all as read
+    </Button>
+  </Card.Footer>
+</Card.Root>
+`.trim();
+svelteExample.query.framework = `svelte`;
+svelteExample.query.components = `shadcn`;
 
 module.exports = {
-  userInputComponents_badImportsAxios,
-  userInputComponents_badImportsLocalViewPlusAxios,
-  userInputComponents_duplicateImports,
-  userInputComponents_badSyntax,
-  userInputComponents_missingImports,
+  badImportsAxios,
+  badImportsLocalViewPlusAxios,
+  duplicateImports,
+  badSyntax,
+  missingImports,
+  svelteExample,
 };
