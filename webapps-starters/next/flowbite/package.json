@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "axios": "^1.5.1",
+    "date-fns": "^2.30.0",
     "flowbite": "^1.5.5",
     "flowbite-react": "^0.3.7",
     "formik": "^2.4.5",

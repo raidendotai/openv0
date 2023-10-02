@@ -579,10 +579,10 @@ badImportsAxios.pipeline.stages[`component-code`].data =
   "\n" +
   "export default UserInputWithSendButton;";
 
-let badImportsLocalViewPlusAxios = JSON.parse(
+let badImportsLocalView = JSON.parse(
   JSON.stringify(userInputComponents),
 );
-badImportsLocalViewPlusAxios.pipeline.stages[`component-code`].data =
+badImportsLocalView.pipeline.stages[`component-code`].data =
   "" +
   'import React from "react";\n' +
   'import { Button } from "@/components/ui/button";\n' +
@@ -605,8 +605,32 @@ badImportsLocalViewPlusAxios.pipeline.stages[`component-code`].data =
   "\n" +
   "export default UserInputWithSendButton;";
 
-let badSyntax = JSON.parse(JSON.stringify(userInputComponents));
-badSyntax.pipeline.stages[`component-code`].data =
+
+
+let missingImportsPlusIllegalImports = JSON.parse(
+  JSON.stringify(userInputComponents),
+);
+missingImportsPlusIllegalImports.pipeline.stages[`component-code`].data = `
+import hallucinate from "hallucinaxios";
+import { WhateverLocal } from "./Whatever.tsx";
+export default function App() {
+  function crasher(){
+    return hallucinate.get('https://whatever.com')
+  }
+  return (
+    <div className="text-lg max-w-3xl mx-auto">
+      hello world
+      <WhateverLocal />
+      <Button>click to send</Button>
+    </div>
+  )
+}
+`.trim()
+
+
+
+let badSyntaxSneaky = JSON.parse(JSON.stringify(userInputComponents));
+badSyntaxSneaky.pipeline.stages[`component-code`].data =
   "" +
   'import React from "react";\n' +
   'import { Button } from "@/components/ui/button";\n' +
@@ -743,11 +767,86 @@ svelteExample.pipeline.stages[`component-code`].data = `
 svelteExample.query.framework = `svelte`;
 svelteExample.query.components = `shadcn`;
 
+let badSyntaxReact = JSON.parse(JSON.stringify(userInputComponents));
+badSyntaxReact.pipeline.stages[`component-code`].data = `
+
+export default function App() => {
+  return (
+    <div className="text-lg max-w-3xl mx-auto">
+      an example react block with no imports
+    </div>
+  )
+}
+
+`.trim();
+
+let noImportsReact = JSON.parse(JSON.stringify(userInputComponents));
+noImportsReact.pipeline.stages[`component-code`].data = `
+
+export default function App() {
+  return (
+    <div className="text-lg max-w-3xl mx-auto">
+      an example react block with no imports
+    </div>
+  )
+}
+`.trim();
+
+
+let axiosReact = JSON.parse(JSON.stringify(userInputComponents));
+axiosReact.pipeline.stages[`component-code`].data = `
+import axios from "axios";
+export default function App() {
+  function ask_api(){
+    return axios.get('https://whatever.com')
+  }
+  return (
+    <div className="text-lg max-w-3xl mx-auto">
+      an example react block with no imports
+    </div>
+  )
+}
+`.trim();
+
+let noImportsSvelte = JSON.parse(JSON.stringify(userInputComponents));
+noImportsSvelte.pipeline.stages[`component-code`].data = `
+<script>
+</script>
+<div class="text-lg max-w-3xl mx-auto">
+  an example svelte block with no imports
+</div>
+`.trim();
+noImportsSvelte.query.framework = `svelte`;
+noImportsSvelte.query.components = `shadcn`;
+
+let noImportsNoScriptSvelte = JSON.parse(JSON.stringify(userInputComponents));
+noImportsNoScriptSvelte.pipeline.stages[`component-code`].data = `
+<div class="text-lg max-w-3xl mx-auto">
+  an example svelte block with no imports
+</div>
+`.trim();
+noImportsNoScriptSvelte.query.framework = `svelte`;
+noImportsNoScriptSvelte.query.components = `shadcn`;
+
 module.exports = {
+  // should be automatically fixed by `validate-check-generated-component`
   badImportsAxios,
-  badImportsLocalViewPlusAxios,
   duplicateImports,
-  badSyntax,
+
+  // should return error in `validate-check-generated-component` ; and be picked by `validate-fix-generated-component` for fixing
+  badImportsLocalView,
+  badSyntaxReact,
   missingImports,
+  missingImportsPlusIllegalImports,
+
+  // is not detected by babel but is wrong wray to construct a react component
+  badSyntaxSneaky,
+
+  // should go through
   svelteExample,
+  noImportsReact,
+  noImportsSvelte,
+  noImportsNoScriptSvelte,
+  axiosReact,
+
 };

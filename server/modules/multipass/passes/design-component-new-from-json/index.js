@@ -177,9 +177,6 @@ async function run(req) {
         }),
   };
 
-  console.log(
-    "******************** debug multipass/design-component-new-from-json ************** ",
-  );
 
   return {
     type: `component-design-task`,

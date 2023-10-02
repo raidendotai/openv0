@@ -68,7 +68,7 @@ async function run(req) {
         _titleCase(req.query.framework) +
         " project. Make sure all necessary imports are done, and that your full code is enclosed with ```" +
         FRAMEWORKS_EXTENSION_MAP[req.query.framework] +
-        " blocks." +
+        " blocks.\n" +
         "Answer with generated code only. DO NOT ADD ANY EXTRA TEXT DESCRIPTION OR COMMENTS BESIDES THE CODE. Your answer contains code only ! component code only !\n" +
         `Important :\n` +
         `- Make sure you import provided components libraries and icons that are provided to you if you use them !\n` +

@@ -22,6 +22,7 @@
   "type": "module",
   "dependencies": {
     "axios": "^1.5.1",
+    "date-fns": "^2.30.0",
     "flowbite-svelte-icons": "^0.4.4",
     "lucide-svelte": "^0.279.0",
     "zod": "^3.22.2"

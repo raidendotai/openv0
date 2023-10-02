@@ -28,6 +28,7 @@
     "autoprefixer": "10.4.15",
     "axios": "^1.5.1",
     "clsx": "^2.0.0",
+    "date-fns": "^2.30.0",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "formik": "^2.4.5",

@@ -1,6 +1,9 @@
 async function test() {
-  const validate = require(
+  const validate_check = require(
     `./modules/multipass/passes/validate-check-generated-component/index.js`,
+  );
+  const validate_fix = require(
+    `./modules/multipass/passes/validate-fix-generated-component/index.js`,
   );
 
   const stream = {
@@ -13,12 +16,33 @@ async function test() {
   const userInputComponents_logs = require(
     `./_example_component_problems_logs.test.js`,
   );
-  const example = userInputComponents_logs.duplicateImports;
-  console.dir(example.pipeline.stages["component-code"]);
+  let example = userInputComponents_logs.missingImportsPlusIllegalImports;
+  console.dir({
+    test_case_code: example.pipeline.stages["component-code"],
+  });
 
-  const generated = await validate.run({
+  const validate_check_response = await validate_check.run({
     stream,
     ...example,
   });
+  // console.dir({validate_check_response})
+
+  example.pipeline.stages[validate_check_response.type] = {
+    success: validate_check_response.success,
+    data: validate_check_response.data,
+  };
+
+  const validate_fix_response = await validate_fix.run({
+    stream,
+    ...example,
+  });
+
+  console.dir(
+    {
+      "debug _validate+process test *************": "*****************",
+      validate_fix_response,
+    },
+    { depth: true },
+  );
 }
 test();

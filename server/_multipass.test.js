@@ -27,7 +27,7 @@ async function test() {
     query: {
       json: require("./_example_json_generate.test.js").stripe_products,
       framework: `react`,
-      components: `nextui`,
+      components: `shadcn`,
       icons: `lucide`,
     },
   });

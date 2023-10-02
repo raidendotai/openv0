@@ -138,18 +138,23 @@ function _imports_list_from_code(framework, _code) {
       .map((e) => e.from)
       .flat();
   } catch (e) {
+    /*
     console.dir(
       {
-        _imports_list_from_code: {
-          code: code
-            .split(`\n`)
-            .map((l, idx) => `${idx} > ${l}`)
-            .join(`\n`),
+        validate_check____imports_list_from_code: {
+          code: code.split(`\n`).map((l, idx) => `${idx} > ${l}`).join(`\n`),
           e,
         },
       },
       { depth: null },
     );
+    */
+
+    return {
+      error: e,
+      code,
+      code_with_line_numbers: code.split(`\n`).map((l, idx) => `${idx} > ${l}`).join(`\n`),
+    };
   }
   return false;
 }
@@ -175,23 +180,23 @@ function _make_imports_list_from_components_library(framework, components) {
   return [...new Set(_imports_list.flat())].sort();
 }
 
-async function run(req) {
-  console.log("> init : " + __dirname.split(path.sep).slice(-2).join(`/`));
-  console.log(
-    "********** debug : pass/validate-generated-component ********************",
-  );
+async function validate(query) {
+  // query : { framework, components, icons, code }
 
   let found_errors_stack = [];
 
   // pre validation processing : ie. svelte needs to split at <script></script> ; add checkpoint ; replace it further down
   const __component_code_pre =
-    req.query.framework != `svelte`
-      ? req.pipeline.stages["component-code"].data
-      : req.pipeline.stages["component-code"].data
+    query.framework != `svelte`
+      ? query.code
+      : !query.code.includes(`<script`)
+      ? query.code
+      : query.code
           .split(`</script>`)
           .filter((l) => l.trim().length)
           .map((block, idx) => {
             if (!idx) {
+              // header; script block
               return block
                 .split(`\n`)
                 .filter((l) => !l.startsWith(`<script`))
@@ -201,6 +206,7 @@ async function run(req) {
                 })
                 .join(`\n`);
             } else {
+              // body, html block
               // mimick react component style
               return (
                 `export default function App() {\n\n return (\n  <>\n` +
@@ -227,13 +233,13 @@ async function run(req) {
   );
 
   if (__import_fixer_response.error) {
-    console.log({ __import_fixer_error: __import_fixer_response });
+    console.dir({skip : __import_fixer_response});
     // decide what to do here ; skip or further validation
   } else {
     // "use client" check
     __component_code = __import_fixer_response.output;
 
-    if (REQUIRES_USE_CLIENT_PREFIX.includes(req.query.framework)) {
+    if (REQUIRES_USE_CLIENT_PREFIX.includes(query.framework)) {
       if (
         !__import_fixer_response.output.includes(`'use client'`) &&
         !__import_fixer_response.output.includes(`"use client"`)
@@ -257,62 +263,112 @@ async function run(req) {
     true;
   }
 
-  console.dir(
-    {
-      "****************************************":
-        "*****************************",
-      __import_fixer_response,
-      debug_validate_pass: {
-        original: req.pipeline.stages["component-code"].data,
-        __component_code,
-      },
-    },
-    { depth: null },
-  );
-
-  if (req.query.framework === `svelte`) {
+  if (query.framework === `svelte`) {
     // no further validation for svelte for now;
     // replace the svelte structure from react pseudoconversion checkpoint and skip next validation steps
-    __component_code = __component_code
-      .split(`export default function App() {\n\n return (\n  <>\n`)
-      .filter((l) => l.trim().length)
+
+    console.dir({
+      validation_skip: `svelte validation not fully implemented`,
+    });
+
+    // console.dir({__component_code_before_resvelting : __component_code},{depth:null})
+
+    let __component_code_split = __component_code.split(
+      `export default function App() {\n\n return (\n  <>\n`,
+    );
+    if (__component_code_split.length <= 1) {
+      __component_code_split = [``, ...__component_code_split];
+    }
+
+    __component_code = __component_code_split
       .map((block, idx) => {
+        // console.dir({_____block : block , idx})
         return !idx
           ? `<script>\n${block}\n</script>`
           : block.split(`\n  </>\n )\n}`)[0];
       })
-      .join(`\n`)
-      .split(`\n  </>\n )\n}`)[0];
+      .join(`\n`);
+
+    // console.dir({__component_code_split , __component_code})
+    __component_code = __component_code
+      .split(`\n  </>\n )\n}`)[0]
+      .split(`\n`)
+      .filter((l) => l.trim().length)
+      .join(`\n`);
+
+    // console.dir({__component_code_after_resvelting : __component_code},{depth:null}) ; process.exit()
 
     console.dir({
-      debug_svelte_validation_skip: __component_code,
-      RETURN_IN_CASE_SVELTE: "UPDATE_HERE ***********",
-    });
+      "validate-check-generated-component" : {
+        success : !found_errors_stack.length ? true : false,
+      }
+    })
 
-    return { RETURN_IN_CASE_SVELTE: false };
+    return {
+      type: `component-validation-check`,
+      success: !found_errors_stack.length ? true : false,
+      data: {
+        validation_errors: found_errors_stack,
+        code: __component_code,
+      },
+    };
   }
 
   /*
-      check if all used html nodes are imported;
-  */
+              check if all used html nodes are imported;
+          */
+
+  const _code_imports = _imports_list_from_code(
+    query.framework,
+    __component_code,
+  );
+
+
+  if (_code_imports.error) {
+    // if babel AST fails, cannot proceed with further validation
+    // console.dir({ bad_syntax_error: _code_imports });
+
+    found_errors_stack.push({
+      error: `bad-syntax`,
+      data: {
+        ..._code_imports,
+      },
+    });
+
+    console.dir({
+      "validate-check-generated-component" : {
+        success : !found_errors_stack.length ? true : false,
+      }
+    })
+
+    return {
+      type: `component-validation-check`,
+      success: !found_errors_stack.length ? true : false,
+      data: {
+        validation_errors: found_errors_stack,
+        code: __component_code,
+      },
+    };
+
+  }
 
   const imports_lists = {
     //components : _make_imports_list_from_components_library(req.query.framework , req.query.components),
     components: JSON.parse(
       fs.readFileSync(
-        `./library/components/${req.query.framework}/${req.query.components}/metadata.json`,
+        `./library/components/${query.framework}/${query.components}/metadata.json`,
         `utf-8`,
       ),
     ).import,
     icons: [
       JSON.parse(
         fs.readFileSync(
-          `./library/icons/${req.query.icons}/metadata.json`,
+          `./library/icons/${query.icons}/metadata.json`,
           `utf-8`,
         ),
-      ).import[req.query.framework],
+      ).import[query.framework],
     ],
-    code: _imports_list_from_code(req.query.framework, __component_code),
+    code: _code_imports,
   };
 
   let component_imported_nodes_map = {};
@@ -343,21 +399,23 @@ async function run(req) {
     });
   }
 
-  console.dir(
-    {
-      debug_used_nodes_check: {
-        imports_lists,
-        component_imports,
-        component_imported_nodes_map,
-        component_used_nodes,
-        all_used_nodes_are_imported,
+  /*
+    console.dir(
+      {
+        debug_used_nodes_check: {
+          imports_lists,
+          component_imports,
+          component_imported_nodes_map,
+          component_used_nodes,
+          all_used_nodes_are_imported,
+        },
       },
-    },
-    { depth: null },
-  );
+      { depth: null },
+    );
+  */
 
   /*
-      check if any hallucinated/non-allowed imports
+    check if any hallucinated/non-allowed imports
   */
 
   const allowed_imports_prefixes = [
@@ -365,7 +423,7 @@ async function run(req) {
       ...imports_lists.components,
       ...imports_lists.icons,
       ...ALLOWED_IMPORTS_GENERAL,
-      ...ALLOWED_IMPORTS_FRAMEWORK[req.query.framework],
+      ...ALLOWED_IMPORTS_FRAMEWORK[query.framework],
     ]),
   ];
 
@@ -383,16 +441,19 @@ async function run(req) {
   ).filter((e) => !e).length
     ? false
     : true;
-  console.dir(
-    {
-      debug_imports_check: {
-        allowed_imports_prefixes,
-        component_imports_checks,
-        all_component_imports_are_allowed,
+
+  /*
+    console.dir(
+      {
+        debug_imports_check: {
+          allowed_imports_prefixes,
+          component_imports_checks,
+          all_component_imports_are_allowed,
+        },
       },
-    },
-    { depth: null },
-  );
+      { depth: null },
+    );
+  */
 
   if (!all_component_imports_are_allowed) {
     found_errors_stack.push({
@@ -401,56 +462,38 @@ async function run(req) {
         imports_lists,
         allowed_imports_prefixes,
         component_imports_checks,
+        component_imports,
       },
     });
   }
 
-  /*
-  let all_component_imports_are_allowed = true
-  const allowed_imports = [...new Set(
-    [
-      ...imports_lists.components,
-      ...imports_lists.icons,
-      ...ALLOWED_IMPORTS_GENERAL,
-      ...ALLOWED_IMPORTS_FRAMEWORK[req.query.framework],
-    ]
-  )]
-  imports_lists.code.map( _c => {
-    if ( !allowed_imports.includes(_c) ) all_component_imports_are_allowed = false
+  console.dir({
+    "validate-check-generated-component" : {
+      success : !found_errors_stack.length ? true : false,
+    }
   })
 
-  if (!all_component_imports_are_allowed) {
-    found_errors_stack.push({
-      error : `illegal-imports`,
-      data : {
-        imports_lists,
-        allowed_imports,
-      }
-    })
-  }
-
-  console.dir({
-    debug_imports_check : {
-      imports_lists,
-      allowed_imports,
-      all_component_imports_are_allowed,
-    }
-  },{depth:null})
-  */
-
-  process.exit();
-
-  // if found_errors_stack , insert __component_code into the returned data too
-  // dont forget to handle svelte skip
-
-
   return {
-    type: `component`,
-    success: true,
-    data: {},
+    type: `component-validation-check`,
+    success: !found_errors_stack.length ? true : false,
+    data: {
+      validation_errors: found_errors_stack,
+      code: __component_code,
+    },
   };
+}
+
+async function run(req) {
+  console.log("> init : " + __dirname.split(path.sep).slice(-2).join(`/`));
+  return await validate({
+    framework: req.query.framework,
+    components: req.query.components,
+    icons: req.query.icons,
+    code: req.pipeline.stages["component-code"].data,
+  });
 }
 
 module.exports = {
   run,
+  validate, // <---- is used to validate code fix attempts in `validate-fix-generated-component` pass
 };
