@@ -12,7 +12,7 @@ async function test() {
     stream,
     preset: `componentNew_description`,
     query: {
-      description: `a sleek invoices table`,
+      description: `a simple image : https://m.media-amazon.com/images/I/918N9r-jO8L._UF1000,1000_QL80_.jpg`,
       framework: `svelte`,
       components: `shadcn`,
       icons: `lucide`,

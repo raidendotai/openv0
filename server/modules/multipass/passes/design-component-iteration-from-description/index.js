@@ -135,6 +135,7 @@ async function run(req) {
       false;
     }
   }
+  req.stream.write(`\n`);
 
   const component_design = {
     ...{

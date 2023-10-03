@@ -142,6 +142,8 @@ async function run(req) {
     }
   }
 
+  req.stream.write(`\n`);
+
   const component_design = {
     ...{
       new_component_name: false,

@@ -34,6 +34,7 @@ async function run(req) {
     };
   }
 
+  /*
   console.log(
     `*********************** multipass debug *************************`,
   );
@@ -42,6 +43,8 @@ async function run(req) {
     `_multipass_output_example_${Date.now()}.json`,
     JSON.stringify(execution_multipass, null, "\t"),
   );
+  */
+
 }
 
 async function preset(req) {

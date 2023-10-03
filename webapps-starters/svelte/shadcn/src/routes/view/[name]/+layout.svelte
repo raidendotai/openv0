@@ -1,60 +1,105 @@
 <script>
-	import "../app.postcss";
+  import { page } from '$app/stores';
+  import { onMount } from 'svelte';
+
+  let component_stream = false
+  let userInput_description = ''
+  let processing = false
+
+  const libRelativePath = `../../../lib/openv0_generated`
+  const name = $page.params.name;
+
+  let component_versions = [];
+  let currentComponentIndex = null
+  let mode = 'view'
+  let LoadedComponents;
+
+
+
+  async function iterate_component() {
+    if (processing) return;
+    if (!userInput_description) return;
+    processing = true
+    component_stream = ''
+
+    let received_stream = ''
+    const response = await fetch(
+      `http://localhost:3000/components/iterate/description` ,
+      {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body : JSON.stringify({
+          framework : `svelte`,
+          components: `shadcn`,
+          icons: `lucide`,
+          description: userInput_description,
+          component : {
+            name,
+            description: component_versions[currentComponentIndex].description,
+            code: component_versions[currentComponentIndex].code,
+          }
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    currentComponentIndex = -1
+    const reader = response.body.getReader();
+    const textDecoder = new TextDecoder(); // Create a TextDecoder instance
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        break;
+      }
+      const text = textDecoder.decode(value); // Decode the received data as text
+      received_stream += text; // Append received text to the container
+      component_stream = received_stream.split('\n').slice(-15).join('\n')
+    }
+
+    component_stream = false
+    processing = false
+    currentComponentIndex = 0
+    fetchComponents()
+  }
+
+
+  async function fetchComponents(){
+    const response = await fetch(
+      `http://localhost:3000/components/get?framework=svelte&components=shadcn&icons=lucide&name=${name}`
+    );
+    const data = await response.json();
+    component_versions = data.items
+    // const metadata = (await import(`${libRelativePath}/${componentId}/metadata.json`)).default;
+    // console.log({metadata})
+    // LoadedComponent = (await import(`${libRelativePath}/${componentId}/${metadata.versions[0]}.svelte`)).default;
+    LoadedComponents = await Promise.all(
+      component_versions.map( async (entry) => {
+        return (await import(`${libRelativePath}/${entry.name}/${entry.name}_${entry.version}.svelte`)).default;
+      })
+    )
+    currentComponentIndex = component_versions.length ? 0 : null
+  }
+
+  onMount(async () => {
+    fetchComponents()
+  });
 </script>
 
-<div class="min-h-screen min-h-screen overflow-y-auto antialiased dark">
+<div class="min-h-screen min-h-screen overflow-y-auto antialiased">
 	<div class="dark:bg-[#050505]">
-	<div class="fixed bottom-5 left-0 w-screen max-w-screen
-		px-6 md:px-32 xl:px-72 py-12
+
+  <div class={!processing ? "" : 'opacity-20'}>
+	<div class="fixed bottom-0 left-0 w-screen max-w-screen
+		px-6 md:px-32 xl:px-72 py-8
 		grid sm:flex items-center space-x-2 xl:space-x-4 space-y-1"
 		style="z-index:99;">
 
-		<!--
-		<div id="mode_json" class="hidden sm:block md:-ml-10">
-			<div class="rounded rounded-full shadow shadow-md dark:shadow-[#111]
-				text-center p-4 text-center
-				bg-[#ddd] hover:bg-white
-				dark:bg-[#151515] dark:hover:bg-[#212121]
-				duration-200 cursor-pointer">
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#3a3a3a" viewBox="0 0 24 24">
-					<path d="M23 10.826v2.349c-1.562 0-3 1.312-3 2.857 0 2.181 1.281 5.968-6 5.968v-2.002c4.917 0 3.966-1.6 3.966-3.967 0-2.094 1.211-3.5 2.278-4.031-1.067-.531-2.278-1.438-2.278-3.312 0-2.372.94-4.692-3.966-4.686v-2.002c7.285 0 6 4.506 6 6.688 0 1.544 1.438 2.138 3 2.138zm-19-2.138c0-2.182-1.285-6.688 6-6.688v2.002c-4.906-.007-3.966 2.313-3.966 4.686 0 1.875-1.211 2.781-2.278 3.312 1.067.531 2.278 1.938 2.278 4.031 0 2.367-.951 3.967 3.966 3.967v2.002c-7.281 0-6-3.787-6-5.969 0-1.545-1.438-2.857-3-2.857v-2.349c1.562.001 3-.593 3-2.137z"/>
-				</svg>
-			</div>
-		</div>
-		-->
-		<!--
-			<div id="mode_description" class="hidden sm:block md:-ml-10">
-			<div class="rounded rounded-full shadow shadow-md dark:shadow-[#111]
-			text-center p-4 text-center
-			bg-[#ddd] hover:bg-white
-			dark:bg-[#151515] dark:hover:bg-[#212121]
-			duration-200 cursor-pointer">
-			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#3a3a3a" viewBox="0 0 24 24">
-				<path d="M12 3c5.514 0 10 3.592 10 8.007 0 4.917-5.145 7.961-9.91 7.961-1.937 0-3.383-.397-4.394-.644-1 .613-1.595 1.037-4.272 1.82.535-1.373.723-2.748.602-4.265-.838-1-2.025-2.4-2.025-4.872-.001-4.415 4.485-8.007 9.999-8.007zm0-2c-6.338 0-12 4.226-12 10.007 0 2.05.738 4.063 2.047 5.625.055 1.83-1.023 4.456-1.993 6.368 2.602-.47 6.301-1.508 7.978-2.536 1.418.345 2.775.503 4.059.503 7.084 0 11.91-4.837 11.91-9.961-.001-5.811-5.702-10.006-12.001-10.006zm-3.5 10c0 .829-.671 1.5-1.5 1.5-.828 0-1.5-.671-1.5-1.5s.672-1.5 1.5-1.5c.829 0 1.5.671 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5c.829 0 1.5-.671 1.5-1.5s-.671-1.5-1.5-1.5zm5 0c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5c.829 0 1.5-.671 1.5-1.5s-.671-1.5-1.5-1.5z"/>
-			</svg>
-			</div>
-			</div>
-			-->
-		<!--
-		<div class="sm:hidden flex flex-grow items-center pb-1 space-x-1">
-			<div class="shadow shadow-md
-				text-base text-center p-2
-				rounded rounded-lg
-				bg-[#f0f0f0] hover:bg-white
-				dark:bg-[#151515] dark:hover:bg-[#111] dark:text-[#bbb]
-				duration-200 cursor-pointer w-full">
-				description
-			</div>
-			<div class="shadow shadow-md
-				text-base text-center p-2
-				rounded rounded-lg
-				bg-[#f0f0f0] hover:bg-white
-				dark:bg-[#151515] dark:hover:bg-[#111] dark:text-[#bbb]
-				duration-200 cursor-pointer w-full">
-				json
-			</div>
-		</div>
-		-->
 		<div class="sm:w-full
 			rounded rounded-xl p-2
 			flex items-center
@@ -68,17 +113,12 @@
 			<div class="sm:mx-4 w-full max-h-32 overflow-auto">
 				<input class="w-full p-2 text-base md:text-xl bg-transparent outline-none border-none ring-none"
 					placeholder="describe component changes"
-					/>
-				<!--
-					<textarea class="w-full p-2 text-sm md:text-xs resize-none font-light font-mono
-					                bg-transparent outline-none border-none ring-none"
-					          rows="4"
-					placeholder='paste your json object here'
-					/>
-					-->
+          bind:value={userInput_description}
+				/>
 			</div>
 			<div class="sm:mx-4 duration-200">
-				<div class="rounded rounded-full shadow shadow-md shadow-[#e0e0e]
+				<div on:click={()=>{ iterate_component() }}
+          class="rounded rounded-full shadow shadow-md shadow-[#e0e0e]
 					p-4 text-lg
 					bg-[#ccc] hover:bg-[#111]
 					duration-200 cursor-pointer dark:invert">
@@ -105,37 +145,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="max-w-8xl mx-auto
-		text-base
-		py-3 px-12 xl:px-4
-		flex justify-between items-center
-		dark:bg-[#050505] dark:text-white
-		">
-		<div class="text-right flex justify-end items-center space-x-2 dark:invert w-full">
-			<a class="duration-200
-				opacity-30 hover:opacity-100 duration-200
-				p-1 text-center text-xs rounded rounded-full w-6 h-6 font-mono
-				bg-black text-white"
-				href="https://openv0.com" target="_blank">
-			0v
-			</a>
-			<a class="opacity-30 hover:opacity-100 duration-200" href="https://github.com/raidendotai/openv0" target="_blank">
-				<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 30 30">
-					<path d="M15,3C8.373,3,3,8.373,3,15c0,5.623,3.872,10.328,9.092,11.63C12.036,26.468,12,26.28,12,26.047v-2.051 c-0.487,0-1.303,0-1.508,0c-0.821,0-1.551-0.353-1.905-1.009c-0.393-0.729-0.461-1.844-1.435-2.526 c-0.289-0.227-0.069-0.486,0.264-0.451c0.615,0.174,1.125,0.596,1.605,1.222c0.478,0.627,0.703,0.769,1.596,0.769 c0.433,0,1.081-0.025,1.691-0.121c0.328-0.833,0.895-1.6,1.588-1.962c-3.996-0.411-5.903-2.399-5.903-5.098 c0-1.162,0.495-2.286,1.336-3.233C9.053,10.647,8.706,8.73,9.435,8c1.798,0,2.885,1.166,3.146,1.481C13.477,9.174,14.461,9,15.495,9 c1.036,0,2.024,0.174,2.922,0.483C18.675,9.17,19.763,8,21.565,8c0.732,0.731,0.381,2.656,0.102,3.594 c0.836,0.945,1.328,2.066,1.328,3.226c0,2.697-1.904,4.684-5.894,5.097C18.199,20.49,19,22.1,19,23.313v2.734 c0,0.104-0.023,0.179-0.035,0.268C23.641,24.676,27,20.236,27,15C27,8.373,21.627,3,15,3z"></path>
-				</svg>
-			</a>
-			<a class="opacity-30 hover:opacity-100 duration-200" href="https://twitter.com/n_raidenai" target="_blank">
-				<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 25 25">
-					<path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
-				</svg>
-			</a>
-			<a class="opacity-30 hover:opacity-100 duration-200" >
-				<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 25 25">
-					<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-				</svg>
-			</a>
-		</div>
-	</div>
+  </div>
+
 	<div class="max-w-8xl mx-auto
 		text-base
 		py-3 pt-0
@@ -147,34 +158,67 @@
 				<h1 class="">
 		      <a href="/" class="opacity-50 hover:opacity-100 duration-200">← back</a>
 					<span class="sm:hidden"><br/></span>
-					<span class="ml-4 font-bold text-lg">ExampleComponent_64ab</span>
+					<span class="ml-4 font-bold text-lg">{name}</span>
 		    </h1>
 				<div class="text-xs ml-4 flex">
-					<a class="p-1 px-2 bg-[#ddd] dark:bg-[#222] rounded opacity-50 hover:opacity-100 duration-200">
+					<a href="" on:click={()=>{mode = 'view'}}
+            class="p-1 px-2 bg-[#ddd] dark:bg-[#222] rounded opacity-50 hover:opacity-100 duration-200">
 						<img class="opacity-50 hover:opacity-100 dark:invert w-6 h-6" src="data:image/svg+xml;base64,PHN2ZyBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjIiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtMTEuOTk4IDVjLTQuMDc4IDAtNy43NDIgMy4wOTMtOS44NTMgNi40ODMtLjA5Ni4xNTktLjE0NS4zMzgtLjE0NS41MTdzLjA0OC4zNTguMTQ0LjUxN2MyLjExMiAzLjM5IDUuNzc2IDYuNDgzIDkuODU0IDYuNDgzIDQuMTQzIDAgNy43OTYtMy4wOSA5Ljg2NC02LjQ5My4wOTItLjE1Ni4xMzgtLjMzMi4xMzgtLjUwN3MtLjA0Ni0uMzUxLS4xMzgtLjUwN2MtMi4wNjgtMy40MDMtNS43MjEtNi40OTMtOS44NjQtNi40OTN6bTguNDEzIDdjLTEuODM3IDIuODc4LTQuODk3IDUuNS04LjQxMyA1LjUtMy40NjUgMC02LjUzMi0yLjYzMi04LjQwNC01LjUgMS44NzEtMi44NjggNC45MzktNS41IDguNDA0LTUuNSAzLjUxOCAwIDYuNTc5IDIuNjI0IDguNDEzIDUuNXptLTguNDExLTRjMi4yMDggMCA0IDEuNzkyIDQgNHMtMS43OTIgNC00IDQtNC0xLjc5Mi00LTQgMS43OTItNCA0LTR6bTAgMS41Yy0xLjM4IDAtMi41IDEuMTItMi41IDIuNXMxLjEyIDIuNSAyLjUgMi41IDIuNS0xLjEyIDIuNS0yLjUtMS4xMi0yLjUtMi41LTIuNXoiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvc3ZnPg==">
 					</a>
 
-					<a class="p-1 px-2 ml-2 bg-[#ddd] dark:bg-[#222] rounded opacity-50 hover:opacity-100 duration-200">
+					<a href="" on:click={()=>{mode = 'code'}}
+            class="p-1 px-2 ml-2 bg-[#ddd] dark:bg-[#222] rounded opacity-50 hover:opacity-100 duration-200">
 						<img class="opacity-50 hover:opacity-100 dark:invert w-6 h-6" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjQgMTAuOTM1djIuMTMxbC04IDMuOTQ3di0yLjIzbDUuNjQtMi43ODMtNS42NC0yLjc5di0yLjIyM2w4IDMuOTQ4em0tMTYgMy44NDhsLTUuNjQtMi43ODMgNS42NC0yLjc5di0yLjIyM2wtOCAzLjk0OHYyLjEzMWw4IDMuOTQ3di0yLjIzem03LjA0Ny0xMC43ODNoLTIuMDc4bC00LjAxMSAxNmgyLjA3M2w0LjAxNi0xNnoiLz48L3N2Zz4=">
 					</a>
 
 				</div>
 			</div>
 			<div class="md:col-span-9 lg:col-span-10">
-	      <div class="p-2 rounded bg-[#ccc] dark:bg-[#111] bg-opacity-10">
+	      <div class="p-2 rounded bg-white dark:bg-[#111] overflow-auto">
 	        <div class="p-2">
-	          this is a component
+
+            {#if LoadedComponents && (currentComponentIndex != null) && currentComponentIndex >=0 && LoadedComponents[currentComponentIndex]}
+              {#if mode === `view`}
+                  <svelte:component this={LoadedComponents[currentComponentIndex]} >
+                  </svelte:component>
+              {:else if mode === `code`}
+                <div class="text-xs font-mono whitespace-pre-wrap break-words max-h-96 overflow-auto">
+                  {#if currentComponentIndex>=0}
+                    {component_versions[currentComponentIndex].code}
+                  {/if}
+                </div>
+              {/if}
+            {:else if (component_stream) && currentComponentIndex == -1}
+              <div class="text-xs font-mono whitespace-pre-wrap break-words max-h-96 overflow-auto">
+                {component_stream}
+              </div>
+            {/if}
+
+
 	        </div>
 	      </div>
 	    </div>
 			<div class="md:col-span-3 lg:col-span-2 md:ml-2 mt-2 md:mt-0 max-h-screen overflow-auto">
 	      <div class="p-2 rounded bg-[#ccc] bg-opacity-10 grid grid-cols-2 md:grid-cols-1">
-	        {#each [...Array(5).keys()] as c,i}
-	          <p class="m-1 p-2 bg-white dark:bg-[#070707] dark:text-[#ccc] text-xs break-words">
-	            henlo every1
+          {#if component_stream}
+            <a href="" on:click={()=>{ currentComponentIndex = -1 }}
+              class="m-1 p-2 hover:mx-2 duration-200 bg-white dark:bg-[#070707] dark:text-[#ccc] text-xs break-words">
+              new iteration
+              <br/>
+              <span class="text-xs opacity-50">in process</span>
+            </a>
+          {/if}
+	        {#each component_versions as c,i}
+	          <a href="" on:click={()=>{ currentComponentIndex = i }}
+              class="m-1 p-2 hover:mx-2 duration-200 bg-white dark:bg-[#070707] dark:text-[#ccc] text-xs break-words">
+              {#if currentComponentIndex == i}
+	             {c.description}
+              {:else}
+                {c.description.length > 100 ? `${c.description.slice(0,97)} ...` : c.description}
+              {/if}
 	            <br/>
-	            <span class="text-xs opacity-50">1234578956</span>
-	          </p>
+	            <span class="text-xs opacity-50">{c.version}</span>
+	          </a>
 	        {/each}
 	      </div>
 	    </div>

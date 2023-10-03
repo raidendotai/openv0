@@ -59,7 +59,7 @@ async function run(req) {
         "```\n" +
         design_task.description.llm +
         "\n```\n\n\n" +
-        `Write the full code for the new ${req.query.framework} web component, which uses Tailwind classes if needed (add tailwind dark: classes too if you can), and optionally, library components and icons, based on the provided design task.\n` +
+        `Write the full code for the new ${req.query.framework} web component, which uses Tailwind classes if needed (add tailwind dark: classes too if you can; backgrounds in dark: classes should be black), and optionally, library components and icons, based on the provided design task.\n` +
         "The full code of the new " +
         _titleCase(req.query.framework) +
         " component that you write will be written directly to a ." +
@@ -72,13 +72,14 @@ async function run(req) {
         "Answer with generated code only. DO NOT ADD ANY EXTRA TEXT DESCRIPTION OR COMMENTS BESIDES THE CODE. Your answer contains code only ! component code only !\n" +
         `Important :\n` +
         `- Make sure you import provided components libraries and icons that are provided to you if you use them !\n` +
-        `- Tailwind classes should be written directly in the elements class tags (or className in case of React)\n` +
+        `- Tailwind classes should be written directly in the elements class tags (or className in case of React). DO NOT WRITE ANY CSS OUTSIDE OF CLASSES\n` +
         `- Do not use libraries or imports except what is provided in this task; otherwise it would crash the component because not installed. Do not import extra libraries besides what is provided above !\n` +
         `- DO NOT HAVE ANY DYNAMIC DATA OR DATA PROPS ! Components are meant to be working as is without supplying any variable to them when importing them ! Only write a component that render directly with placeholders as data, component not supplied with any dynamic data.\n` +
         `- DO NOT HAVE ANY DYNAMIC DATA OR DATA PROPS ! ` +
         `- Only write the code for the component; Do not write extra code to import it! The code will directly be stored in an individual ${_titleCase(
           req.query.framework,
         )} .${FRAMEWORKS_EXTENSION_MAP[req.query.framework]} file !\n` +
+        `${req.query.framework != 'svelte' ? '- Very important : Your component should be exported as default !\n' : '' }` +
         `Write the ${_titleCase(
           req.query.framework,
         )} component code as the creative genius and ${_titleCase(
@@ -120,6 +121,8 @@ async function run(req) {
       false;
     }
   }
+
+  req.stream.write(`\n`);
 
   let generated_code = ``;
   let start = false;

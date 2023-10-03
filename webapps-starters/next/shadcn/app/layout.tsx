@@ -1,3 +1,5 @@
+"use client";
+
 import "@/styles/globals.css"
 import { Metadata } from "next"
 
@@ -8,6 +10,7 @@ import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 
+/*
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -24,7 +27,7 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
 }
-
+*/
 interface RootLayoutProps {
   children: React.ReactNode
 }

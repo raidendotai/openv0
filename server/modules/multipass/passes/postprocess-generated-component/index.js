@@ -13,10 +13,10 @@ async function run(req) {
 
   return {
     type: `component`,
-    success: req.pipeline.stages[`component-validation-check`].success,
+    success: req.pipeline.stages[`component-validation-fix`].success,
     data: {
       version: `${Date.now()}`,
-      code: req.pipeline.stages[`component-validation-check`].data.code,
+      code: req.pipeline.stages[`component-validation-fix`].data.code,
     },
   };
 }
