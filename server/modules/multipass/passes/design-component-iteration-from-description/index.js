@@ -147,7 +147,7 @@ async function run(req) {
   };
 
   const component_task = {
-    name: component_design.new_component_name,
+    name: req.query.component.name,
     description: {
       user: req.query.description,
       llm: component_design.new_component_description,

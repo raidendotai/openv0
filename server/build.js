@@ -39,7 +39,48 @@ async function allowed_imports() {
   );
 }
 
+async function db() {
+  const sqlite3 = require("sqlite3").verbose();
+  const db = new sqlite3.Database("openv0.db");
+  db.serialize(() => {
+    db.run(`
+      CREATE TABLE IF NOT EXISTS components (
+        id INTEGER PRIMARY KEY,
+        name TEXT,
+        version TEXT,
+        framework TEXT,
+        components TEXT,
+        icons TEXT,
+        code TEXT,
+        query TEXT,
+        logs TEXT
+      )
+    `);
+
+    db.run(`
+      CREATE TABLE IF NOT EXISTS fails (
+        id INTEGER PRIMARY KEY,
+        query TEXT,
+        timestamp INTEGER,
+        logs TEXT
+      )
+    `);
+
+    console.log("Tables created successfully");
+  });
+
+  // Close the database connection
+  db.close((err) => {
+    if (err) {
+      console.error("Error closing database:", err.message);
+    } else {
+      console.log("Database connection closed");
+    }
+  });
+}
+
 module.exports = {
   components,
   allowed_imports,
+  db,
 };

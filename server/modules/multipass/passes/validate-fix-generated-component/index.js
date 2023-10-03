@@ -131,7 +131,7 @@ async function run(req) {
     return {
       type: `component-validation-fix`,
       success: true,
-      data: req.pipeline.stages[`component-validation-check`].data.code,
+      data: req.pipeline.stages[`component-validation-check`].data,
     };
   } else {
     // try to fix code by prompting

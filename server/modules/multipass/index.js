@@ -2,8 +2,12 @@ const PRESETS_MAP = require(`./presets/index.js`);
 
 async function run(req) {
   /*
-    req : {stream , query {text?,framework,components,icons} , pipeline[passes] }
+    req : {
+      stream , query {text?,framework,components,icons} , pipeline[passes] ,
+      preset? //for log only
+    }
   */
+
   console.dir({
     module: `multipass/run`,
     ...req,
@@ -34,6 +38,10 @@ async function run(req) {
     `*********************** multipass debug *************************`,
   );
   console.dir({ execution_multipass }, { depth: null });
+  require("fs").writeFileSync(
+    `_multipass_output_example_${Date.now()}.json`,
+    JSON.stringify(execution_multipass, null, "\t"),
+  );
 }
 
 async function preset(req) {
@@ -47,6 +55,7 @@ async function preset(req) {
   });
   return await run({
     stream: req.stream,
+    preset: req.preset, // for log only
     query: req.query,
     passes: PRESETS_MAP[req.preset].passes,
   });

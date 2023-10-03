@@ -16,6 +16,17 @@ function _titleCase(str) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
 }
+function _randomUid(length) {
+  let result = "";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
+}
 
 LIBRARY_COMPONENTS_MAP = {};
 fs.readdirSync(`./library/components`)
@@ -148,7 +159,7 @@ async function run(req) {
   };
 
   const component_task = {
-    name: component_design.new_component_name,
+    name: `${component_design.new_component_name}_${_randomUid(5)}`,
     description: {
       user: json_query,
       llm: component_design.new_component_description,

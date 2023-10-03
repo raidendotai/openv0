@@ -25,8 +25,8 @@ tasks in progress
 * ✅ prettify
 * ✅ modular multipass, each pass definition in new folder
 * ✅ new feature : component from API response
+* ✅ validation pass with babel, for each {framework x component} specifics
 * ⏳ dashboard+reactivity for each starter template
-* ⏳ validation pass with babel, for each {framework x component} specifics
 * ⏳ setup openv0.com and npx CLI
 * ⏳ new feature : views/app from description
 * ⏳ @pi0 structure & @denyncrawford virtual components + db

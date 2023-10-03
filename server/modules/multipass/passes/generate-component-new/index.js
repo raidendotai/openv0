@@ -74,7 +74,8 @@ async function run(req) {
         `- Make sure you import provided components libraries and icons that are provided to you if you use them !\n` +
         `- Tailwind classes should be written directly in the elements class tags (or className in case of React)\n` +
         `- Do not use libraries or imports except what is provided in this task; otherwise it would crash the component because not installed. Do not import extra libraries besides what is provided above !\n` +
-        `- Do not have ANY dynamic data! Components are meant to be working as is without supplying any variable to them when importing them ! Only write a component that render directly with placeholders as data, component not supplied with any dynamic data.\n` +
+        `- DO NOT HAVE ANY DYNAMIC DATA OR DATA PROPS ! Components are meant to be working as is without supplying any variable to them when importing them ! Only write a component that render directly with placeholders as data, component not supplied with any dynamic data.\n` +
+        `- DO NOT HAVE ANY DYNAMIC DATA OR DATA PROPS ! ` +
         `- Only write the code for the component; Do not write extra code to import it! The code will directly be stored in an individual ${_titleCase(
           req.query.framework,
         )} .${FRAMEWORKS_EXTENSION_MAP[req.query.framework]} file !\n` +

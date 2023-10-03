@@ -9,6 +9,7 @@ module.exports = {
       `validate-fix-generated-component`,
       `postprocess-generated-component`,
       `store-component`,
+      `export-component`,
     ],
   },
 
@@ -22,6 +23,7 @@ module.exports = {
       `validate-fix-generated-component`,
       `postprocess-generated-component`,
       `store-component`,
+      `export-component`,
     ],
   },
 
@@ -35,6 +37,7 @@ module.exports = {
       `validate-fix-generated-component`,
       `postprocess-generated-component`,
       `store-component`,
+      `export-component`,
     ],
   },
 

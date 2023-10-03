@@ -8,19 +8,18 @@ async function test() {
     },
   };
 
-  /*
   const generated = await multipass.preset({
     stream,
     preset: `componentNew_description`,
     query: {
-      description: `a user input paragraph and a send button`,
-      framework: `react`,
+      description: `a sleek invoices table`,
+      framework: `svelte`,
       components: `shadcn`,
       icons: `lucide`,
     },
   });
-  */
 
+  /*
   const generated = await multipass.preset({
     stream,
     preset: `componentNew_json`,
@@ -31,6 +30,7 @@ async function test() {
       icons: `lucide`,
     },
   });
+  */
 
   /*
   const component_code_demo = `
@@ -57,6 +57,6 @@ export function ParagraphUserInput() {
       icons: `lucide`,
     },
   });
-*/
+  */
 }
 test();

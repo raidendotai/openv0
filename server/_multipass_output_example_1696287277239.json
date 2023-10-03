@@ -1,0 +1,192 @@
+{
+  "passes": {
+    "design-component-new-from-description": {
+      "index": 0,
+      "response": {
+        "type": "component-design-task",
+        "success": true,
+        "data": {
+          "name": "InvoiceTable",
+          "description": {
+            "user": "a sleek invoices table",
+            "llm": "The new component should be a responsive table that can accommodate a list of invoice data in an organized and visually pleasing manner. Its design needs to be sleek and modern. It should consist of 6 columns - 'Invoice #', 'Date', 'Customer', 'Amount', 'Status', 'Action'. The 'Invoice #' should show the invoice identification, 'Date' should display the date the invoice was issued, 'Customer' should display the customer related to the invoice, 'Amount' should display the total value of the invoice, 'Status' should give an insight into whether the invoice has been paid or is still outstanding, and finally, the 'Action' column should contain buttons for actions like 'Edit' and 'Delete'. Furthermore, the table needs to be sortable, allowing users to order the invoices based on each column."
+          },
+          "icons": ["edit icon", "delete icon"],
+          "components": [
+            {
+              "name": "Table",
+              "usage": "To structure the invoices data in a table format"
+            },
+            {
+              "name": "Button",
+              "usage": "To provide interaction elements for each invoice"
+            },
+            {
+              "name": "Icon",
+              "usage": "To represent the Edit and Delete actions"
+            }
+          ]
+        }
+      }
+    },
+    "build-component-generation-context": {
+      "index": 1,
+      "response": {
+        "type": "component-design-context",
+        "success": true,
+        "data": [
+          {
+            "role": "user",
+            "content": "Library components can be used while making the new Svelte component\n\nSuggested library component (1/2) : Button - Displays a button or a component that looks like a button\nSuggested usage : To structure the invoices data in a table format\n\n\n# Button can be imported into the new component like this:\n```svelte\n<script lang=\"ts\">\n  import { Button } from \"$lib/components/ui/button\";\n</script>\n```\n\n---\n\n# examples of how Button can be used inside the new component:\n```svelte\n<Button variant=\"outline\">Button</Button>\n```\n\n```svelte\n<script lang=\"ts\">\n  import { Button } from \"$lib/components/ui/button\";\n</script>\n\n<Button href=\"/dashboard\">Dashboard</Button>\n```\n\n```svelte\n<script lang=\"ts\">\n  import { buttonVariants } from \"$lib/components/ui/button\";\n</script>\n\n<a href=\"/dashboard\" class={buttonVariants({ variant: \"outline\" })}>\n  Dashboard\n</a>\n```\n\n---\n\n# full code examples of Svelte components that use Button :\n```button-with-icon.svelte\n<script lang=\"ts\">\r\n\timport { Mail } from \"lucide-svelte\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button>\r\n\t<Mail class=\"mr-2 h-4 w-4\" />\r\n\tLogin with Email\r\n</Button>\n```\n\n```button-secondary.svelte\n<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"secondary\">Secondary</Button>\n```\n\n```button-demo.svelte\n<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button>Button</Button>\n```\n\n```button-link.svelte\n<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"link\">Link</Button>\n```\n\n```button-outline.svelte\n<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"outline\">Outline</Button>\n```\n\n```button-loading.svelte\n<script lang=\"ts\">\r\n\timport { Loader2 } from \"lucide-svelte\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button disabled>\r\n\t<Loader2 class=\"mr-2 h-4 w-4 animate-spin\" />\r\n\tPlease wait\r\n</Button>\n```\n\n```button-ghost.svelte\n<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"ghost\">Ghost</Button>\n```\n\n```button-destructive.svelte\n<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"destructive\">Destructive</Button>\n```\n\n```button-icon.svelte\n<script lang=\"ts\">\r\n\timport { ChevronRight } from \"lucide-svelte\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"outline\" size=\"icon\">\r\n\t<ChevronRight className=\"h-4 w-4\" />\r\n</Button>\n```"
+          },
+          {
+            "role": "user",
+            "content": "Library components can be used while making the new Svelte component\n\nSuggested library component (2/2) : Table - A responsive table component\nSuggested usage : To provide interaction elements for each invoice\n\n\n# Table can be imported into the new component like this:\n```svelte\n<script lang=\"ts\">\n  import * as Table from \"$lib/components/ui/table\";\n</script>\n```\n\n---\n\n# examples of how Table can be used inside the new component:\n```svelte\n<script lang=\"ts\">\n  import * as Table from \"$lib/components/ui/table\";\n</script>\n\n<Table.Root>\n  <Table.Caption>A list of your recent invoices.</Table.Caption>\n  <Table.Header>\n    <Table.Row>\n      <Table.Head class=\"w-[100px]\">Invoice</Table.Head>\n      <Table.Head>Status</Table.Head>\n      <Table.Head>Method</Table.Head>\n      <Table.Head class=\"text-right\">Amount</Table.Head>\n    </Table.Row>\n  </Table.Header>\n  <Table.Body>\n    <Table.Row>\n      <Table.Cell class=\"font-medium\">INV001</Table.Cell>\n      <Table.Cell>Paid</Table.Cell>\n      <Table.Cell>Credit Card</Table.Cell>\n      <Table.Cell class=\"text-right\">$250.00</Table.Cell>\n    </Table.Row>\n  </Table.Body>\n</Table.Root>\n```\n\n---"
+          },
+          {
+            "role": "user",
+            "content": "Icon elements can optionally be used when making the React component.\n\n---\n\n# example: importing icons in the component (only import the ones you need) :\n\n```svelte\nimport { FileEdit , FolderEdit , Redo , Pencil , FileSignature , MousePointerClick , MousePointer , Redo2 , Eraser , ImageMinus , BadgeMinus , Strikethrough , BookmarkMinus , LogOut , ArrowDownCircle , FileMinus , Eraser , BellMinus } from \"lucide-svelte\";\n```\n\n# example: using an icon inside the component :\n\n```svelte\n<FileEdit className=\"h-4 w-4\" />\n```\n\n---\n\n\nHere are some available icons that might be relevant to the component you are making. You can choose from them if relevant :\n\n```\n- FileEdit , FolderEdit , Redo , Pencil , FileSignature , MousePointerClick , MousePointer , Redo2 , Eraser\n- ImageMinus , BadgeMinus , Strikethrough , BookmarkMinus , LogOut , ArrowDownCircle , FileMinus , Eraser , BellMinus\n```"
+          }
+        ]
+      }
+    },
+    "generate-component-new": {
+      "index": 2,
+      "response": {
+        "type": "component-code",
+        "success": true,
+        "data": "<script>\n  import { Button } from \"$lib/components/ui/button\";\n  import { ChevronUp, ChevronDown, Edit2, Trash2 } from 'lucide-svelte';\n  import * as Table from \"$lib/components/ui/table\";\n</script>\n\n<Table.Root class=\"dark:bg-gray-800\">\n  <Table.Header class=\"dark:bg-gray-700\">\n    <Table.Row>\n      <Table.Head class=\"w-[10%] dark:text-white\">Invoice #<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n      <Table.Head class=\"w-[20%] dark:text-white\">Date<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n      <Table.Head class=\"w-[20%] dark:text-white\">Customer<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n      <Table.Head class=\"w-[20%] dark:text-white\">Amount<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n      <Table.Head class=\"w-[10%] dark:text-white\">Status<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n      <Table.Head class=\"w-[20%] dark:text-white\">Action</Table.Head>\n    </Table.Row>\n  </Table.Header>\n  <Table.Body>\n    <Table.Row class=\"dark:bg-gray-500 dark:text-white\">\n      <Table.Cell class=\"font-medium\">INV001</Table.Cell>\n      <Table.Cell>7th March 2022</Table.Cell>\n      <Table.Cell>Alisha Johnson</Table.Cell>\n      <Table.Cell>$250.00</Table.Cell>\n      <Table.Cell>Paid</Table.Cell>\n      <Table.Cell>\n        <Button class=\"mr-2\">\n          <Edit2 class=\"h-4 w-4\" />\n        </Button>\n        <Button variant=\"destructive\">\n          <Trash2 class=\"h-4 w-4\" />\n        </Button>\n      </Table.Cell>\n    </Table.Row>\n  </Table.Body>\n</Table.Root>"
+      }
+    },
+    "validate-check-generated-component": {
+      "index": 3,
+      "response": {
+        "type": "component-validation-check",
+        "success": true,
+        "data": {
+          "validation_errors": [],
+          "code": "<script>\nimport { Button } from '$lib/components/ui/button';\nimport * as Table from '$lib/components/ui/table';\nimport { ChevronDown } from 'lucide-svelte';\nimport { Edit2 } from 'lucide-svelte';\nimport { Trash2 } from 'lucide-svelte';\n</script>\n   <Table.Root class=\"dark:bg-gray-800\">\n     <Table.Header class=\"dark:bg-gray-700\">\n       <Table.Row>\n         <Table.Head class=\"w-[10%] dark:text-white\">Invoice #<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Date<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Customer<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Amount<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[10%] dark:text-white\">Status<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Action</Table.Head>\n       </Table.Row>\n     </Table.Header>\n     <Table.Body>\n       <Table.Row class=\"dark:bg-gray-500 dark:text-white\">\n         <Table.Cell class=\"font-medium\">INV001</Table.Cell>\n         <Table.Cell>7th March 2022</Table.Cell>\n         <Table.Cell>Alisha Johnson</Table.Cell>\n         <Table.Cell>$250.00</Table.Cell>\n         <Table.Cell>Paid</Table.Cell>\n         <Table.Cell>\n           <Button class=\"mr-2\">\n             <Edit2 class=\"h-4 w-4\" />\n           </Button>\n           <Button variant=\"destructive\">\n             <Trash2 class=\"h-4 w-4\" />\n           </Button>\n         </Table.Cell>\n       </Table.Row>\n     </Table.Body>\n   </Table.Root>"
+        }
+      }
+    },
+    "validate-fix-generated-component": {
+      "index": 4,
+      "response": {
+        "type": "component-validation-fix",
+        "success": true,
+        "data": {
+          "validation_errors": [],
+          "code": "<script>\nimport { Button } from '$lib/components/ui/button';\nimport * as Table from '$lib/components/ui/table';\nimport { ChevronDown } from 'lucide-svelte';\nimport { Edit2 } from 'lucide-svelte';\nimport { Trash2 } from 'lucide-svelte';\n</script>\n   <Table.Root class=\"dark:bg-gray-800\">\n     <Table.Header class=\"dark:bg-gray-700\">\n       <Table.Row>\n         <Table.Head class=\"w-[10%] dark:text-white\">Invoice #<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Date<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Customer<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Amount<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[10%] dark:text-white\">Status<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Action</Table.Head>\n       </Table.Row>\n     </Table.Header>\n     <Table.Body>\n       <Table.Row class=\"dark:bg-gray-500 dark:text-white\">\n         <Table.Cell class=\"font-medium\">INV001</Table.Cell>\n         <Table.Cell>7th March 2022</Table.Cell>\n         <Table.Cell>Alisha Johnson</Table.Cell>\n         <Table.Cell>$250.00</Table.Cell>\n         <Table.Cell>Paid</Table.Cell>\n         <Table.Cell>\n           <Button class=\"mr-2\">\n             <Edit2 class=\"h-4 w-4\" />\n           </Button>\n           <Button variant=\"destructive\">\n             <Trash2 class=\"h-4 w-4\" />\n           </Button>\n         </Table.Cell>\n       </Table.Row>\n     </Table.Body>\n   </Table.Root>"
+        }
+      }
+    },
+    "postprocess-generated-component": {
+      "index": 5,
+      "response": {
+        "type": "component",
+        "success": true,
+        "data": {
+          "version": "1696287275327",
+          "code": "<script>\nimport { Button } from '$lib/components/ui/button';\nimport * as Table from '$lib/components/ui/table';\nimport { ChevronDown } from 'lucide-svelte';\nimport { Edit2 } from 'lucide-svelte';\nimport { Trash2 } from 'lucide-svelte';\n</script>\n   <Table.Root class=\"dark:bg-gray-800\">\n     <Table.Header class=\"dark:bg-gray-700\">\n       <Table.Row>\n         <Table.Head class=\"w-[10%] dark:text-white\">Invoice #<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Date<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Customer<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Amount<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[10%] dark:text-white\">Status<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Action</Table.Head>\n       </Table.Row>\n     </Table.Header>\n     <Table.Body>\n       <Table.Row class=\"dark:bg-gray-500 dark:text-white\">\n         <Table.Cell class=\"font-medium\">INV001</Table.Cell>\n         <Table.Cell>7th March 2022</Table.Cell>\n         <Table.Cell>Alisha Johnson</Table.Cell>\n         <Table.Cell>$250.00</Table.Cell>\n         <Table.Cell>Paid</Table.Cell>\n         <Table.Cell>\n           <Button class=\"mr-2\">\n             <Edit2 class=\"h-4 w-4\" />\n           </Button>\n           <Button variant=\"destructive\">\n             <Trash2 class=\"h-4 w-4\" />\n           </Button>\n         </Table.Cell>\n       </Table.Row>\n     </Table.Body>\n   </Table.Root>"
+        }
+      }
+    },
+    "store-component": {
+      "index": 6,
+      "response": {
+        "type": "component-stored",
+        "success": true,
+        "data": {
+          "id": 3
+        }
+      }
+    },
+    "export-component": {
+      "index": 7,
+      "response": {
+        "type": "?",
+        "success": true,
+        "data": {}
+      }
+    }
+  },
+  "stages": {
+    "component-design-task": {
+      "success": true,
+      "data": {
+        "name": "InvoiceTable",
+        "description": {
+          "user": "a sleek invoices table",
+          "llm": "The new component should be a responsive table that can accommodate a list of invoice data in an organized and visually pleasing manner. Its design needs to be sleek and modern. It should consist of 6 columns - 'Invoice #', 'Date', 'Customer', 'Amount', 'Status', 'Action'. The 'Invoice #' should show the invoice identification, 'Date' should display the date the invoice was issued, 'Customer' should display the customer related to the invoice, 'Amount' should display the total value of the invoice, 'Status' should give an insight into whether the invoice has been paid or is still outstanding, and finally, the 'Action' column should contain buttons for actions like 'Edit' and 'Delete'. Furthermore, the table needs to be sortable, allowing users to order the invoices based on each column."
+        },
+        "icons": ["edit icon", "delete icon"],
+        "components": [
+          {
+            "name": "Table",
+            "usage": "To structure the invoices data in a table format"
+          },
+          {
+            "name": "Button",
+            "usage": "To provide interaction elements for each invoice"
+          },
+          {
+            "name": "Icon",
+            "usage": "To represent the Edit and Delete actions"
+          }
+        ]
+      }
+    },
+    "component-design-context": {
+      "success": true,
+      "data": [
+        {
+          "role": "user",
+          "content": "Library components can be used while making the new Svelte component\n\nSuggested library component (1/2) : Button - Displays a button or a component that looks like a button\nSuggested usage : To structure the invoices data in a table format\n\n\n# Button can be imported into the new component like this:\n```svelte\n<script lang=\"ts\">\n  import { Button } from \"$lib/components/ui/button\";\n</script>\n```\n\n---\n\n# examples of how Button can be used inside the new component:\n```svelte\n<Button variant=\"outline\">Button</Button>\n```\n\n```svelte\n<script lang=\"ts\">\n  import { Button } from \"$lib/components/ui/button\";\n</script>\n\n<Button href=\"/dashboard\">Dashboard</Button>\n```\n\n```svelte\n<script lang=\"ts\">\n  import { buttonVariants } from \"$lib/components/ui/button\";\n</script>\n\n<a href=\"/dashboard\" class={buttonVariants({ variant: \"outline\" })}>\n  Dashboard\n</a>\n```\n\n---\n\n# full code examples of Svelte components that use Button :\n```button-with-icon.svelte\n<script lang=\"ts\">\r\n\timport { Mail } from \"lucide-svelte\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button>\r\n\t<Mail class=\"mr-2 h-4 w-4\" />\r\n\tLogin with Email\r\n</Button>\n```\n\n```button-secondary.svelte\n<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"secondary\">Secondary</Button>\n```\n\n```button-demo.svelte\n<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button>Button</Button>\n```\n\n```button-link.svelte\n<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"link\">Link</Button>\n```\n\n```button-outline.svelte\n<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"outline\">Outline</Button>\n```\n\n```button-loading.svelte\n<script lang=\"ts\">\r\n\timport { Loader2 } from \"lucide-svelte\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button disabled>\r\n\t<Loader2 class=\"mr-2 h-4 w-4 animate-spin\" />\r\n\tPlease wait\r\n</Button>\n```\n\n```button-ghost.svelte\n<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"ghost\">Ghost</Button>\n```\n\n```button-destructive.svelte\n<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"destructive\">Destructive</Button>\n```\n\n```button-icon.svelte\n<script lang=\"ts\">\r\n\timport { ChevronRight } from \"lucide-svelte\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"outline\" size=\"icon\">\r\n\t<ChevronRight className=\"h-4 w-4\" />\r\n</Button>\n```"
+        },
+        {
+          "role": "user",
+          "content": "Library components can be used while making the new Svelte component\n\nSuggested library component (2/2) : Table - A responsive table component\nSuggested usage : To provide interaction elements for each invoice\n\n\n# Table can be imported into the new component like this:\n```svelte\n<script lang=\"ts\">\n  import * as Table from \"$lib/components/ui/table\";\n</script>\n```\n\n---\n\n# examples of how Table can be used inside the new component:\n```svelte\n<script lang=\"ts\">\n  import * as Table from \"$lib/components/ui/table\";\n</script>\n\n<Table.Root>\n  <Table.Caption>A list of your recent invoices.</Table.Caption>\n  <Table.Header>\n    <Table.Row>\n      <Table.Head class=\"w-[100px]\">Invoice</Table.Head>\n      <Table.Head>Status</Table.Head>\n      <Table.Head>Method</Table.Head>\n      <Table.Head class=\"text-right\">Amount</Table.Head>\n    </Table.Row>\n  </Table.Header>\n  <Table.Body>\n    <Table.Row>\n      <Table.Cell class=\"font-medium\">INV001</Table.Cell>\n      <Table.Cell>Paid</Table.Cell>\n      <Table.Cell>Credit Card</Table.Cell>\n      <Table.Cell class=\"text-right\">$250.00</Table.Cell>\n    </Table.Row>\n  </Table.Body>\n</Table.Root>\n```\n\n---"
+        },
+        {
+          "role": "user",
+          "content": "Icon elements can optionally be used when making the React component.\n\n---\n\n# example: importing icons in the component (only import the ones you need) :\n\n```svelte\nimport { FileEdit , FolderEdit , Redo , Pencil , FileSignature , MousePointerClick , MousePointer , Redo2 , Eraser , ImageMinus , BadgeMinus , Strikethrough , BookmarkMinus , LogOut , ArrowDownCircle , FileMinus , Eraser , BellMinus } from \"lucide-svelte\";\n```\n\n# example: using an icon inside the component :\n\n```svelte\n<FileEdit className=\"h-4 w-4\" />\n```\n\n---\n\n\nHere are some available icons that might be relevant to the component you are making. You can choose from them if relevant :\n\n```\n- FileEdit , FolderEdit , Redo , Pencil , FileSignature , MousePointerClick , MousePointer , Redo2 , Eraser\n- ImageMinus , BadgeMinus , Strikethrough , BookmarkMinus , LogOut , ArrowDownCircle , FileMinus , Eraser , BellMinus\n```"
+        }
+      ]
+    },
+    "component-code": {
+      "success": true,
+      "data": "<script>\n  import { Button } from \"$lib/components/ui/button\";\n  import { ChevronUp, ChevronDown, Edit2, Trash2 } from 'lucide-svelte';\n  import * as Table from \"$lib/components/ui/table\";\n</script>\n\n<Table.Root class=\"dark:bg-gray-800\">\n  <Table.Header class=\"dark:bg-gray-700\">\n    <Table.Row>\n      <Table.Head class=\"w-[10%] dark:text-white\">Invoice #<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n      <Table.Head class=\"w-[20%] dark:text-white\">Date<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n      <Table.Head class=\"w-[20%] dark:text-white\">Customer<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n      <Table.Head class=\"w-[20%] dark:text-white\">Amount<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n      <Table.Head class=\"w-[10%] dark:text-white\">Status<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n      <Table.Head class=\"w-[20%] dark:text-white\">Action</Table.Head>\n    </Table.Row>\n  </Table.Header>\n  <Table.Body>\n    <Table.Row class=\"dark:bg-gray-500 dark:text-white\">\n      <Table.Cell class=\"font-medium\">INV001</Table.Cell>\n      <Table.Cell>7th March 2022</Table.Cell>\n      <Table.Cell>Alisha Johnson</Table.Cell>\n      <Table.Cell>$250.00</Table.Cell>\n      <Table.Cell>Paid</Table.Cell>\n      <Table.Cell>\n        <Button class=\"mr-2\">\n          <Edit2 class=\"h-4 w-4\" />\n        </Button>\n        <Button variant=\"destructive\">\n          <Trash2 class=\"h-4 w-4\" />\n        </Button>\n      </Table.Cell>\n    </Table.Row>\n  </Table.Body>\n</Table.Root>"
+    },
+    "component-validation-check": {
+      "success": true,
+      "data": {
+        "validation_errors": [],
+        "code": "<script>\nimport { Button } from '$lib/components/ui/button';\nimport * as Table from '$lib/components/ui/table';\nimport { ChevronDown } from 'lucide-svelte';\nimport { Edit2 } from 'lucide-svelte';\nimport { Trash2 } from 'lucide-svelte';\n</script>\n   <Table.Root class=\"dark:bg-gray-800\">\n     <Table.Header class=\"dark:bg-gray-700\">\n       <Table.Row>\n         <Table.Head class=\"w-[10%] dark:text-white\">Invoice #<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Date<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Customer<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Amount<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[10%] dark:text-white\">Status<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Action</Table.Head>\n       </Table.Row>\n     </Table.Header>\n     <Table.Body>\n       <Table.Row class=\"dark:bg-gray-500 dark:text-white\">\n         <Table.Cell class=\"font-medium\">INV001</Table.Cell>\n         <Table.Cell>7th March 2022</Table.Cell>\n         <Table.Cell>Alisha Johnson</Table.Cell>\n         <Table.Cell>$250.00</Table.Cell>\n         <Table.Cell>Paid</Table.Cell>\n         <Table.Cell>\n           <Button class=\"mr-2\">\n             <Edit2 class=\"h-4 w-4\" />\n           </Button>\n           <Button variant=\"destructive\">\n             <Trash2 class=\"h-4 w-4\" />\n           </Button>\n         </Table.Cell>\n       </Table.Row>\n     </Table.Body>\n   </Table.Root>"
+      }
+    },
+    "component-validation-fix": {
+      "success": true,
+      "data": {
+        "validation_errors": [],
+        "code": "<script>\nimport { Button } from '$lib/components/ui/button';\nimport * as Table from '$lib/components/ui/table';\nimport { ChevronDown } from 'lucide-svelte';\nimport { Edit2 } from 'lucide-svelte';\nimport { Trash2 } from 'lucide-svelte';\n</script>\n   <Table.Root class=\"dark:bg-gray-800\">\n     <Table.Header class=\"dark:bg-gray-700\">\n       <Table.Row>\n         <Table.Head class=\"w-[10%] dark:text-white\">Invoice #<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Date<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Customer<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Amount<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[10%] dark:text-white\">Status<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Action</Table.Head>\n       </Table.Row>\n     </Table.Header>\n     <Table.Body>\n       <Table.Row class=\"dark:bg-gray-500 dark:text-white\">\n         <Table.Cell class=\"font-medium\">INV001</Table.Cell>\n         <Table.Cell>7th March 2022</Table.Cell>\n         <Table.Cell>Alisha Johnson</Table.Cell>\n         <Table.Cell>$250.00</Table.Cell>\n         <Table.Cell>Paid</Table.Cell>\n         <Table.Cell>\n           <Button class=\"mr-2\">\n             <Edit2 class=\"h-4 w-4\" />\n           </Button>\n           <Button variant=\"destructive\">\n             <Trash2 class=\"h-4 w-4\" />\n           </Button>\n         </Table.Cell>\n       </Table.Row>\n     </Table.Body>\n   </Table.Root>"
+      }
+    },
+    "component": {
+      "success": true,
+      "data": {
+        "version": "1696287275327",
+        "code": "<script>\nimport { Button } from '$lib/components/ui/button';\nimport * as Table from '$lib/components/ui/table';\nimport { ChevronDown } from 'lucide-svelte';\nimport { Edit2 } from 'lucide-svelte';\nimport { Trash2 } from 'lucide-svelte';\n</script>\n   <Table.Root class=\"dark:bg-gray-800\">\n     <Table.Header class=\"dark:bg-gray-700\">\n       <Table.Row>\n         <Table.Head class=\"w-[10%] dark:text-white\">Invoice #<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Date<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Customer<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Amount<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[10%] dark:text-white\">Status<ChevronDown class=\"h-4 w-4 ml-1\"/></Table.Head>\n         <Table.Head class=\"w-[20%] dark:text-white\">Action</Table.Head>\n       </Table.Row>\n     </Table.Header>\n     <Table.Body>\n       <Table.Row class=\"dark:bg-gray-500 dark:text-white\">\n         <Table.Cell class=\"font-medium\">INV001</Table.Cell>\n         <Table.Cell>7th March 2022</Table.Cell>\n         <Table.Cell>Alisha Johnson</Table.Cell>\n         <Table.Cell>$250.00</Table.Cell>\n         <Table.Cell>Paid</Table.Cell>\n         <Table.Cell>\n           <Button class=\"mr-2\">\n             <Edit2 class=\"h-4 w-4\" />\n           </Button>\n           <Button variant=\"destructive\">\n             <Trash2 class=\"h-4 w-4\" />\n           </Button>\n         </Table.Cell>\n       </Table.Row>\n     </Table.Body>\n   </Table.Root>"
+      }
+    },
+    "component-stored": {
+      "success": true,
+      "data": {
+        "id": 3
+      }
+    },
+    "?": {
+      "success": true,
+      "data": {}
+    }
+  }
+}
