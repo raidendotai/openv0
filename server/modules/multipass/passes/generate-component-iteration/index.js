@@ -88,7 +88,11 @@ async function run(req) {
         `- Only write the code for the component; Do not write extra code to import it! The code will directly be stored in an individual ${_titleCase(
           req.query.framework,
         )} .${FRAMEWORKS_EXTENSION_MAP[req.query.framework]} file !\n` +
-        `${req.query.framework != 'svelte' ? '- Very important : Your component should be exported as default !\n' : '' }` +
+        `${
+          req.query.framework != "svelte"
+            ? "- Very important : Your component should be exported as default !\n"
+            : ""
+        }` +
         `Write the updated version of the ${_titleCase(
           req.query.framework,
         )} component code as the creative genius and ${_titleCase(

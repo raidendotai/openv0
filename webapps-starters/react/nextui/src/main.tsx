@@ -7,7 +7,7 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <NextUIProvider className="min-h-screen min-w-screen antialiased bg-black dark">
+    <NextUIProvider>
       <App />
     </NextUIProvider>
   </React.StrictMode>,

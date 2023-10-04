@@ -11,7 +11,9 @@ async function run(req) {
     };
   }
 
-  const export_response = await require(`./export_${req.query.framework}.js`).export_component(req)
+  const export_response = await require(
+    `./export_${req.query.framework}.js`,
+  ).export_component(req);
   return {
     type: `component-export`,
     success: true,

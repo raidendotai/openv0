@@ -1,13 +1,13 @@
 /*
 const sqlite3 = require('sqlite3');
-const db = new sqlite3.Database('openv0.db', (err) => {
+const db = new sqlite3.Database('openv0.sqlite', (err) => {
   if (err) { console.error('Error opening database:', err.message); }
   else {   console.log('Connected to the database'); }
 });
 const { Sequelize , DataTypes } = require('sequelize');
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: 'openv0.db',
+  storage: 'openv0.sqlite',
   logging: false, // quiet mode
 });
 
