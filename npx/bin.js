@@ -38,20 +38,20 @@ async function main() {
   if (args.length > 0) {
 		if (args[0] === `flush`) {
 			const spinnerDb = ora(`flushing openv0 db`).start();
-			const { stdoutDb, stderrDb } = await execAsync(`cd openv0 && cd server && node db flush`);
+			const { stdoutDb, stderrDb } = await execAsync(`cd server && node db flush`);
 			// await sleep(1000);
-			console.log(stdoutDb.trim());
-			console.error(stderrDb.trim());
+			console.log(stdoutDb);
+			console.error(stderrDb);
 			spinnerDb.succeed('done');
 
 		} else if (args[0].startsWith(`@`) && args[0].includes(`/`)) {
 			// download component - update later when expanding to views
 			const spinnerDownload = ora(`download openv0 component : ${args[0]}`).start();
-			const { stdoutDownload, stderrDownload } = await execAsync(`cd openv0 && cd server && node db download:component:${args[0]}`);
+			const { stdoutDownload, stderrDownload } = await execAsync(`cd server && node db download:component:${args[0]}`);
 			// await sleep(1000);
 			spinnerDownload.succeed('done');
-			console.log(stdoutDownload.trim());
-			console.error(stderrDownload.trim());
+			console.log(stdoutDownload);
+			console.error(stderrDownload);
 		}
 
   } else {
@@ -111,6 +111,7 @@ async function main() {
 
 
 
+
 		// clone repo
 		const spinnerGit = ora(`cloning ${GIT_REPO} in ${PROJECT_PATH}`).start();
 		const { stdoutGit, stderrGit } = await execAsync(GIT_CLONE_CMD);
@@ -132,57 +133,59 @@ async function main() {
 		try{await fs.rm(path.join(process.cwd() , "openv0/webapps-starters"), { recursive: true, force: true })}catch(e){false}
 		spinnerRm.succeed();
 
+
 		// .env in server (try/catch)
-		const spinnerServerEnv = ora(`creating openv0/server/.env`).start();
+		const spinnerEnv = ora(`creating openv0/server/.env`).start();
 		await fs.writeFile(
 			path.join( process.cwd() , `openv0/server/.env` ),
 			Object.entries(ENV).map(([key, value]) => {
 				return typeof value === 'string'
-								? `${key}="${value}"`
-								: `${key}=${value}`
+								? `${key} = "${value}"`
+								: `${key} = ${value}`
 			}).join('\n')
 		)
 		spinnerEnv.succeed();
+
 
 		const spinner7z = ora(`extracting openv0/server/library/icons/lucide/vectordb/index.zip to index.json`).start();
 		const zip = new AdmZip(
 			path.join(process.cwd(), `openv0/server/library/icons/lucide/vectordb/index.zip`)
 		);
-		await promisify(
-			zip.extractAllTo(
-				path.join(process.cwd(), `openv0/server/library/icons/lucide/vectordb`),
-				true // overwrite
-			)
-		)
-		/*
-		await seven.extractFull(
-			path.join(process.cwd(), `openv0/server/library/icons/lucide/vectordb/index.7z`),
+		zip.extractAllTo(
 			path.join(process.cwd(), `openv0/server/library/icons/lucide/vectordb`),
+			true // overwrite
 		)
-		*/
 		await fs.rm(path.join(process.cwd() , "openv0/server/library/icons/lucide/vectordb/index.zip"))
 		spinner7z.succeed();
+
 
 		process.chdir(PROJECT_PATH);
 		// install server packages
 		const spinnerServerNpmInstall = ora(`installing packages in openv0/server`).start();
-		const { stdoutServer, stderrServer } = await execAsync(`cd server && npm i`);
-		console.log(stdoutServer.trim());
-		console.error(stderrServer.trim());
+		await execAsync(`cd server && npm i`);
 		spinnerServerNpmInstall.succeed('done');
 
 		// install webapp packages
 		const spinnerWebappNpmInstall = ora(`installing packages in openv0/webapp`).start();
-		const { stdoutWebapp, stderrWebapp } = await execAsync(`cd webapp && npm i`);
-		console.log(stdoutWebapp.trim());
-		console.error(stderrWebapp.trim());
+		await execAsync(`cd webapp && npm i`);
 		spinnerWebappNpmInstall.succeed('done');
+		
 
-		console.log(`how to use ----------------------------------`);
+		console.log(`\n\nhow to use --------------------------------------------------------------`);
 		console.log(`\t0. cd openv0`);
-		console.log(`\t2. start server    : cd server && node api.js`);
-		console.log(`\t3. start webapp    : cd webapp && npm run dev`);
-		console.log(`\t4. start browser   : http://localhost:5173/`);
+		console.log(`\t1. start server    : cd server && node api.js`);
+		console.log(`\t2. start webapp    : cd webapp && npm run dev`);
+		console.log(`\t3. start browser   : http://localhost:5173/`);
+		console.log(`\n-------------------------------------------------------------------------`);
+
+		console.log(`\n`);
+		console.log(`* example : install a shared component **********************************`);
+		console.log(`\n  $ cd openv0 && npx openv0 @user/ComponentExample`);
+		console.log(`\n* example : flush DB (warning : will delete; back up first) *************`);
+		console.log(`\n  $ cd openv0 && npx openv0 flush`);
+		console.log(`\n*************************************************************************`);
+
+		console.log(`updates on openv0.com`);
 
   }
 }

@@ -34,10 +34,10 @@ tasks in progress
 * ✅ components sharing via openv0.com api
 * ✅ openv0.com website
 
+* ✅ npx cli ; for starting openv0 and adding components
+* ✅ clean repo to ready for distribution and merges
+
 ---
 
-* ⏳ npx cli ; for starting openv0 and adding components
-* ⏳ clean repo to ready for distribution and merges
-
-* ⏳ @pi0 structure & @denyncrawford virtual components + db
+* ⏳ @pi0 structure & @denyncrawford try out different DBs / virtual components / playground
 * ⏳ new feature : views/app from description
