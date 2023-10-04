@@ -4,8 +4,7 @@ const inquirer = require('inquirer');
 const ora = require('ora');
 const fs = require('fs-extra');
 const { promisify } = require('util');
-const Seven = require('node-7z');
-const seven = new Seven();
+const AdmZip = require("adm-zip");
 
 const execAsync = promisify(exec);
 
@@ -145,12 +144,21 @@ async function main() {
 		)
 		spinnerEnv.succeed();
 
-		const spinner7z = ora(`extracting openv0/server/library/icons/lucide/vectordb/index.7z to index.json`).start();
+		const spinner7z = ora(`extracting openv0/server/library/icons/lucide/vectordb/index.zip to index.json`).start();
+		const zip = new AdmZip(
+			path.join(process.cwd(), `openv0/server/library/icons/lucide/vectordb/index.zip`)
+		);
+		zip.extractAllTo(
+			path.join(process.cwd(), `openv0/server/library/icons/lucide/vectordb`),
+			true // overwrite
+		)
+		/*
 		await seven.extractFull(
 			path.join(process.cwd(), `openv0/server/library/icons/lucide/vectordb/index.7z`),
 			path.join(process.cwd(), `openv0/server/library/icons/lucide/vectordb`),
 		)
-		await fs.rm(path.join(process.cwd() , "openv0/server/library/icons/lucide/vectordb/index.7z"))
+		*/
+		await fs.rm(path.join(process.cwd() , "openv0/server/library/icons/lucide/vectordb/index.zip"))
 		spinner7z.succeed();
 
 		process.chdir(PROJECT_PATH);
