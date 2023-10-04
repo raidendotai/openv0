@@ -49,7 +49,7 @@ Next updates :
 * Open your terminal and run
 
 ```sh
-npx openv0
+npx openv0@latest
 ```
 
 It will download openv0, configure it based on your choices & install dependencies. Then :
