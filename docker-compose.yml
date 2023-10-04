@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+  server:
+    build: ./openv0_server
+    ports:
+      - "3000:3000"
+
+  client:
+    build: ./openv0_vitereact
+    ports:
+      - "5173:5173"
+    environment:
+      - WDS_SOCKET_PORT=0
