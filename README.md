@@ -32,9 +32,10 @@ tasks in progress
 
 * ✅ setup openv0.com api
 * ✅ components sharing via openv0.com api
+* ✅ openv0.com website
+
 ---
 
-* ⏳ openv0.com website
 * ⏳ npx cli ; for starting openv0 and adding components
 * ⏳ clean repo to ready for distribution and merges
 

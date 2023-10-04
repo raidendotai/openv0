@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const axios = require(`axios`)
+const axios = require(`axios`);
 const { PassThrough } = require("stream");
 const multipass = require(`./modules/multipass/index.js`);
 require("dotenv").config();
@@ -185,36 +185,39 @@ app.post("/components/iterate/description", async (req, res) => {
   duplexStream.end();
 });
 
-
-
 app.post("/components/share", async (req, res) => {
-  const query = req.body // {key,name,framework,...}
+  const query = req.body; // {key,name,framework,...}
   const response = await axios.post(
     `${process.env.OPENV0__API}/dev/components/share`,
     {
       key: query.key,
-			name: query.name,
-			framework: query.framework,
-			components: query.components,
-			icons: query.icons,
-			data: {
-        versions: query.data.versions.map( (component_version) => {
-          if (!component_version.code || !component_version.code.length) return false;
-          return {
-            version: component_version.version,
-            description: component_version.description ? component_version.description : ``,
-            code: component_version.code,
-          }
-        }).filter(e=>e),
+      name: query.name,
+      framework: query.framework,
+      components: query.components,
+      icons: query.icons,
+      data: {
+        versions: query.data.versions
+          .map((component_version) => {
+            if (!component_version.code || !component_version.code.length)
+              return false;
+            return {
+              version: component_version.version,
+              description: component_version.description
+                ? component_version.description
+                : ``,
+              code: component_version.code,
+            };
+          })
+          .filter((e) => e),
       },
     },
     {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-    }
+    },
   );
-  res.send(response.data)
+  res.send(response.data);
   /*
   const duplexStream = new PassThrough();
   duplexStream.pipe(res);

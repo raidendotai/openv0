@@ -1,6 +1,8 @@
 const PRESETS_MAP = require(`./presets/index.js`);
 require("dotenv").config();
-const log = parseInt(process.env.OPENV0__COLLECT_UIRAY) ? require(`../log/index.js`).uiray : require(`../log/index.js`).passThrough
+const log = parseInt(process.env.OPENV0__COLLECT_UIRAY)
+  ? require(`../log/index.js`).uiray
+  : require(`../log/index.js`).passThrough;
 
 async function run(req) {
   /*
@@ -19,7 +21,6 @@ async function run(req) {
     preset: req.preset ? req.preset : false,
     passes: req.passes,
   });
-
 
   let execution_multipass = {
     passes: {},
@@ -47,13 +48,13 @@ async function run(req) {
     query: req.query,
     preset: req.preset ? req.preset : false,
     passes: req.passes,
-    execution : execution_multipass,
-  })
+    execution: execution_multipass,
+  });
 
   console.dir({
     module: `multipass/run`,
     status: `done`,
-  })
+  });
 
   /*
   console.log(
