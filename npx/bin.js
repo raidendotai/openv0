@@ -148,9 +148,11 @@ async function main() {
 		const zip = new AdmZip(
 			path.join(process.cwd(), `openv0/server/library/icons/lucide/vectordb/index.zip`)
 		);
-		zip.extractAllTo(
-			path.join(process.cwd(), `openv0/server/library/icons/lucide/vectordb`),
-			true // overwrite
+		await promisify(
+			zip.extractAllTo(
+				path.join(process.cwd(), `openv0/server/library/icons/lucide/vectordb`),
+				true // overwrite
+			)
 		)
 		/*
 		await seven.extractFull(
