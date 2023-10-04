@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+	--scrollbar-thumb: rgba(100, 100, 100, 1);
+	--scrollbar-track: rgba(100, 100, 100, 1);
+
+}
+
+.dark {
+	--scrollbar-thumb: rgba(50, 50, 50, 1);
+	--scrollbar-track: rgba(50, 50, 50, 1);
+}
+
+* {
+	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+*::selection {
+	background: #3700b3;
+	color: white;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  opacity: 0.5; /* Adjust opacity as needed */
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar {
+  width: 2px; /* Adjust scrollbar width as needed */
+  border-radius: 0px; /* Adjust scrollbar corner radius as needed */
+}

@@ -1,0 +1,8 @@
+{
+  "import": [
+    "$lib/components/ui",
+    "$lib/utils",
+    "svelte-motion",
+    "radix-icons-svelte"
+  ]
+}

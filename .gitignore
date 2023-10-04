@@ -1,4 +1,2 @@
-node_modules
-.cache
-dist
-build
+node_modules/
+gits/

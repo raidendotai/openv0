@@ -1,0 +1,9 @@
+{
+  "import": [
+    "flowbite-react",
+    "react-icons",
+    "tailwind-merge",
+    "react-day-picker",
+    "framer-motion"
+  ]
+}

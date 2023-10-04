@@ -1,0 +1,30 @@
+{
+  "name": "flowbite",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "^2.0.0",
+    "@sveltejs/kit": "^1.20.4",
+    "autoprefixer": "^10.4.14",
+    "flowbite": "^1.8.1",
+    "flowbite-svelte": "^0.44.17",
+    "postcss": "^8.4.24",
+    "postcss-load-config": "^4.0.1",
+    "svelte": "^4.0.5",
+    "tailwindcss": "^3.3.2",
+    "vite": "^4.4.2"
+  },
+  "type": "module",
+  "dependencies": {
+    "axios": "^1.5.1",
+    "date-fns": "^2.30.0",
+    "flowbite-svelte-icons": "^0.4.4",
+    "lucide-svelte": "^0.279.0",
+    "zod": "^3.22.2"
+  }
+}

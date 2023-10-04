@@ -1,0 +1,8 @@
+{
+  "import": [
+    "@/components/ui/",
+    "@/lib/utils",
+    "@radix-ui/react-dropdown-menu",
+    "framer-motion"
+  ]
+}

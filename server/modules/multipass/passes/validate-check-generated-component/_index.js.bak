@@ -1,0 +1,243 @@
+const path = require("path");
+const fs = require(`fs`);
+const parser = require("@babel/parser");
+const traverse = require("@babel/traverse").default;
+const generator = require("@babel/generator").default;
+const { fixImport } = require(`import-fixer`);
+
+/*
+  validation steps ; each defined in a module within the same folder as this:
+  x.  pre validation processing : ie. svelte needs to split at <script></script> ; add checkpoint ; replace it further down
+
+  x.  duplicate/unused imports (via `import-fixer` for now) ; necessary to run first because otherwise babel ast fails
+  x.  "use client" check
+
+  o.  import-fixer removes all unused imports, including React etc. might double check to put them back in case
+
+  o.  extract all used library elements (ie. Button from nextui ; SomeIcon from svelte);
+        babel ast then check for nodes names
+      check if all used imported; check against library/componnents/{framework}/{component_library}/dump.json all_imports_map
+      fix mismatches
+
+  o.  extract all imports from component
+        ie. hallucinated package imports / local component paths that might be in docs but would break app
+        some checks use startsWith, some use === ; determine what when
+        compare with allowed imports
+          imports specific to components library :
+            in `import` key in library/components/{framework}/{component_library}/metadata.json
+          imports specific to icons :
+            `import` key in library/icons/{icons_library}/lucide/metadata/json
+          imports specific to framework :
+            in each validation module (they are in this same folder)
+          global allowed imports :
+            ALLOWED_IMPORTS_GENERAL above
+          (later) :
+            maybe with listdir on ${WEBAPP_ROOT}/node_modules too
+
+  o.  postvalidation ; ie. svelte , put back the <script></script> at checkpoint from first step
+
+  o. prettify component code
+
+  o.  prompt LLM to fix if any conflict persists (ie. hallucinated imports); number of fix retries determined in .env
+        if problems like "import {} from 'undefined'"
+        if badly written component that doesnt validate (validation via babel ast traversal, like for imports check success)
+*/
+
+const ALLOWED_IMPORTS_GENERAL = [`axios`, `zod`, `date-fns`];
+const ALLOWED_IMPORTS_BY_FRAMEWORK = {
+  next : [ `react` , `next` , `formik` , `yup `],
+  react : [ `react` , `formik` , `yup `],
+  svelte : [ `svelte` ],
+}
+const REQUIRES_USE_CLIENT_PREFIX = [ `next` , `react` ]
+
+function _babel_imports_map(code) {
+  const ast = parser.parse(code, {
+    sourceType: "module",
+    plugins: [
+      "jsx",
+      "tsx",
+      "typescript",
+      "react",
+      //"@babel/plugin-proposal-class-properties",
+      //"@babel/plugin-proposal-object-rest-spread"
+    ],
+    allowJSX: true,
+    parser: "@babel/eslint-parser",
+    parserOpts: {
+      errorRecovery: true
+    },
+    extends: ["eslint:recommended", "plugin:react/recommended"],
+    presets: ["@babel/env", "@babel/preset-react"],
+  });
+
+  const imports = {};
+
+  traverse(ast, {
+    ImportDeclaration(path) {
+      const source = path.node.source.value;
+      const specifiers = path.node.specifiers;
+
+      if (!imports[source]) {
+        imports[source] = [];
+      }
+
+      specifiers.forEach((specifier) => {
+        if (specifier.type === "ImportSpecifier") {
+          imports[source].push(specifier.imported.name);
+        } else if (specifier.type === "ImportDefaultSpecifier") {
+          imports[source].push("default");
+        }
+      });
+    },
+  });
+
+  const importList = Object.entries(imports).map(([from, imported]) => ({
+    from,
+    imported,
+  }));
+  return importList;
+}
+
+
+
+
+function _imports_list_from_code(framework,_code){
+  let _imports = []
+  let code = `${_code}`
+  if (framework === `svelte`) {
+    code = code
+      .split("</script")[0]
+      .trim()
+      .split("\n")
+      .slice(1)
+      .join("\n"); // svelte, imports
+  }
+  try {
+    return _babel_imports_map(
+      code,
+    ).map((e) => e.from).flat()
+  } catch (e) {
+    console.dir({_imports_list_from_code : {code : code.split(`\n`).map( (l,idx) => `${idx} > ${l}` ).join(`\n`),e}} , {depth:null})
+  }
+  return false
+}
+function _make_imports_list_from_components_library(framework,components){
+  let _imports_list = []
+  JSON.parse(
+      fs.readFileSync(
+      `./library/components/${framework}/${components}/dump.json`,
+      `utf-8`
+    )
+  ).map( (c) => {
+    [
+      c.docs.import.code,
+      c.docs.use.map((_c) => _c.code),
+      c.docs.examples.map((_c) => _c.code),
+    ]
+      .flat()
+      .map((code) => {
+        _imports_list.push( _imports_list_from_code(framework,code) )
+      }).filter(e=>e);
+  })
+  return [...new Set(_imports_list.flat())].sort()
+}
+
+async function run(req) {
+  // pre validation processing : ie. svelte needs to split at <script></script> ; add checkpoint ; replace it further down
+  const __component_code_pre = req.query.framework != `svelte`
+                              ? req.pipeline.stages["component-code"].data
+                              : req.pipeline.stages["component-code"].data.split(`</script>`).filter(
+                                l => l.trim().length
+                              ).map( (block,idx) => {
+                                if (!idx) {
+                                  return block.split(`\n`).filter(l => !l.startsWith(`<script`) ).map(
+                                    l => {
+                                      if (l.includes(`import`)) return l.trim()
+                                      return l
+                                    }
+                                  ).join(`\n`)
+                                }
+                                else {
+                                  // mimick react component style
+                                  return `export default function App() {\n\n return (\n  <>\n` +
+                                          block.split(`\n`).map(l=>`   ${l}`).join(`\n`) +
+                                          `\n  </>\n )\n}`
+                                }
+                              }).join(`\n`)
+
+  // duplicate/unused imports (via `import-fixer` for now) ; necessary to run first because otherwise babel ast fails
+  // if no imports used, `import-fixer` returns error:true, in which case skip imports validation
+  const __temp_file = `./__import_fixer_temp_${ Math.floor(Math.random() * (99999 - 10000) + 10000) }`
+  let __component_code = `${__component_code_pre}`
+
+  const __import_fixer_response = fixImport(
+    __temp_file ,
+    __component_code_pre.replaceAll(`$` , `______________`) // <--- `import-fixer` ignores the `$` char, dirty fix but works for now
+  )
+
+  if ( __import_fixer_response.error ) {
+    console.log({__import_fixer_error : __import_fixer_response})
+    // decide what to do here ; skip or further validation
+  } else {
+    // "use client" check
+    __component_code = __import_fixer_response.output
+
+    if ( REQUIRES_USE_CLIENT_PREFIX.includes(req.query.framework) ) {
+      if (
+        !__import_fixer_response.output.includes(`'use client'`) &&
+        !__import_fixer_response.output.includes(`"use client"`)
+      ) {
+        __component_code = `"use client";\n\n` +
+                            __import_fixer_response.output.split(`\n`).filter(
+                              e => !e.includes(`"use client"`) && !e.includes(`'use client'`)
+                            ).join(`\n`)
+      }
+    }
+
+    __component_code = __component_code.replaceAll(`______________` , `$`)
+  }
+  try { fs.unlinkSync(__temp_file) }catch(e){true}
+
+  console.dir({
+    '****************************************' : '*****************************',
+    __import_fixer_response,
+    debug_validate_pass : {original : req.pipeline.stages["component-code"].data , __component_code , }
+  } , {depth:null})
+
+  // make imports map
+
+  // again, no babel ast for svelte; so need to split code in 2 to check imports
+  // components used in view will be extracted dirty way for svelte i presume ...
+
+  const imports = {
+    components : _make_imports_list_from_components_library(req.query.framework , req.query.components),
+    icons :  JSON.parse(
+                  fs.readFileSync(
+                  `./library/icons/${req.query.icons}/metadata.json`,
+                  `utf-8`
+                )
+              ).import[req.query.framework],
+    code: _imports_list_from_code( req.query.framework , __component_code ),
+  }
+  console.dir({imports},{depth:null})
+  process.exit()
+
+
+  console.log("> init : " + __dirname.split(path.sep).slice(-2).join(`/`));
+  console.log(
+    "********** debug : pass/validate-generated-component ********************",
+  );
+  console.dir(req, { depth: null });
+  process.exit();
+
+  return {
+    type: `component`,
+    success: true,
+    data: {},
+  };
+}
+
+module.exports = {
+  run,
+};

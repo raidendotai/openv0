@@ -1,0 +1,20 @@
+{
+  "name": "openv0",
+  "version": "1.0.1",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raidendotai/openv0.git"
+  },
+  "bin": "./bin.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://github.com/raidendotai/openv0",
+  "dependencies": {
+    "adm-zip": "^0.5.10",
+    "fs-extra": "^11.1.1",
+    "inquirer": "^8.0.0",
+    "ora": "^5.4.1"
+  }
+}

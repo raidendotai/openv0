@@ -1,0 +1,842 @@
+[
+  {
+    "name": "Accordion",
+    "description": "A vertically stacked set of interactive headings that each reveal a section of content",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/accordion.md",
+    "docs": {
+      "import": {
+        "source": "accordion.svelte",
+        "code": "<script lang=\"ts\">\n  import * as Accordion from \"$lib/components/ui/accordion\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "accordion.svelte",
+          "code": "<script lang=\"ts\">\n  import * as Accordion from \"$lib/components/ui/accordion\";\n</script>\n\n<Accordion.Root>\n  <Accordion.Item value=\"item-1\">\n    <Accordion.Trigger>Is it accessible?</Accordion.Trigger>\n    <Accordion.Content>\n      Yes. It adheres to the WAI-ARIA design pattern.\n    </Accordion.Content>\n  </Accordion.Item>\n</Accordion.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "accordion-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport * as Accordion from \"$lib/components/ui/accordion\";\r\n</script>\r\n\r\n<Accordion.Root class=\"w-full sm:max-w-[70%]\">\r\n\t<Accordion.Item value=\"item-1\">\r\n\t\t<Accordion.Trigger>Is it accessible?</Accordion.Trigger>\r\n\t\t<Accordion.Content>\r\n\t\t\tYes. It adheres to the WAI-ARIA design pattern.\r\n\t\t</Accordion.Content>\r\n\t</Accordion.Item>\r\n\t<Accordion.Item value=\"item-2\">\r\n\t\t<Accordion.Trigger>Is it styled?</Accordion.Trigger>\r\n\t\t<Accordion.Content>\r\n\t\t\tYes. It comes with default styles that matches the other components'\r\n\t\t\taesthetic.\r\n\t\t</Accordion.Content>\r\n\t</Accordion.Item>\r\n\t<Accordion.Item value=\"item-3\">\r\n\t\t<Accordion.Trigger>Is it animated?</Accordion.Trigger>\r\n\t\t<Accordion.Content>\r\n\t\t\tYes. It's animated by default, but you can disable it if you prefer.\r\n\t\t</Accordion.Content>\r\n\t</Accordion.Item>\r\n</Accordion.Root>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Alert Dialog",
+    "description": "A modal dialog that interrupts the user with important content and expects a response",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/alert-dialog.md",
+    "docs": {
+      "import": {
+        "source": "alert-dialog.svelte",
+        "code": "<script lang=\"ts\">\n  import * as AlertDialog from \"$lib/components/ui/alert-dialog\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "alert-dialog.svelte",
+          "code": "<script lang=\"ts\">\n  import * as AlertDialog from \"$lib/components/ui/alert-dialog\";\n</script>\n\n<AlertDialog.Root>\n  <AlertDialog.Trigger>Open</AlertDialog.Trigger>\n  <AlertDialog.Content>\n    <AlertDialog.Header>\n      <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>\n      <AlertDialog.Description>\n        This action cannot be undone. This will permanently delete your account\n        and remove your data from our servers.\n      </AlertDialog.Description>\n    </AlertDialog.Header>\n    <AlertDialog.Footer>\n      <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>\n      <AlertDialog.Action>Continue</AlertDialog.Action>\n    </AlertDialog.Footer>\n  </AlertDialog.Content>\n</AlertDialog.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "alert-dialog-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport * as AlertDialog from \"$lib/components/ui/alert-dialog\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<AlertDialog.Root>\r\n\t<AlertDialog.Trigger asChild let:builder>\r\n\t\t<Button builders={[builder]} variant=\"outline\">Show Dialog</Button>\r\n\t</AlertDialog.Trigger>\r\n\t<AlertDialog.Content>\r\n\t\t<AlertDialog.Header>\r\n\t\t\t<AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>\r\n\t\t\t<AlertDialog.Description>\r\n\t\t\t\tThis action cannot be undone. This will permanently delete your\r\n\t\t\t\taccount and remove your data from our servers.\r\n\t\t\t</AlertDialog.Description>\r\n\t\t</AlertDialog.Header>\r\n\t\t<AlertDialog.Footer>\r\n\t\t\t<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>\r\n\t\t\t<AlertDialog.Action>Continue</AlertDialog.Action>\r\n\t\t</AlertDialog.Footer>\r\n\t</AlertDialog.Content>\r\n</AlertDialog.Root>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Alert",
+    "description": "Displays a callout for user attention",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/alert.md",
+    "docs": {
+      "import": {
+        "source": "alert.svelte",
+        "code": "<script lang=\"ts\">\n  import * as Alert from \"$lib/components/ui/alert\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "alert.svelte",
+          "code": "<script lang=\"ts\">\n  import * as Alert from \"$lib/components/ui/alert\";\n</script>\n\n<Alert.Root>\n  <Alert.Title>Heads up!</Alert.Title>\n  <Alert.Description>\n    You can add components to your app using the cli.\n  </Alert.Description>\n</Alert.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "alert-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Terminal } from \"lucide-svelte\";\r\n\timport * as Alert from \"$lib/components/ui/alert\";\r\n</script>\r\n\r\n<Alert.Root>\r\n\t<Terminal class=\"h-4 w-4\" />\r\n\t<Alert.Title>Heads up!</Alert.Title>\r\n\t<Alert.Description>\r\n\t\tYou can add components to your app using the cli.\r\n\t</Alert.Description>\r\n</Alert.Root>"
+        },
+        {
+          "source": "alert-destructive.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { AlertCircle } from \"lucide-svelte\";\r\n\timport * as Alert from \"$lib/components/ui/alert\";\r\n</script>\r\n\r\n<Alert.Root variant=\"destructive\">\r\n\t<AlertCircle class=\"h-4 w-4\" />\r\n\t<Alert.Title>Error</Alert.Title>\r\n\t<Alert.Description>\r\n\t\tYour session has expired. Please login again.\r\n\t</Alert.Description>\r\n</Alert.Root>"
+        },
+        {
+          "source": "alert-dialog-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport * as AlertDialog from \"$lib/components/ui/alert-dialog\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<AlertDialog.Root>\r\n\t<AlertDialog.Trigger asChild let:builder>\r\n\t\t<Button builders={[builder]} variant=\"outline\">Show Dialog</Button>\r\n\t</AlertDialog.Trigger>\r\n\t<AlertDialog.Content>\r\n\t\t<AlertDialog.Header>\r\n\t\t\t<AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>\r\n\t\t\t<AlertDialog.Description>\r\n\t\t\t\tThis action cannot be undone. This will permanently delete your\r\n\t\t\t\taccount and remove your data from our servers.\r\n\t\t\t</AlertDialog.Description>\r\n\t\t</AlertDialog.Header>\r\n\t\t<AlertDialog.Footer>\r\n\t\t\t<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>\r\n\t\t\t<AlertDialog.Action>Continue</AlertDialog.Action>\r\n\t\t</AlertDialog.Footer>\r\n\t</AlertDialog.Content>\r\n</AlertDialog.Root>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Aspect Ratio",
+    "description": "Displays content within a desired ratio",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/aspect-ratio.md",
+    "docs": {
+      "import": {
+        "source": "aspect-ratio.svelte",
+        "code": "<script lang=\"ts\">\n  import { AspectRatio } from \"$lib/components/ui/aspect-ratio\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "aspect-ratio.svelte",
+          "code": "<script lang=\"ts\">\n  import { AspectRatio } from \"$lib/components/ui/aspect-ratio\";\n</script>\n\n<div class=\"w-[450px]\">\n  <AspectRatio ratio={16 / 9} class=\"bg-muted\">\n    <img src=\"...\" alt=\"...\" class=\"rounded-md object-cover\" />\n  </AspectRatio>\n</div>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "aspect-ratio-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { AspectRatio } from \"$lib/components/ui/aspect-ratio\";\r\n</script>\r\n\r\n<AspectRatio ratio={16 / 9} class=\"bg-muted\">\r\n\t<img\r\n\t\tsrc=\"https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80\"\r\n\t\talt=\"Gray by Drew Beamer\"\r\n\t\tclass=\"rounded-md object-cover h-full w-full\"\r\n\t/>\r\n</AspectRatio>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Avatar",
+    "description": "An image element with a fallback for representing the user",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/avatar.md",
+    "docs": {
+      "import": {
+        "source": "avatar.svelte",
+        "code": "<script lang=\"ts\">\n  import * as Avatar from \"$lib/components/ui/avatar\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "avatar.svelte",
+          "code": "<script lang=\"ts\">\n  import * as Avatar from \"$lib/components/ui/avatar\";\n</script>\n\n<Avatar.Root>\n  <Avatar.Image src=\"https://github.com/shadcn.png\" alt=\"@shadcn\" />\n  <Avatar.Fallback>CN</Avatar.Fallback>\n</Avatar.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "avatar-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport * as Avatar from \"$lib/components/ui/avatar\";\r\n</script>\r\n\r\n<Avatar.Root>\r\n\t<Avatar.Image src=\"https://github.com/shadcn.png\" alt=\"@shadcn\" />\r\n\t<Avatar.Fallback>CN</Avatar.Fallback>\r\n</Avatar.Root>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Badge",
+    "description": "Displays a badge or a component that looks like a badge",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/badge.md",
+    "docs": {
+      "import": {
+        "source": "badge.svelte",
+        "code": "<script lang=\"ts\">\n  import { Badge } from \"$lib/components/ui/badge\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "badge.svelte",
+          "code": "<Badge variant=\"outline\">Badge</Badge>\n"
+        },
+        {
+          "source": "badge.svelte",
+          "code": "<script lang=\"ts\">\n  import { badgeVariants } from \"$lib/components/ui/badge\";\n</script>\n\n<a href=\"/dashboard\" class={badgeVariants({ variant: \"outline\" })}>Badge</a>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "badge-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Badge } from \"$lib/components/ui/badge\";\r\n</script>\r\n\r\n<Badge>Badge</Badge>"
+        },
+        {
+          "source": "badge-destructive.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Badge } from \"$lib/components/ui/badge\";\r\n</script>\r\n\r\n<Badge variant=\"destructive\">Destructive</Badge>"
+        },
+        {
+          "source": "badge-outline.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Badge } from \"$lib/components/ui/badge\";\r\n</script>\r\n\r\n<Badge variant=\"outline\">Outline</Badge>"
+        },
+        {
+          "source": "badge-secondary.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Badge } from \"$lib/components/ui/badge\";\r\n</script>\r\n\r\n<Badge variant=\"secondary\">Secondary</Badge>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Button",
+    "description": "Displays a button or a component that looks like a button",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/button.md",
+    "docs": {
+      "import": {
+        "source": "button.svelte",
+        "code": "<script lang=\"ts\">\n  import { Button } from \"$lib/components/ui/button\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "button.svelte",
+          "code": "<Button variant=\"outline\">Button</Button>\n"
+        },
+        {
+          "source": "button.svelte",
+          "code": "<script lang=\"ts\">\n  import { Button } from \"$lib/components/ui/button\";\n</script>\n\n<Button href=\"/dashboard\">Dashboard</Button>\n"
+        },
+        {
+          "source": "button.svelte",
+          "code": "<script lang=\"ts\">\n  import { buttonVariants } from \"$lib/components/ui/button\";\n</script>\n\n<a href=\"/dashboard\" class={buttonVariants({ variant: \"outline\" })}>\n  Dashboard\n</a>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "button-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button>Button</Button>"
+        },
+        {
+          "source": "button-destructive.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"destructive\">Destructive</Button>"
+        },
+        {
+          "source": "button-ghost.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"ghost\">Ghost</Button>"
+        },
+        {
+          "source": "button-icon.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { ChevronRight } from \"lucide-svelte\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"outline\" size=\"icon\">\r\n\t<ChevronRight className=\"h-4 w-4\" />\r\n</Button>"
+        },
+        {
+          "source": "button-link.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"link\">Link</Button>"
+        },
+        {
+          "source": "button-loading.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Loader2 } from \"lucide-svelte\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button disabled>\r\n\t<Loader2 class=\"mr-2 h-4 w-4 animate-spin\" />\r\n\tPlease wait\r\n</Button>"
+        },
+        {
+          "source": "button-outline.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"outline\">Outline</Button>"
+        },
+        {
+          "source": "button-secondary.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button variant=\"secondary\">Secondary</Button>"
+        },
+        {
+          "source": "button-with-icon.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Mail } from \"lucide-svelte\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Button>\r\n\t<Mail class=\"mr-2 h-4 w-4\" />\r\n\tLogin with Email\r\n</Button>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Checkbox",
+    "description": "A control that allows the user to toggle between checked and not checked",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/checkbox.md",
+    "docs": {
+      "import": {
+        "source": "checkbox.svelte",
+        "code": "<script lang=\"ts\">\n  import { Checkbox } from \"$lib/components/ui/checkbox\";\n</script>"
+      },
+      "use": [{ "source": "checkbox.svelte", "code": "<Checkbox />\n" }],
+      "examples": [
+        {
+          "source": "checkbox-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Checkbox } from \"$lib/components/ui/checkbox\";\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n\tlet checked = false;\r\n</script>\r\n\r\n<div class=\"flex items-center space-x-2\">\r\n\t<Checkbox id=\"terms\" bind:checked aria-labelledby=\"terms-label\" />\r\n\t<Label\r\n\t\tid=\"terms-label\"\r\n\t\tfor=\"terms\"\r\n\t\tclass=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\r\n\t>\r\n\t\tAccept terms and conditions\r\n\t</Label>\r\n</div>"
+        },
+        {
+          "source": "checkbox-disabled.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Checkbox } from \"$lib/components/ui/checkbox\";\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n</script>\r\n\r\n<div class=\"flex items-center space-x-2\">\r\n\t<Checkbox id=\"terms\" disabled />\r\n\t<Label\r\n\t\tfor=\"terms2\"\r\n\t\tclass=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\r\n\t>\r\n\t\tAccept terms and conditions\r\n\t</Label>\r\n</div>"
+        },
+        {
+          "source": "checkbox-form-single.svelte",
+          "code": "<script lang=\"ts\" context=\"module\">\r\n\timport { z } from \"zod\";\r\n\texport const formSchema = z.object({\r\n\t\tmobile: z.boolean().default(false)\r\n\t});\r\n\texport type FormSchema = typeof formSchema;\r\n</script>\r\n\r\n<script lang=\"ts\">\r\n\timport { page } from \"$app/stores\";\r\n\timport * as Form from \"$lib/components/ui/form\";\r\n\timport type { SuperValidated } from \"sveltekit-superforms\";\r\n\texport let form: SuperValidated<FormSchema> = $page.data.checkboxSingle;\r\n</script>\r\n\r\n<Form.Root\r\n\tmethod=\"POST\"\r\n\t{form}\r\n\tschema={formSchema}\r\n\tlet:config\r\n\taction=\"?/checkboxSingle\"\r\n\tclass=\"space-y-6\"\r\n>\r\n\t<Form.Field {config} name=\"mobile\">\r\n\t\t<Form.Item\r\n\t\t\tclass=\"flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4\"\r\n\t\t>\r\n\t\t\t<Form.Checkbox />\r\n\t\t\t<div class=\"space-y-1 leading-none\">\r\n\t\t\t\t<Form.Label\r\n\t\t\t\t\t>Use different settings for my mobile devices</Form.Label\r\n\t\t\t\t>\r\n\t\t\t\t<Form.Description>\r\n\t\t\t\t\tYou can manage your mobile notifications in the <a\r\n\t\t\t\t\t\thref=\"/examples/forms\">mobile settings</a\r\n\t\t\t\t\t> page.\r\n\t\t\t\t</Form.Description>\r\n\t\t\t</div>\r\n\t\t</Form.Item>\r\n\t</Form.Field>\r\n\t<Form.Button>Submit</Form.Button>\r\n</Form.Root>"
+        },
+        {
+          "source": "checkbox-with-text.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Checkbox } from \"$lib/components/ui/checkbox\";\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n</script>\r\n\r\n<div class=\"items-top flex space-x-2\">\r\n\t<Checkbox id=\"terms1\" />\r\n\t<div class=\"grid gap-1.5 leading-none\">\r\n\t\t<Label\r\n\t\t\tfor=\"terms1\"\r\n\t\t\tclass=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\r\n\t\t>\r\n\t\t\tAccept terms and conditions\r\n\t\t</Label>\r\n\t\t<p class=\"text-sm text-muted-foreground\">\r\n\t\t\tYou agree to our Terms of Service and Privacy Policy.\r\n\t\t</p>\r\n\t</div>\r\n</div>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Collapsible",
+    "description": "An interactive component which expands/collapses a panel",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/collapsible.md",
+    "docs": {
+      "import": {
+        "source": "collapsible.svelte",
+        "code": "<script lang=\"ts\">\n  import * as Collapsible from \"$lib/components/ui/collapsible\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "collapsible.svelte",
+          "code": "<script lang=\"ts\">\n  import * as Collapsible from \"$lib/components/ui/collapsible\";\n</script>\n\n<Collapsible.Root>\n  <Collapsible.Trigger>Can I use this in my project?</Collapsible.Trigger>\n  <Collapsible.Content>\n    Yes. Free to use for personal and commercial projects. No attribution\n    required.\n  </Collapsible.Content>\n</Collapsible.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "collapsible-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport * as Collapsible from \"$lib/components/ui/collapsible\";\r\n\timport { ChevronsUpDown } from \"lucide-svelte\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n</script>\r\n\r\n<Collapsible.Root class=\"w-[350px] space-y-2\">\r\n\t<div class=\"flex items-center justify-between space-x-4 px-4\">\r\n\t\t<h4 class=\"text-sm font-semibold\">@peduarte starred 3 repositories</h4>\r\n\t\t<Collapsible.Trigger asChild let:builder>\r\n\t\t\t<Button\r\n\t\t\t\tbuilders={[builder]}\r\n\t\t\t\tvariant=\"ghost\"\r\n\t\t\t\tsize=\"sm\"\r\n\t\t\t\tclass=\"w-9 p-0\"\r\n\t\t\t>\r\n\t\t\t\t<ChevronsUpDown class=\"h-4 w-4\" />\r\n\t\t\t\t<span class=\"sr-only\">Toggle</span>\r\n\t\t\t</Button>\r\n\t\t</Collapsible.Trigger>\r\n\t</div>\r\n\t<div class=\"rounded-md border px-4 py-3 font-mono text-sm\">\r\n\t\t@melt-ui/melt-ui\r\n\t</div>\r\n\t<Collapsible.Content class=\"space-y-2\">\r\n\t\t<div class=\"rounded-md border px-4 py-3 font-mono text-sm\">bits-ui</div>\r\n\t\t<div class=\"rounded-md border px-4 py-3 font-mono text-sm\">\r\n\t\t\t@radix-ui/primitives\r\n\t\t</div>\r\n\t</Collapsible.Content>\r\n</Collapsible.Root>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Context Menu",
+    "description": "Displays a menu to the user — such as a set of actions or functions — triggered by right click",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/context-menu.md",
+    "docs": {
+      "import": {
+        "source": "context-menu.svelte",
+        "code": "<script lang=\"ts\">\n  import * as ContextMenu from \"$lib/components/ui/context-menu\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "context-menu.svelte",
+          "code": "<script lang=\"ts\">\n  import * as ContextMenu from \"$lib/components/ui/context-menu\";\n</script>\n\n<ContextMenu.Root>\n  <ContextMenu.Trigger>Right click</ContextMenu.Trigger>\n  <ContextMenu.Content>\n    <ContextMenu.Item>Profile</ContextMenu.Item>\n    <ContextMenu.Item>Billing</ContextMenu.Item>\n    <ContextMenu.Item>Team</ContextMenu.Item>\n    <ContextMenu.Item>Subscription</ContextMenu.Item>\n  </ContextMenu.Content>\n</ContextMenu.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "context-menu-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport * as ContextMenu from \"$lib/components/ui/context-menu\";\r\n\r\n\tlet showBookmarks = false;\r\n\tlet showFullURLs = true;\r\n\r\n\tlet value = \"pedro\";\r\n</script>\r\n\r\n<ContextMenu.Root>\r\n\t<ContextMenu.Trigger\r\n\t\tclass=\"flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm\"\r\n\t>\r\n\t\tRight click here\r\n\t</ContextMenu.Trigger>\r\n\t<ContextMenu.Content class=\"w-64\">\r\n\t\t<ContextMenu.Item inset>\r\n\t\t\tBack\r\n\t\t\t<ContextMenu.Shortcut>⌘[</ContextMenu.Shortcut>\r\n\t\t</ContextMenu.Item>\r\n\t\t<ContextMenu.Item inset>\r\n\t\t\tForward\r\n\t\t\t<ContextMenu.Shortcut>⌘]</ContextMenu.Shortcut>\r\n\t\t</ContextMenu.Item>\r\n\t\t<ContextMenu.Item inset>\r\n\t\t\tReload\r\n\t\t\t<ContextMenu.Shortcut>⌘R</ContextMenu.Shortcut>\r\n\t\t</ContextMenu.Item>\r\n\t\t<ContextMenu.Sub>\r\n\t\t\t<ContextMenu.SubTrigger inset>More Tools</ContextMenu.SubTrigger>\r\n\t\t\t<ContextMenu.SubContent class=\"w-48\">\r\n\t\t\t\t<ContextMenu.Item>\r\n\t\t\t\t\tSave Page As...\r\n\t\t\t\t\t<ContextMenu.Shortcut>⇧⌘S</ContextMenu.Shortcut>\r\n\t\t\t\t</ContextMenu.Item>\r\n\t\t\t\t<ContextMenu.Item>Create Shortcut...</ContextMenu.Item>\r\n\t\t\t\t<ContextMenu.Item>Name Window...</ContextMenu.Item>\r\n\t\t\t\t<ContextMenu.Separator />\r\n\t\t\t\t<ContextMenu.Item>Developer Tools</ContextMenu.Item>\r\n\t\t\t</ContextMenu.SubContent>\r\n\t\t</ContextMenu.Sub>\r\n\t\t<ContextMenu.Separator />\r\n\t\t<ContextMenu.CheckboxItem bind:checked={showBookmarks}>\r\n\t\t\tShow Bookmarks Bar\r\n\t\t\t<ContextMenu.Shortcut>⌘⇧B</ContextMenu.Shortcut>\r\n\t\t</ContextMenu.CheckboxItem>\r\n\t\t<ContextMenu.CheckboxItem bind:checked={showFullURLs}>\r\n\t\t\tShow Full URLs\r\n\t\t</ContextMenu.CheckboxItem>\r\n\t\t<ContextMenu.Separator />\r\n\t\t<ContextMenu.RadioGroup bind:value>\r\n\t\t\t<ContextMenu.Label inset>People</ContextMenu.Label>\r\n\t\t\t<ContextMenu.Separator />\r\n\t\t\t<ContextMenu.RadioItem value=\"pedro\">\r\n\t\t\t\tPedro Duarte\r\n\t\t\t</ContextMenu.RadioItem>\r\n\t\t\t<ContextMenu.RadioItem value=\"colm\">\r\n\t\t\t\tColm Tuite\r\n\t\t\t</ContextMenu.RadioItem>\r\n\t\t</ContextMenu.RadioGroup>\r\n\t</ContextMenu.Content>\r\n</ContextMenu.Root>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Dialog",
+    "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/dialog.md",
+    "docs": {
+      "import": {
+        "source": "dialog.svelte",
+        "code": "<script lang=\"ts\">\n  import * as Dialog from \"$lib/components/ui/dialog\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "dialog.svelte",
+          "code": "<script lang=\"ts\">\n  import * as Dialog from \"$lib/components/ui/dialog\";\n</script>\n\n<Dialog.Root>\n  <Dialog.Trigger>Open</Dialog.Trigger>\n  <Dialog.Content>\n    <Dialog.Header>\n      <Dialog.Title>Are you sure absolutely sure?</Dialog.Title>\n      <Dialog.Description>\n        This action cannot be undone. This will permanently delete your account\n        and remove your data from our servers.\n      </Dialog.Description>\n    </Dialog.Header>\n  </Dialog.Content>\n</Dialog.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "dialog-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Button, buttonVariants } from \"$lib/components/ui/button\";\r\n\timport * as Dialog from \"$lib/components/ui/dialog\";\r\n\timport { Input } from \"$lib/components/ui/input\";\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n</script>\r\n\r\n<Dialog.Root>\r\n\t<Dialog.Trigger class={buttonVariants({ variant: \"outline\" })}>\r\n\t\tEdit Profile\r\n\t</Dialog.Trigger>\r\n\t<Dialog.Content class=\"sm:max-w-[425px]\">\r\n\t\t<Dialog.Header>\r\n\t\t\t<Dialog.Title>Edit profile</Dialog.Title>\r\n\t\t\t<Dialog.Description>\r\n\t\t\t\tMake changes to your profile here. Click save when you're done.\r\n\t\t\t</Dialog.Description>\r\n\t\t</Dialog.Header>\r\n\t\t<div class=\"grid gap-4 py-4\">\r\n\t\t\t<div class=\"grid grid-cols-4 items-center gap-4\">\r\n\t\t\t\t<Label class=\"text-right\">Name</Label>\r\n\t\t\t\t<Input id=\"name\" value=\"Pedro Duarte\" class=\"col-span-3\" />\r\n\t\t\t</div>\r\n\t\t\t<div class=\"grid grid-cols-4 items-center gap-4\">\r\n\t\t\t\t<Label class=\"text-right\">Username</Label>\r\n\t\t\t\t<Input id=\"username\" value=\"@peduarte\" class=\"col-span-3\" />\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<Dialog.Footer>\r\n\t\t\t<Button type=\"submit\">Save changes</Button>\r\n\t\t</Dialog.Footer>\r\n\t</Dialog.Content>\r\n</Dialog.Root>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Dropdown Menu",
+    "description": "Displays a menu to the user — such as a set of actions or functions — triggered by a button",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/dropdown-menu.md",
+    "docs": {
+      "import": {
+        "source": "dropdown-menu.svelte",
+        "code": "<script lang=\"ts\">\n  import * as DropdownMenu from \"$lib/components/ui/dropdown-menu\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "dropdown-menu.svelte",
+          "code": "<script lang=\"ts\">\n  import * as DropdownMenu from \"$lib/components/ui/dropdown-menu\";\n</script>\n\n<DropdownMenu.Root>\n  <DropdownMenu.Trigger>Open</DropdownMenu.Trigger>\n  <DropdownMenu.Content>\n    <DropdownMenu.Group>\n      <DropdownMenu.Label>My Account</DropdownMenu.Label>\n      <DropdownMenu.Separator />\n      <DropdownMenu.Item>Profile</DropdownMenu.Item>\n      <DropdownMenu.Item>Billing</DropdownMenu.Item>\n      <DropdownMenu.Item>Team</DropdownMenu.Item>\n      <DropdownMenu.Item>Subscription</DropdownMenu.Item>\n    </DropdownMenu.Group>\n  </DropdownMenu.Content>\n</DropdownMenu.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "dropdown-menu-checkboxes.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport * as DropdownMenu from \"$lib/components/ui/dropdown-menu\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n\r\n\tlet showStatusBar = true;\r\n\tlet showActivityBar = false;\r\n\tlet showPanel = false;\r\n</script>\r\n\r\n<DropdownMenu.Root>\r\n\t<DropdownMenu.Trigger asChild let:builder>\r\n\t\t<Button variant=\"outline\" builders={[builder]}>Open</Button>\r\n\t</DropdownMenu.Trigger>\r\n\t<DropdownMenu.Content class=\"w-56\">\r\n\t\t<DropdownMenu.Label>Appearance</DropdownMenu.Label>\r\n\t\t<DropdownMenu.Separator />\r\n\t\t<DropdownMenu.CheckboxItem bind:checked={showStatusBar}>\r\n\t\t\tStatus Bar\r\n\t\t</DropdownMenu.CheckboxItem>\r\n\t\t<DropdownMenu.CheckboxItem bind:checked={showActivityBar} disabled>\r\n\t\t\tActivity Bar\r\n\t\t</DropdownMenu.CheckboxItem>\r\n\t\t<DropdownMenu.CheckboxItem bind:checked={showPanel}>\r\n\t\t\tPanel\r\n\t\t</DropdownMenu.CheckboxItem>\r\n\t</DropdownMenu.Content>\r\n</DropdownMenu.Root>"
+        },
+        {
+          "source": "dropdown-menu-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport {\r\n\t\tCloud,\r\n\t\tCreditCard,\r\n\t\tGithub,\r\n\t\tKeyboard,\r\n\t\tLifeBuoy,\r\n\t\tLogOut,\r\n\t\tMail,\r\n\t\tMessageSquare,\r\n\t\tPlus,\r\n\t\tPlusCircle,\r\n\t\tSettings,\r\n\t\tUser,\r\n\t\tUserPlus,\r\n\t\tUsers\r\n\t} from \"lucide-svelte\";\r\n\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n\timport * as DropdownMenu from \"$lib/components/ui/dropdown-menu\";\r\n</script>\r\n\r\n<DropdownMenu.Root>\r\n\t<DropdownMenu.Trigger asChild let:builder>\r\n\t\t<Button builders={[builder]} variant=\"outline\">Open</Button>\r\n\t</DropdownMenu.Trigger>\r\n\t<DropdownMenu.Content class=\"w-56\">\r\n\t\t<DropdownMenu.Label>My Account</DropdownMenu.Label>\r\n\t\t<DropdownMenu.Separator />\r\n\t\t<DropdownMenu.Group>\r\n\t\t\t<DropdownMenu.Item>\r\n\t\t\t\t<User class=\"mr-2 h-4 w-4\" />\r\n\t\t\t\t<span>Profile</span>\r\n\t\t\t\t<DropdownMenu.Shortcut>⇧⌘P</DropdownMenu.Shortcut>\r\n\t\t\t</DropdownMenu.Item>\r\n\t\t\t<DropdownMenu.Item>\r\n\t\t\t\t<CreditCard class=\"mr-2 h-4 w-4\" />\r\n\t\t\t\t<span>Billing</span>\r\n\t\t\t\t<DropdownMenu.Shortcut>⌘B</DropdownMenu.Shortcut>\r\n\t\t\t</DropdownMenu.Item>\r\n\t\t\t<DropdownMenu.Item>\r\n\t\t\t\t<Settings class=\"mr-2 h-4 w-4\" />\r\n\t\t\t\t<span>Settings</span>\r\n\t\t\t\t<DropdownMenu.Shortcut>⌘S</DropdownMenu.Shortcut>\r\n\t\t\t</DropdownMenu.Item>\r\n\t\t\t<DropdownMenu.Item>\r\n\t\t\t\t<Keyboard class=\"mr-2 h-4 w-4\" />\r\n\t\t\t\t<span>Keyboard shortcuts</span>\r\n\t\t\t\t<DropdownMenu.Shortcut>⌘K</DropdownMenu.Shortcut>\r\n\t\t\t</DropdownMenu.Item>\r\n\t\t</DropdownMenu.Group>\r\n\t\t<DropdownMenu.Separator />\r\n\t\t<DropdownMenu.Group>\r\n\t\t\t<DropdownMenu.Item>\r\n\t\t\t\t<Users class=\"mr-2 h-4 w-4\" />\r\n\t\t\t\t<span>Team</span>\r\n\t\t\t</DropdownMenu.Item>\r\n\t\t\t<DropdownMenu.Sub>\r\n\t\t\t\t<DropdownMenu.SubTrigger>\r\n\t\t\t\t\t<UserPlus class=\"mr-2 h-4 w-4\" />\r\n\t\t\t\t\t<span>Invite users</span>\r\n\t\t\t\t</DropdownMenu.SubTrigger>\r\n\t\t\t\t<DropdownMenu.SubContent>\r\n\t\t\t\t\t<DropdownMenu.Item>\r\n\t\t\t\t\t\t<Mail class=\"mr-2 h-4 w-4\" />\r\n\t\t\t\t\t\t<span>Email</span>\r\n\t\t\t\t\t</DropdownMenu.Item>\r\n\t\t\t\t\t<DropdownMenu.Item>\r\n\t\t\t\t\t\t<MessageSquare class=\"mr-2 h-4 w-4\" />\r\n\t\t\t\t\t\t<span>Message</span>\r\n\t\t\t\t\t</DropdownMenu.Item>\r\n\t\t\t\t\t<DropdownMenu.Item>\r\n\t\t\t\t\t\t<PlusCircle class=\"mr-2 h-4 w-4\" />\r\n\t\t\t\t\t\t<span>More...</span>\r\n\t\t\t\t\t</DropdownMenu.Item>\r\n\t\t\t\t</DropdownMenu.SubContent>\r\n\t\t\t</DropdownMenu.Sub>\r\n\t\t\t<DropdownMenu.Item>\r\n\t\t\t\t<Plus class=\"mr-2 h-4 w-4\" />\r\n\t\t\t\t<span>New Team</span>\r\n\t\t\t\t<DropdownMenu.Shortcut>⌘+T</DropdownMenu.Shortcut>\r\n\t\t\t</DropdownMenu.Item>\r\n\t\t</DropdownMenu.Group>\r\n\t\t<DropdownMenu.Separator />\r\n\t\t<DropdownMenu.Item>\r\n\t\t\t<Github class=\"mr-2 h-4 w-4\" />\r\n\t\t\t<span>GitHub</span>\r\n\t\t</DropdownMenu.Item>\r\n\t\t<DropdownMenu.Item>\r\n\t\t\t<LifeBuoy class=\"mr-2 h-4 w-4\" />\r\n\t\t\t<span>Support</span>\r\n\t\t</DropdownMenu.Item>\r\n\t\t<DropdownMenu.Item>\r\n\t\t\t<Cloud class=\"mr-2 h-4 w-4\" />\r\n\t\t\t<span>API</span>\r\n\t\t</DropdownMenu.Item>\r\n\t\t<DropdownMenu.Separator />\r\n\t\t<DropdownMenu.Item>\r\n\t\t\t<LogOut class=\"mr-2 h-4 w-4\" />\r\n\t\t\t<span>Log out</span>\r\n\t\t\t<DropdownMenu.Shortcut>⇧⌘Q</DropdownMenu.Shortcut>\r\n\t\t</DropdownMenu.Item>\r\n\t</DropdownMenu.Content>\r\n</DropdownMenu.Root>"
+        },
+        {
+          "source": "dropdown-menu-radio-group.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport * as DropdownMenu from \"$lib/components/ui/dropdown-menu\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n\r\n\tlet position = \"bottom\";\r\n</script>\r\n\r\n<DropdownMenu.Root>\r\n\t<DropdownMenu.Trigger asChild let:builder>\r\n\t\t<Button variant=\"outline\" builders={[builder]}>Open</Button>\r\n\t</DropdownMenu.Trigger>\r\n\t<DropdownMenu.Content class=\"w-56\">\r\n\t\t<DropdownMenu.Label>Panel Position</DropdownMenu.Label>\r\n\t\t<DropdownMenu.Separator />\r\n\t\t<DropdownMenu.RadioGroup bind:value={position}>\r\n\t\t\t<DropdownMenu.RadioItem value=\"top\">Top</DropdownMenu.RadioItem>\r\n\t\t\t<DropdownMenu.RadioItem value=\"bottom\"\r\n\t\t\t\t>Bottom</DropdownMenu.RadioItem\r\n\t\t\t>\r\n\t\t\t<DropdownMenu.RadioItem value=\"right\">Right</DropdownMenu.RadioItem>\r\n\t\t</DropdownMenu.RadioGroup>\r\n\t</DropdownMenu.Content>\r\n</DropdownMenu.Root>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Hover Card",
+    "description": "For sighted users to preview content available behind a link",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/hover-card.md",
+    "docs": {
+      "import": {
+        "source": "hover-card.svelte",
+        "code": "<script lang=\"ts\">\n  import * as HoverCard from \"$lib/components/ui/hover-card\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "hover-card.svelte",
+          "code": "<script lang=\"ts\">\n  import * as HoverCard from \"$lib/components/ui/hover-card\";\n</script>\n\n<HoverCard.Root>\n  <HoverCard.Trigger>Hover</HoverCard.Trigger>\n  <HoverCard.Content>\n    SvelteKit - Web development, streamlined\n  </HoverCard.Content>\n</HoverCard.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "hover-card-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { CalendarDays } from \"lucide-svelte\";\r\n\timport * as Avatar from \"$lib/components/ui/avatar\";\r\n\timport * as HoverCard from \"$lib/components/ui/hover-card\";\r\n</script>\r\n\r\n<HoverCard.Root>\r\n\t<HoverCard.Trigger\r\n\t\thref=\"https://github.com/sveltejs\"\r\n\t\ttarget=\"_blank\"\r\n\t\trel=\"noreferrer noopener\"\r\n\t\tclass=\"hover:underline underline-offset-4 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-black\"\r\n\t>\r\n\t\t@sveltejs\r\n\t</HoverCard.Trigger>\r\n\t<HoverCard.Content class=\"w-80\">\r\n\t\t<div class=\"flex justify-between space-x-4\">\r\n\t\t\t<Avatar.Root>\r\n\t\t\t\t<Avatar.Image src=\"https://github.com/sveltejs.png\" />\r\n\t\t\t\t<Avatar.Fallback>SK</Avatar.Fallback>\r\n\t\t\t</Avatar.Root>\r\n\t\t\t<div class=\"space-y-1\">\r\n\t\t\t\t<h4 class=\"text-sm font-semibold\">@sveltejs</h4>\r\n\t\t\t\t<p class=\"text-sm\">Cybernetically enhanced web apps.</p>\r\n\t\t\t\t<div class=\"flex items-center pt-2\">\r\n\t\t\t\t\t<CalendarDays class=\"mr-2 h-4 w-4 opacity-70\" />{\" \"}\r\n\t\t\t\t\t<span class=\"text-xs text-muted-foreground\">\r\n\t\t\t\t\t\tJoined September 2022\r\n\t\t\t\t\t</span>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</HoverCard.Content>\r\n</HoverCard.Root>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Input",
+    "description": "Displays a form input field or a component that looks like an input field",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/input.md",
+    "docs": {
+      "import": {
+        "source": "input.svelte",
+        "code": "<script lang=\"ts\">\n  import { Input } from \"$lib/components/ui/input\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "input.svelte",
+          "code": "<script lang=\"ts\">\n  import { Input } from \"$lib/components/ui/input\";\n</script>\n\n<Input />\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "input-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Input } from \"$lib/components/ui/input\";\r\n</script>\r\n\r\n<Input type=\"email\" placeholder=\"email\" class=\"max-w-xs\" />"
+        },
+        {
+          "source": "input-disabled.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Input } from \"$lib/components/ui/input\";\r\n</script>\r\n\r\n<Input disabled type=\"email\" placeholder=\"email\" class=\"max-w-sm\" />"
+        },
+        {
+          "source": "input-file.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Input } from \"$lib/components/ui/input\";\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n</script>\r\n\r\n<div class=\"grid w-full max-w-sm items-center gap-1.5\">\r\n\t<Label for=\"picture\">Picture</Label>\r\n\t<Input id=\"picture\" type=\"file\" />\r\n</div>"
+        },
+        {
+          "source": "input-with-button.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n\timport { Input } from \"$lib/components/ui/input\";\r\n</script>\r\n\r\n<form class=\"flex w-full max-w-sm items-center space-x-2\">\r\n\t<Input type=\"email\" placeholder=\"email\" />\r\n\t<Button type=\"submit\">Subscribe</Button>\r\n</form>"
+        },
+        {
+          "source": "input-with-label.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Input } from \"$lib/components/ui/input\";\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n</script>\r\n\r\n<div class=\"flex flex-col w-full max-w-sm gap-1.5\">\r\n\t<Label for=\"email\">Email</Label>\r\n\t<Input type=\"email\" id=\"email\" placeholder=\"email\" />\r\n</div>"
+        },
+        {
+          "source": "input-with-text.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Input } from \"$lib/components/ui/input\";\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n</script>\r\n\r\n<div class=\"flex flex-col w-full max-w-sm gap-1.5\">\r\n\t<Label for=\"email-2\">Email</Label>\r\n\t<Input type=\"email\" id=\"email-2\" placeholder=\"Email\" />\r\n\t<p class=\"text-sm text-muted-foreground\">Enter your email address.</p>\r\n</div>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Label",
+    "description": "Renders an accessible label associated with controls",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/label.md",
+    "docs": {
+      "import": {
+        "source": "label.svelte",
+        "code": "<script lang=\"ts\">\n  import { Label } from \"$lib/components/ui/label\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "label.svelte",
+          "code": "<script lang=\"ts\">\n  import { Label } from \"$lib/components/ui/label\";\n</script>\n\n<Label for=\"email\">Your email address</Label>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "label-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Checkbox } from \"$lib/components/ui/checkbox\";\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n</script>\r\n\r\n<div>\r\n\t<div class=\"flex items-center space-x-2\">\r\n\t\t<Checkbox id=\"terms\" />\r\n\t\t<Label for=\"terms\">Accept terms and conditions</Label>\r\n\t</div>\r\n</div>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Menubar",
+    "description": "A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/menubar.md",
+    "docs": {
+      "import": {
+        "source": "menubar.svelte",
+        "code": "<script lang=\"ts\">\n  import * as Menubar from \"$lib/components/ui/menubar\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "menubar.svelte",
+          "code": "<script lang=\"ts\">\n  import * as Menubar from \"$lib/components/ui/menubar\";\n</script>\n\n<Menubar.Root>\n  <Menubar.Menu>\n    <Menubar.Trigger>File</Menubar.Trigger>\n    <Menubar.Content>\n      <Menubar.Item>\n        New Tab\n        <Menubar.Shortcut>⌘T</Menubar.Shortcut>\n      </Menubar.Item>\n      <Menubar.Item>New Window</Menubar.Item>\n      <Menubar.Separator />\n      <Menubar.Item>Share</Menubar.Item>\n      <Menubar.Separator />\n      <Menubar.Item>Print</Menubar.Item>\n    </Menubar.Content>\n  </Menubar.Menu>\n</Menubar.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "menubar-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport * as Menubar from \"$lib/components/ui/menubar\";\r\n\r\n\tlet bookmarks = false;\r\n\tlet fullUrls = true;\r\n\r\n\tconst profileRadioValue = \"benoit\";\r\n</script>\r\n\r\n<Menubar.Root>\r\n\t<Menubar.Menu>\r\n\t\t<Menubar.Trigger>File</Menubar.Trigger>\r\n\t\t<Menubar.Content>\r\n\t\t\t<Menubar.Item>\r\n\t\t\t\tNew Tab <Menubar.Shortcut>⌘T</Menubar.Shortcut>\r\n\t\t\t</Menubar.Item>\r\n\t\t\t<Menubar.Item>\r\n\t\t\t\tNew Window <Menubar.Shortcut>⌘N</Menubar.Shortcut>\r\n\t\t\t</Menubar.Item>\r\n\t\t\t<Menubar.Item>New Incognito Window</Menubar.Item>\r\n\t\t\t<Menubar.Separator />\r\n\t\t\t<Menubar.Sub>\r\n\t\t\t\t<Menubar.SubTrigger>Share</Menubar.SubTrigger>\r\n\t\t\t\t<Menubar.SubContent>\r\n\t\t\t\t\t<Menubar.Item>Email link</Menubar.Item>\r\n\t\t\t\t\t<Menubar.Item>Messages</Menubar.Item>\r\n\t\t\t\t\t<Menubar.Item>Notes</Menubar.Item>\r\n\t\t\t\t</Menubar.SubContent>\r\n\t\t\t</Menubar.Sub>\r\n\t\t\t<Menubar.Separator />\r\n\t\t\t<Menubar.Item>\r\n\t\t\t\tPrint... <Menubar.Shortcut>⌘P</Menubar.Shortcut>\r\n\t\t\t</Menubar.Item>\r\n\t\t</Menubar.Content>\r\n\t</Menubar.Menu>\r\n\t<Menubar.Menu>\r\n\t\t<Menubar.Trigger>Edit</Menubar.Trigger>\r\n\t\t<Menubar.Content>\r\n\t\t\t<Menubar.Item>\r\n\t\t\t\tUndo <Menubar.Shortcut>⌘Z</Menubar.Shortcut>\r\n\t\t\t</Menubar.Item>\r\n\t\t\t<Menubar.Item>\r\n\t\t\t\tRedo <Menubar.Shortcut>⇧⌘Z</Menubar.Shortcut>\r\n\t\t\t</Menubar.Item>\r\n\t\t\t<Menubar.Separator />\r\n\t\t\t<Menubar.Sub>\r\n\t\t\t\t<Menubar.SubTrigger>Find</Menubar.SubTrigger>\r\n\t\t\t\t<Menubar.SubContent>\r\n\t\t\t\t\t<Menubar.Item>Search the web</Menubar.Item>\r\n\t\t\t\t\t<Menubar.Separator />\r\n\t\t\t\t\t<Menubar.Item>Find...</Menubar.Item>\r\n\t\t\t\t\t<Menubar.Item>Find Next</Menubar.Item>\r\n\t\t\t\t\t<Menubar.Item>Find Previous</Menubar.Item>\r\n\t\t\t\t</Menubar.SubContent>\r\n\t\t\t</Menubar.Sub>\r\n\t\t\t<Menubar.Separator />\r\n\t\t\t<Menubar.Item>Cut</Menubar.Item>\r\n\t\t\t<Menubar.Item>Copy</Menubar.Item>\r\n\t\t\t<Menubar.Item>Paste</Menubar.Item>\r\n\t\t</Menubar.Content>\r\n\t</Menubar.Menu>\r\n\t<Menubar.Menu>\r\n\t\t<Menubar.Trigger>View</Menubar.Trigger>\r\n\t\t<Menubar.Content>\r\n\t\t\t<Menubar.CheckboxItem bind:checked={bookmarks}\r\n\t\t\t\t>Always Show Bookmarks Bar</Menubar.CheckboxItem\r\n\t\t\t>\r\n\t\t\t<Menubar.CheckboxItem bind:checked={fullUrls}>\r\n\t\t\t\tAlways Show Full URLs\r\n\t\t\t</Menubar.CheckboxItem>\r\n\t\t\t<Menubar.Separator />\r\n\t\t\t<Menubar.Item inset>\r\n\t\t\t\tReload <Menubar.Shortcut>⌘R</Menubar.Shortcut>\r\n\t\t\t</Menubar.Item>\r\n\t\t\t<Menubar.Item inset>\r\n\t\t\t\tForce Reload <Menubar.Shortcut>⇧⌘R</Menubar.Shortcut>\r\n\t\t\t</Menubar.Item>\r\n\t\t\t<Menubar.Separator />\r\n\t\t\t<Menubar.Item inset>Toggle Fullscreen</Menubar.Item>\r\n\t\t\t<Menubar.Separator />\r\n\t\t\t<Menubar.Item inset>Hide Sidebar</Menubar.Item>\r\n\t\t</Menubar.Content>\r\n\t</Menubar.Menu>\r\n\t<Menubar.Menu>\r\n\t\t<Menubar.Trigger>Profiles</Menubar.Trigger>\r\n\t\t<Menubar.Content>\r\n\t\t\t<Menubar.RadioGroup value={profileRadioValue}>\r\n\t\t\t\t<Menubar.RadioItem value=\"andy\">Andy</Menubar.RadioItem>\r\n\t\t\t\t<Menubar.RadioItem value=\"benoit\">Benoit</Menubar.RadioItem>\r\n\t\t\t\t<Menubar.RadioItem value=\"Luis\">Luis</Menubar.RadioItem>\r\n\t\t\t</Menubar.RadioGroup>\r\n\t\t\t<Menubar.Separator />\r\n\t\t\t<Menubar.Item inset>Edit...</Menubar.Item>\r\n\t\t\t<Menubar.Separator />\r\n\t\t\t<Menubar.Item inset>Add Profile...</Menubar.Item>\r\n\t\t</Menubar.Content>\r\n\t</Menubar.Menu>\r\n</Menubar.Root>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Popover",
+    "description": "Displays rich content in a portal, triggered by a button",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/popover.md",
+    "docs": {
+      "import": {
+        "source": "popover.svelte",
+        "code": "<script lang=\"ts\">\n  import * as Popover from \"$lib/components/ui/popover\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "popover.svelte",
+          "code": "<script lang=\"ts\">\n  import * as Popover from \"$lib/components/ui/popover\";\n</script>\n\n<Popover.Root>\n  <Popover.Trigger>Open</Popover.Trigger>\n  <Popover.Content>Place content for the popover here.</Popover.Content>\n</Popover.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "popover-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport {\r\n\t\tPopover,\r\n\t\tPopoverTrigger,\r\n\t\tPopoverContent\r\n\t} from \"$lib/components/ui/popover\";\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n\timport { Input } from \"$lib/components/ui/input\";\r\n</script>\r\n\r\n<Popover>\r\n\t<PopoverTrigger asChild let:builder>\r\n\t\t<Button builders={[builder]} variant=\"outline\">Open</Button>\r\n\t</PopoverTrigger>\r\n\t<PopoverContent class=\"w-80\">\r\n\t\t<div class=\"grid gap-4\">\r\n\t\t\t<div class=\"space-y-2\">\r\n\t\t\t\t<h4 class=\"font-medium leading-none\">Dimensions</h4>\r\n\t\t\t\t<p class=\"text-sm text-muted-foreground\">\r\n\t\t\t\t\tSet the dimensions for the layer.\r\n\t\t\t\t</p>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"grid gap-2\">\r\n\t\t\t\t<div class=\"grid grid-cols-3 items-center gap-4\">\r\n\t\t\t\t\t<Label for=\"width\">Width</Label>\r\n\t\t\t\t\t<Input id=\"width\" value=\"100%\" class=\"col-span-2 h-8\" />\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"grid grid-cols-3 items-center gap-4\">\r\n\t\t\t\t\t<Label for=\"maxWidth\">Max. width</Label>\r\n\t\t\t\t\t<Input id=\"maxWidth\" value=\"300px\" class=\"col-span-2 h-8\" />\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"grid grid-cols-3 items-center gap-4\">\r\n\t\t\t\t\t<Label for=\"height\">Height</Label>\r\n\t\t\t\t\t<Input id=\"height\" value=\"25px\" class=\"col-span-2 h-8\" />\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"grid grid-cols-3 items-center gap-4\">\r\n\t\t\t\t\t<Label for=\"maxHeight\">Max. height</Label>\r\n\t\t\t\t\t<Input id=\"maxHeight\" value=\"none\" class=\"col-span-2 h-8\" />\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</PopoverContent>\r\n</Popover>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Progress",
+    "description": "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/progress.md",
+    "docs": {
+      "import": {
+        "source": "progress.svelte",
+        "code": "<script lang=\"ts\">\n  import { Progress } from \"$lib/components/ui/progress\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "progress.svelte",
+          "code": "<script lang=\"ts\">\n  import { Progress } from \"$lib/components/ui/progress\";\n</script>\n\n<Progress value={33} />\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "progress-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { onMount } from \"svelte\";\r\n\timport { Progress } from \"$lib/components/ui/progress\";\r\n\r\n\tlet value = 13;\r\n\tonMount(() => {\r\n\t\tconst timer = setTimeout(() => (value = 66), 500);\r\n\t\treturn () => clearTimeout(timer);\r\n\t});\r\n</script>\r\n\r\n<Progress {value} max={100} class=\"w-[60%]\" />"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Radio Group",
+    "description": "A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/radio-group.md",
+    "docs": {
+      "import": {
+        "source": "radio-group.svelte",
+        "code": "<script lang=\"ts\">\n  import { Label } from \"$lib/components/ui/label\";\n  import * as RadioGroup from \"$lib/components/ui/radio-group\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "radio-group.svelte",
+          "code": "<script lang=\"ts\">\n  import { Label } from \"$lib/components/ui/label\";\n  import * as RadioGroup from \"$lib/components/ui/radio-group\";\n</script>\n\n<RadioGroup.Root value=\"option-one\">\n  <div class=\"flex items-center space-x-2\">\n    <RadioGroup.Item value=\"option-one\" id=\"option-one\" />\n    <Label for=\"option-one\">Option One</Label>\n  </div>\n  <div class=\"flex items-center space-x-2\">\n    <RadioGroup.Item value=\"option-two\" id=\"option-two\" />\n    <Label for=\"option-two\">Option Two</Label>\n  </div>\n</RadioGroup.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "radio-group-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport * as RadioGroup from \"$lib/components/ui/radio-group\";\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n</script>\r\n\r\n<RadioGroup.Root value=\"comfortable\">\r\n\t<div class=\"flex items-center space-x-2\">\r\n\t\t<RadioGroup.Item value=\"default\" id=\"r1\" />\r\n\t\t<Label for=\"r1\">Default</Label>\r\n\t</div>\r\n\t<div class=\"flex items-center space-x-2\">\r\n\t\t<RadioGroup.Item value=\"comfortable\" id=\"r2\" />\r\n\t\t<Label for=\"r2\">Comfortable</Label>\r\n\t</div>\r\n\t<div class=\"flex items-center space-x-2\">\r\n\t\t<RadioGroup.Item value=\"compact\" id=\"r3\" />\r\n\t\t<Label for=\"r3\">Compact</Label>\r\n\t</div>\r\n\t<RadioGroup.Input name=\"spacing\" />\r\n</RadioGroup.Root>"
+        },
+        {
+          "source": "radio-group-form.svelte",
+          "code": "<script lang=\"ts\" context=\"module\">\r\n\timport { z } from \"zod\";\r\n\r\n\texport const formSchema = z.object({\r\n\t\ttype: z.enum([\"all\", \"mentions\", \"none\"], {\r\n\t\t\trequired_error: \"You need to select a notification type\"\r\n\t\t})\r\n\t});\r\n\texport type FormSchema = typeof formSchema;\r\n</script>\r\n\r\n<script lang=\"ts\">\r\n\timport { page } from \"$app/stores\";\r\n\timport * as Form from \"$lib/components/ui/form\";\r\n\t// Since the labels used in each radio item don't represent the field\r\n\t// we need to use a regular label component instead of Form.Label\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n\timport type { SuperValidated } from \"sveltekit-superforms\";\r\n\texport let form: SuperValidated<FormSchema> = $page.data.radioGroup;\r\n</script>\r\n\r\n<Form.Root\r\n\t{form}\r\n\tschema={formSchema}\r\n\tlet:config\r\n\tmethod=\"POST\"\r\n\taction=\"?/radioGroup\"\r\n\tclass=\"w-2/3 space-y-6\"\r\n>\r\n\t<Form.Field {config} name=\"type\">\r\n\t\t<Form.Item class=\"space-y-3\">\r\n\t\t\t<Form.Label>Notify me about...</Form.Label>\r\n\t\t\t<Form.RadioGroup class=\"flex flex-col space-y-1\">\r\n\t\t\t\t<Form.Item class=\"flex items-center space-x-3 space-y-0\">\r\n\t\t\t\t\t<Form.RadioItem value=\"all\" id=\"all\" />\r\n\t\t\t\t\t<Label for=\"all\" class=\"font-normal\">All new messages</Label\r\n\t\t\t\t\t>\r\n\t\t\t\t</Form.Item>\r\n\t\t\t\t<Form.Item class=\"flex items-center space-x-3 space-y-0\">\r\n\t\t\t\t\t<Form.RadioItem value=\"mentions\" id=\"mentions\" />\r\n\t\t\t\t\t<Label for=\"mentions\" class=\"font-normal\"\r\n\t\t\t\t\t\t>Direct messages and mentions</Label\r\n\t\t\t\t\t>\r\n\t\t\t\t</Form.Item>\r\n\t\t\t\t<Form.Item class=\"flex items-center space-x-3 space-y-0\">\r\n\t\t\t\t\t<Form.RadioItem value=\"none\" id=\"none\" />\r\n\t\t\t\t\t<Label for=\"none\" class=\"font-normal\">Nothing</Label>\r\n\t\t\t\t</Form.Item>\r\n\t\t\t</Form.RadioGroup>\r\n\t\t\t<Form.Validation />\r\n\t\t</Form.Item>\r\n\t</Form.Field>\r\n\t<Form.Button>Submit</Form.Button>\r\n</Form.Root>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Select",
+    "description": "Displays a list of options for the user to pick from—triggered by a button",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/select.md",
+    "docs": {
+      "import": {
+        "source": "select.svelte",
+        "code": "<script lang=\"ts\">\n  import * as Select from \"$lib/components/ui/select\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "select.svelte",
+          "code": "<script lang=\"ts\">\n  import * as Select from \"$lib/components/ui/select\";\n</script>\n\n<Select.Root>\n  <Select.Trigger class=\"w-[180px]\">\n    <Select.Value placeholder=\"Theme\" />\n  </Select.Trigger>\n  <Select.Content>\n    <Select.Item value=\"light\">Light</Select.Item>\n    <Select.Item value=\"dark\">Dark</Select.Item>\n    <Select.Item value=\"system\">System</Select.Item>\n  </Select.Content>\n</Select.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "select-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport * as Select from \"$lib/components/ui/select\";\r\n\r\n\tconst fruits = [\r\n\t\t{ value: \"apple\", label: \"Apple\" },\r\n\t\t{ value: \"banana\", label: \"Banana\" },\r\n\t\t{ value: \"blueberry\", label: \"Blueberry\" },\r\n\t\t{ value: \"grapes\", label: \"Grapes\" },\r\n\t\t{ value: \"pineapple\", label: \"Pineapple\" }\r\n\t];\r\n</script>\r\n\r\n<Select.Root>\r\n\t<Select.Trigger class=\"w-[180px]\">\r\n\t\t<Select.Value placeholder=\"Select a fruit\" />\r\n\t</Select.Trigger>\r\n\t<Select.Content>\r\n\t\t<Select.Group>\r\n\t\t\t<Select.Label>Fruits</Select.Label>\r\n\t\t\t{#each fruits as fruit}\r\n\t\t\t\t<Select.Item value={fruit.value} label={fruit.label}\r\n\t\t\t\t\t>{fruit.label}</Select.Item\r\n\t\t\t\t>\r\n\t\t\t{/each}\r\n\t\t</Select.Group>\r\n\t</Select.Content>\r\n\t<Select.Input name=\"favoriteFruit\" />\r\n</Select.Root>"
+        },
+        {
+          "source": "select-form.svelte",
+          "code": "<script lang=\"ts\" context=\"module\">\r\n\timport { z } from \"zod\";\r\n\r\n\texport const formSchema = z.object({\r\n\t\temail: z\r\n\t\t\t.string({ required_error: \"Please select an email to display\" })\r\n\t\t\t.email()\r\n\t});\r\n\r\n\texport type FormSchema = typeof formSchema;\r\n</script>\r\n\r\n<script lang=\"ts\">\r\n\timport { page } from \"$app/stores\";\r\n\timport * as Form from \"$lib/components/ui/form\";\r\n\timport type { SuperValidated } from \"sveltekit-superforms\";\r\n\texport let form: SuperValidated<FormSchema> = $page.data.select;\r\n</script>\r\n\r\n<Form.Root\r\n\t{form}\r\n\tschema={formSchema}\r\n\tlet:config\r\n\tmethod=\"POST\"\r\n\taction=\"?/select\"\r\n\tclass=\"w-2/3 space-y-6\"\r\n>\r\n\t<Form.Field {config} name=\"email\">\r\n\t\t<Form.Item>\r\n\t\t\t<Form.Label>Email</Form.Label>\r\n\t\t\t<Form.Select>\r\n\t\t\t\t<Form.SelectTrigger\r\n\t\t\t\t\tplaceholder=\"Select a verified email to display\"\r\n\t\t\t\t/>\r\n\t\t\t\t<Form.SelectContent>\r\n\t\t\t\t\t<Form.SelectItem value=\"m@example.com\"\r\n\t\t\t\t\t\t>m@example.com</Form.SelectItem\r\n\t\t\t\t\t>\r\n\t\t\t\t\t<Form.SelectItem value=\"m@google.com\"\r\n\t\t\t\t\t\t>m@google.com</Form.SelectItem\r\n\t\t\t\t\t>\r\n\t\t\t\t\t<Form.SelectItem value=\"m@support.com\"\r\n\t\t\t\t\t\t>m@support.com</Form.SelectItem\r\n\t\t\t\t\t>\r\n\t\t\t\t</Form.SelectContent>\r\n\t\t\t</Form.Select>\r\n\t\t\t<Form.Description>\r\n\t\t\t\tYou can manage email address in your <a href=\"/examples/forms\"\r\n\t\t\t\t\t>email settings</a\r\n\t\t\t\t>.\r\n\t\t\t</Form.Description>\r\n\t\t\t<Form.Validation />\r\n\t\t</Form.Item>\r\n\t</Form.Field>\r\n\t<Form.Button>Submit</Form.Button>\r\n</Form.Root>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Separator",
+    "description": "Visually or semantically separates content",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/separator.md",
+    "docs": {
+      "import": {
+        "source": "separator.svelte",
+        "code": "<script lang=\"ts\">\n  import { Separator } from \"$lib/components/ui/separator\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "separator.svelte",
+          "code": "<script lang=\"ts\">\n  import { Separator } from \"$lib/components/ui/separator\";\n</script>\n\n<Separator />\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "separator-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Separator } from \"$lib/components/ui/separator\";\r\n</script>\r\n\r\n<div>\r\n\t<div class=\"space-y-1\">\r\n\t\t<h4 class=\"text-sm font-medium leading-none\">Radix Primitives</h4>\r\n\t\t<p class=\"text-sm text-muted-foreground\">\r\n\t\t\tAn open-source UI component library.\r\n\t\t</p>\r\n\t</div>\r\n\t<Separator class=\"my-4\" />\r\n\t<div class=\"flex h-5 items-center space-x-4 text-sm\">\r\n\t\t<div>Blog</div>\r\n\t\t<Separator orientation=\"vertical\" />\r\n\t\t<div>Docs</div>\r\n\t\t<Separator orientation=\"vertical\" />\r\n\t\t<div>Source</div>\r\n\t</div>\r\n</div>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Sheet",
+    "description": "Extends the Dialog component to display content that complements the main content of the screen",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/sheet.md",
+    "docs": {
+      "import": {
+        "source": "sheet.svelte",
+        "code": "<script lang=\"ts\">\n  import * as Sheet from \"$lib/components/ui/sheet\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "sheet.svelte",
+          "code": "<script lang=\"ts\">\n  import * as Sheet from \"$lib/components/ui/sheet\";\n</script>\n\n<Sheet.Root>\n  <Sheet.Trigger>Open</Sheet.Trigger>\n  <Sheet.Content>\n    <Sheet.Header>\n      <Sheet.Title>Are you sure absolutely sure?</Sheet.Title>\n      <Sheet.Description>\n        This action cannot be undone. This will permanently delete your account\n        and remove your data from our servers.\n      </Sheet.Description>\n    </Sheet.Header>\n  </Sheet.Content>\n</Sheet.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "sheet-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport * as Sheet from \"$lib/components/ui/sheet\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n\timport { Input } from \"$lib/components/ui/input\";\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n</script>\r\n\r\n<Sheet.Root>\r\n\t<Sheet.Trigger asChild let:builder>\r\n\t\t<Button builders={[builder]} variant=\"outline\">Open</Button>\r\n\t</Sheet.Trigger>\r\n\t<Sheet.Content side=\"right\">\r\n\t\t<Sheet.Header>\r\n\t\t\t<Sheet.Title>Edit profile</Sheet.Title>\r\n\t\t\t<Sheet.Description>\r\n\t\t\t\tMake changes to your profile here. Click save when you're done.\r\n\t\t\t</Sheet.Description>\r\n\t\t</Sheet.Header>\r\n\t\t<div class=\"grid gap-4 py-4\">\r\n\t\t\t<div class=\"grid grid-cols-4 items-center gap-4\">\r\n\t\t\t\t<Label for=\"name\" class=\"text-right\">Name</Label>\r\n\t\t\t\t<Input id=\"name\" value=\"Pedro Duarte\" class=\"col-span-3\" />\r\n\t\t\t</div>\r\n\t\t\t<div class=\"grid grid-cols-4 items-center gap-4\">\r\n\t\t\t\t<Label for=\"username\" class=\"text-right\">Username</Label>\r\n\t\t\t\t<Input id=\"username\" value=\"@peduarte\" class=\"col-span-3\" />\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<Sheet.Footer>\r\n\t\t\t<Sheet.Close asChild let:builder>\r\n\t\t\t\t<Button builders={[builder]} type=\"submit\">Save changes</Button>\r\n\t\t\t</Sheet.Close>\r\n\t\t</Sheet.Footer>\r\n\t</Sheet.Content>\r\n</Sheet.Root>"
+        },
+        {
+          "source": "sheet-side.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport * as Sheet from \"$lib/components/ui/sheet\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n\timport { Input } from \"$lib/components/ui/input\";\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n\r\n\tconst SHEET_SIDES = [\"top\", \"right\", \"bottom\", \"left\"] as const;\r\n</script>\r\n\r\n<div class=\"grid grid-cols-2 gap-2\">\r\n\t{#each SHEET_SIDES as side, _ (side)}\r\n\t\t<Sheet.Root>\r\n\t\t\t<Sheet.Trigger asChild let:builder>\r\n\t\t\t\t<Button builders={[builder]} variant=\"outline\">{side}</Button>\r\n\t\t\t</Sheet.Trigger>\r\n\t\t\t<Sheet.Content {side}>\r\n\t\t\t\t<Sheet.Header>\r\n\t\t\t\t\t<Sheet.Title>Edit profile</Sheet.Title>\r\n\t\t\t\t\t<Sheet.Description>\r\n\t\t\t\t\t\tMake changes to your profile here. Click save when\r\n\t\t\t\t\t\tyou're done.\r\n\t\t\t\t\t</Sheet.Description>\r\n\t\t\t\t</Sheet.Header>\r\n\t\t\t\t<div class=\"grid gap-4 py-4\">\r\n\t\t\t\t\t<div class=\"grid grid-cols-4 items-center gap-4\">\r\n\t\t\t\t\t\t<Label for=\"name\" class=\"text-right\">Name</Label>\r\n\t\t\t\t\t\t<Input\r\n\t\t\t\t\t\t\tid=\"name\"\r\n\t\t\t\t\t\t\tvalue=\"Pedro Duarte\"\r\n\t\t\t\t\t\t\tclass=\"col-span-3\"\r\n\t\t\t\t\t\t/>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"grid grid-cols-4 items-center gap-4\">\r\n\t\t\t\t\t\t<Label for=\"username\" class=\"text-right\">Username</Label\r\n\t\t\t\t\t\t>\r\n\t\t\t\t\t\t<Input\r\n\t\t\t\t\t\t\tid=\"username\"\r\n\t\t\t\t\t\t\tvalue=\"@peduarte\"\r\n\t\t\t\t\t\t\tclass=\"col-span-3\"\r\n\t\t\t\t\t\t/>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<Sheet.Footer>\r\n\t\t\t\t\t<Sheet.Close asChild let:builder>\r\n\t\t\t\t\t\t<Button builders={[builder]} type=\"submit\"\r\n\t\t\t\t\t\t\t>Save changes</Button\r\n\t\t\t\t\t\t>\r\n\t\t\t\t\t</Sheet.Close>\r\n\t\t\t\t</Sheet.Footer>\r\n\t\t\t</Sheet.Content>\r\n\t\t</Sheet.Root>\r\n\t{/each}\r\n</div>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Skeleton",
+    "description": "Use to show a placeholder while content is loading",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/skeleton.md",
+    "docs": {
+      "import": {
+        "source": "skeleton.svelte",
+        "code": "<script lang=\"ts\">\n  import { Skeleton } from \"$lib/components/ui/skeleton\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "skeleton.svelte",
+          "code": "<Skeleton class=\"w-[100px] h-[20px] rounded-full\" />\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "skeleton-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Skeleton } from \"$lib/components/ui/skeleton\";\r\n</script>\r\n\r\n<div class=\"flex items-center space-x-4\">\r\n\t<Skeleton class=\"h-12 w-12 rounded-full\" />\r\n\t<div class=\"space-y-2\">\r\n\t\t<Skeleton class=\"h-4 w-[250px]\" />\r\n\t\t<Skeleton class=\"h-4 w-[200px]\" />\r\n\t</div>\r\n</div>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Slider",
+    "description": "An input where the user selects a value from within a given range",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/slider.md",
+    "docs": {
+      "import": {
+        "source": "slider.svelte",
+        "code": "<script lang=\"ts\">\n  import { Slider } from \"$lib/components/ui/slider\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "slider.svelte",
+          "code": "<script lang=\"ts\">\n  import { Slider } from \"$lib/components/ui/slider\";\n</script>\n\n<Slider value={[33]} max={100} step={1} />\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "slider-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Slider } from \"$lib/components/ui/slider\";\r\n</script>\r\n\r\n<Slider value={[50]} max={100} step={1} class=\"max-w-[70%]\" />"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Switch",
+    "description": "A control that allows the user to toggle between checked and not checked",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/switch.md",
+    "docs": {
+      "import": {
+        "source": "switch.svelte",
+        "code": "<script lang=\"ts\">\n  import { Switch } from \"$lib/components/ui/switch\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "switch.svelte",
+          "code": "<script lang=\"ts\">\n  import { Switch } from \"$lib/components/ui/switch\";\n</script>\n\n<Switch />\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "switch-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n\timport { Switch } from \"$lib/components/ui/switch\";\r\n</script>\r\n\r\n<div class=\"flex items-center space-x-2\">\r\n\t<Switch id=\"airplane-mode\" />\r\n\t<Label for=\"airplane-mode\">Airplane Mode</Label>\r\n</div>"
+        },
+        {
+          "source": "switch-form.svelte",
+          "code": "<script lang=\"ts\" context=\"module\">\r\n\timport { z } from \"zod\";\r\n\texport const formSchema = z.object({\r\n\t\tmarketing_emails: z.boolean().default(false).optional(),\r\n\t\tsecurity_emails: z.boolean().default(true)\r\n\t});\r\n\texport type FormSchema = typeof formSchema;\r\n</script>\r\n\r\n<script lang=\"ts\">\r\n\timport { page } from \"$app/stores\";\r\n\timport * as Form from \"$lib/components/ui/form\";\r\n\timport type { SuperValidated } from \"sveltekit-superforms\";\r\n\texport let form: SuperValidated<FormSchema> = $page.data.switch;\r\n</script>\r\n\r\n<Form.Root\r\n\t{form}\r\n\tschema={formSchema}\r\n\tlet:config\r\n\tmethod=\"POST\"\r\n\taction=\"?/switch\"\r\n\tclass=\"w-full space-y-6\"\r\n>\r\n\t<fieldset>\r\n\t\t<legend class=\"mb-4 text-lg font-medium\"> Email Notifications </legend>\r\n\t\t<div class=\"space-y-4\">\r\n\t\t\t<Form.Field {config} name=\"marketing_emails\">\r\n\t\t\t\t<Form.Item\r\n\t\t\t\t\tclass=\"flex flex-row items-center justify-between rounded-lg border p-4\"\r\n\t\t\t\t>\r\n\t\t\t\t\t<div class=\"space-y-0.5\">\r\n\t\t\t\t\t\t<Form.Label>Marketing emails</Form.Label>\r\n\t\t\t\t\t\t<Form.Description>\r\n\t\t\t\t\t\t\tReceive emails about new products, features, and\r\n\t\t\t\t\t\t\tmore.\r\n\t\t\t\t\t\t</Form.Description>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<Form.Switch />\r\n\t\t\t\t</Form.Item>\r\n\t\t\t</Form.Field>\r\n\t\t\t<Form.Field {config} name=\"security_emails\">\r\n\t\t\t\t<Form.Item\r\n\t\t\t\t\tclass=\"flex flex-row items-center justify-between rounded-lg border p-4\"\r\n\t\t\t\t>\r\n\t\t\t\t\t<div class=\"space-y-0.5\">\r\n\t\t\t\t\t\t<Form.Label>Security emails</Form.Label>\r\n\t\t\t\t\t\t<Form.Description>\r\n\t\t\t\t\t\t\tReceive emails about your account security.\r\n\t\t\t\t\t\t</Form.Description>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<Form.Switch aria-readonly disabled />\r\n\t\t\t\t</Form.Item>\r\n\t\t\t</Form.Field>\r\n\t\t</div>\r\n\t</fieldset>\r\n\t<Form.Button>Submit</Form.Button>\r\n</Form.Root>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Table",
+    "description": "A responsive table component",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/table.md",
+    "docs": {
+      "import": {
+        "source": "table.svelte",
+        "code": "<script lang=\"ts\">\n  import * as Table from \"$lib/components/ui/table\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "table.svelte",
+          "code": "<script lang=\"ts\">\n  import * as Table from \"$lib/components/ui/table\";\n</script>\n\n<Table.Root>\n  <Table.Caption>A list of your recent invoices.</Table.Caption>\n  <Table.Header>\n    <Table.Row>\n      <Table.Head class=\"w-[100px]\">Invoice</Table.Head>\n      <Table.Head>Status</Table.Head>\n      <Table.Head>Method</Table.Head>\n      <Table.Head class=\"text-right\">Amount</Table.Head>\n    </Table.Row>\n  </Table.Header>\n  <Table.Body>\n    <Table.Row>\n      <Table.Cell class=\"font-medium\">INV001</Table.Cell>\n      <Table.Cell>Paid</Table.Cell>\n      <Table.Cell>Credit Card</Table.Cell>\n      <Table.Cell class=\"text-right\">$250.00</Table.Cell>\n    </Table.Row>\n  </Table.Body>\n</Table.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "table-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport * as Table from \"$lib/components/ui/table\";\r\n\r\n\tconst invoices = [\r\n\t\t{\r\n\t\t\tinvoice: \"INV001\",\r\n\t\t\tpaymentStatus: \"Paid\",\r\n\t\t\ttotalAmount: \"$250.00\",\r\n\t\t\tpaymentMethod: \"Credit Card\"\r\n\t\t},\r\n\t\t{\r\n\t\t\tinvoice: \"INV002\",\r\n\t\t\tpaymentStatus: \"Pending\",\r\n\t\t\ttotalAmount: \"$150.00\",\r\n\t\t\tpaymentMethod: \"PayPal\"\r\n\t\t},\r\n\t\t{\r\n\t\t\tinvoice: \"INV003\",\r\n\t\t\tpaymentStatus: \"Unpaid\",\r\n\t\t\ttotalAmount: \"$350.00\",\r\n\t\t\tpaymentMethod: \"Bank Transfer\"\r\n\t\t},\r\n\t\t{\r\n\t\t\tinvoice: \"INV004\",\r\n\t\t\tpaymentStatus: \"Paid\",\r\n\t\t\ttotalAmount: \"$450.00\",\r\n\t\t\tpaymentMethod: \"Credit Card\"\r\n\t\t},\r\n\t\t{\r\n\t\t\tinvoice: \"INV005\",\r\n\t\t\tpaymentStatus: \"Paid\",\r\n\t\t\ttotalAmount: \"$550.00\",\r\n\t\t\tpaymentMethod: \"PayPal\"\r\n\t\t},\r\n\t\t{\r\n\t\t\tinvoice: \"INV006\",\r\n\t\t\tpaymentStatus: \"Pending\",\r\n\t\t\ttotalAmount: \"$200.00\",\r\n\t\t\tpaymentMethod: \"Bank Transfer\"\r\n\t\t},\r\n\t\t{\r\n\t\t\tinvoice: \"INV007\",\r\n\t\t\tpaymentStatus: \"Unpaid\",\r\n\t\t\ttotalAmount: \"$300.00\",\r\n\t\t\tpaymentMethod: \"Credit Card\"\r\n\t\t}\r\n\t];\r\n</script>\r\n\r\n<Table.Root>\r\n\t<Table.Caption>A list of your recent invoices.</Table.Caption>\r\n\t<Table.Header>\r\n\t\t<Table.Row>\r\n\t\t\t<Table.Head class=\"w-[100px]\">Invoice</Table.Head>\r\n\t\t\t<Table.Head>Status</Table.Head>\r\n\t\t\t<Table.Head>Method</Table.Head>\r\n\t\t\t<Table.Head class=\"text-right\">Amount</Table.Head>\r\n\t\t</Table.Row>\r\n\t</Table.Header>\r\n\t<Table.Body>\r\n\t\t{#each invoices as invoice, i (i)}\r\n\t\t\t<Table.Row>\r\n\t\t\t\t<Table.Cell class=\"font-medium\">{invoice.invoice}</Table.Cell>\r\n\t\t\t\t<Table.Cell>{invoice.paymentStatus}</Table.Cell>\r\n\t\t\t\t<Table.Cell>{invoice.paymentMethod}</Table.Cell>\r\n\t\t\t\t<Table.Cell class=\"text-right\">{invoice.totalAmount}</Table.Cell\r\n\t\t\t\t>\r\n\t\t\t</Table.Row>\r\n\t\t{/each}\r\n\t</Table.Body>\r\n</Table.Root>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Tabs",
+    "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/tabs.md",
+    "docs": {
+      "import": {
+        "source": "tabs.svelte",
+        "code": "<script lang=\"ts\">\n  import * as Tabs from \"$lib/components/ui/tabs\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "tabs.svelte",
+          "code": "<script lang=\"ts\">\n  import * as Tabs from \"$lib/components/ui/tabs\";\n</script>\n\n<Tabs.Root value=\"account\" class=\"w-[400px]\">\n  <Tabs.List>\n    <Tabs.Trigger value=\"account\">Account</Tabs.Trigger>\n    <Tabs.Trigger value=\"password\">Password</Tabs.Trigger>\n  </Tabs.List>\n  <Tabs.Content value=\"account\">\n    Make changes to your account here.\n  </Tabs.Content>\n  <Tabs.Content value=\"password\">Change your password here.</Tabs.Content>\n</Tabs.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "tabs-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport * as Tabs from \"$lib/components/ui/tabs\";\r\n\timport * as Card from \"$lib/components/ui/card\";\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n\timport { Input } from \"$lib/components/ui/input\";\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n</script>\r\n\r\n<Tabs.Root value=\"account\" class=\"w-[400px]\">\r\n\t<Tabs.List class=\"grid w-full grid-cols-2\">\r\n\t\t<Tabs.Trigger value=\"account\">Account</Tabs.Trigger>\r\n\t\t<Tabs.Trigger value=\"password\">Password</Tabs.Trigger>\r\n\t</Tabs.List>\r\n\t<Tabs.Content value=\"account\">\r\n\t\t<Card.Root>\r\n\t\t\t<Card.Header>\r\n\t\t\t\t<Card.Title>Account</Card.Title>\r\n\t\t\t\t<Card.Description>\r\n\t\t\t\t\tMake changes to your account here. Click save when you're\r\n\t\t\t\t\tdone.\r\n\t\t\t\t</Card.Description>\r\n\t\t\t</Card.Header>\r\n\t\t\t<Card.Content class=\"space-y-2\">\r\n\t\t\t\t<div class=\"space-y-1\">\r\n\t\t\t\t\t<Label for=\"name\">Name</Label>\r\n\t\t\t\t\t<Input id=\"name\" value=\"Pedro Duarte\" />\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"space-y-1\">\r\n\t\t\t\t\t<Label for=\"username\">Username</Label>\r\n\t\t\t\t\t<Input id=\"username\" value=\"@peduarte\" />\r\n\t\t\t\t</div>\r\n\t\t\t</Card.Content>\r\n\t\t\t<Card.Footer>\r\n\t\t\t\t<Button>Save changes</Button>\r\n\t\t\t</Card.Footer>\r\n\t\t</Card.Root>\r\n\t</Tabs.Content>\r\n\t<Tabs.Content value=\"password\">\r\n\t\t<Card.Root>\r\n\t\t\t<Card.Header>\r\n\t\t\t\t<Card.Title>Password</Card.Title>\r\n\t\t\t\t<Card.Description>\r\n\t\t\t\t\tChange your password here. After saving, you'll be logged\r\n\t\t\t\t\tout.\r\n\t\t\t\t</Card.Description>\r\n\t\t\t</Card.Header>\r\n\t\t\t<Card.Content class=\"space-y-2\">\r\n\t\t\t\t<div class=\"space-y-1\">\r\n\t\t\t\t\t<Label for=\"current\">Current password</Label>\r\n\t\t\t\t\t<Input id=\"current\" type=\"password\" />\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"space-y-1\">\r\n\t\t\t\t\t<Label for=\"new\">New password</Label>\r\n\t\t\t\t\t<Input id=\"new\" type=\"password\" />\r\n\t\t\t\t</div>\r\n\t\t\t</Card.Content>\r\n\t\t\t<Card.Footer>\r\n\t\t\t\t<Button>Save password</Button>\r\n\t\t\t</Card.Footer>\r\n\t\t</Card.Root>\r\n\t</Tabs.Content>\r\n</Tabs.Root>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Textarea",
+    "description": "Displays a form textarea or a component that looks like a textarea",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/textarea.md",
+    "docs": {
+      "import": {
+        "source": "textarea.svelte",
+        "code": "<script lang=\"ts\">\n  import { Textarea } from \"$lib/components/ui/textarea\";\n</script>"
+      },
+      "use": [{ "source": "textarea.svelte", "code": "<Textarea />\n" }],
+      "examples": [
+        {
+          "source": "textarea-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Textarea } from \"$lib/components/ui/textarea\";\r\n</script>\r\n\r\n<Textarea placeholder=\"Type your message here.\" />"
+        },
+        {
+          "source": "textarea-disabled.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Textarea } from \"$lib/components/ui/textarea\";\r\n</script>\r\n\r\n<Textarea disabled placeholder=\"Type your message here.\" />"
+        },
+        {
+          "source": "textarea-form.svelte",
+          "code": "<script lang=\"ts\" context=\"module\">\r\n\timport { z } from \"zod\";\r\n\texport const formSchema = z.object({\r\n\t\tbio: z\r\n\t\t\t.string()\r\n\t\t\t.min(10, \"Bio must be at least 10 characters.\")\r\n\t\t\t.max(160, \"Bio must be at most 160 characters.\")\r\n\t});\r\n\texport type FormSchema = typeof formSchema;\r\n</script>\r\n\r\n<script lang=\"ts\">\r\n\timport { page } from \"$app/stores\";\r\n\timport * as Form from \"$lib/components/ui/form\";\r\n\timport type { SuperValidated } from \"sveltekit-superforms\";\r\n\texport let form: SuperValidated<FormSchema> = $page.data.textarea;\r\n</script>\r\n\r\n<Form.Root\r\n\t{form}\r\n\tschema={formSchema}\r\n\tlet:config\r\n\tmethod=\"POST\"\r\n\taction=\"?/textarea\"\r\n\tclass=\"w-2/3 space-y-6\"\r\n>\r\n\t<Form.Field {config} name=\"bio\">\r\n\t\t<Form.Item>\r\n\t\t\t<Form.Label>Bio</Form.Label>\r\n\t\t\t<Form.Textarea\r\n\t\t\t\tplaceholder=\"Tell us a little bit about yourself\"\r\n\t\t\t\tclass=\"resize-none\"\r\n\t\t\t/>\r\n\t\t\t<Form.Description>\r\n\t\t\t\tYou can <span>@mention</span> other users and organizations.\r\n\t\t\t</Form.Description>\r\n\t\t\t<Form.Validation />\r\n\t\t</Form.Item>\r\n\t</Form.Field>\r\n\t<Form.Button>Submit</Form.Button>\r\n</Form.Root>"
+        },
+        {
+          "source": "textarea-with-button.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n\timport { Textarea } from \"$lib/components/ui/textarea\";\r\n</script>\r\n\r\n<div class=\"grid w-full gap-2\">\r\n\t<Textarea placeholder=\"Type your message here.\" />\r\n\t<Button>Send message</Button>\r\n</div>"
+        },
+        {
+          "source": "textarea-with-label.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n\timport { Textarea } from \"$lib/components/ui/textarea\";\r\n</script>\r\n\r\n<div class=\"grid w-full gap-1.5\">\r\n\t<Label for=\"message\">Your message</Label>\r\n\t<Textarea placeholder=\"Type your message here.\" id=\"message\" />\r\n</div>"
+        },
+        {
+          "source": "textarea-with-text.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Label } from \"$lib/components/ui/label\";\r\n\timport { Textarea } from \"$lib/components/ui/textarea\";\r\n</script>\r\n\r\n<div class=\"grid w-full gap-1.5\">\r\n\t<Label for=\"message-2\">Your Message</Label>\r\n\t<Textarea placeholder=\"Type your message here.\" id=\"message-2\" />\r\n\t<p class=\"text-sm text-muted-foreground\">\r\n\t\tYour message will be copied to the support team.\r\n\t</p>\r\n</div>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Toggle",
+    "description": "A two-state button that can be either on or off",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/toggle.md",
+    "docs": {
+      "import": {
+        "source": "toggle.svelte",
+        "code": "<script lang=\"ts\">\n  import { Toggle } from \"$lib/components/ui/toggle\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "toggle.svelte",
+          "code": "<script lang=\"ts\">\n  import { Toggle } from \"$lib/components/ui/toggle\";\n</script>\n\n<Toggle>Toggle</Toggle>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "toggle-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Bold } from \"lucide-svelte\";\r\n\timport { Toggle } from \"$lib/components/ui/toggle\";\r\n</script>\r\n\r\n<Toggle aria-label=\"toggle bold\">\r\n\t<Bold class=\"h-4 w-4\" />\r\n</Toggle>"
+        },
+        {
+          "source": "toggle-disabled.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Underline } from \"lucide-svelte\";\r\n\timport { Toggle } from \"$lib/components/ui/toggle\";\r\n</script>\r\n\r\n<Toggle aria-label=\"Toggle underline\" disabled>\r\n\t<Underline class=\"h-4 w-4\" />\r\n</Toggle>"
+        },
+        {
+          "source": "toggle-lg.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Italic } from \"lucide-svelte\";\r\n\timport { Toggle } from \"$lib/components/ui/toggle\";\r\n</script>\r\n\r\n<Toggle size=\"lg\" aria-label=\"Toggle italic\">\r\n\t<Italic class=\"h-4 w-4\" />\r\n</Toggle>"
+        },
+        {
+          "source": "toggle-outline.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Italic } from \"lucide-svelte\";\r\n\timport { Toggle } from \"$lib/components/ui/toggle\";\r\n</script>\r\n\r\n<Toggle variant=\"outline\" aria-label=\"Toggle italic\">\r\n\t<Italic class=\"h-4 w-4\" />\r\n</Toggle>"
+        },
+        {
+          "source": "toggle-sm.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Italic } from \"lucide-svelte\";\r\n\timport { Toggle } from \"$lib/components/ui/toggle\";\r\n</script>\r\n\r\n<Toggle size=\"sm\" aria-label=\"Toggle italic\">\r\n\t<Italic class=\"h-4 w-4\" />\r\n</Toggle>"
+        },
+        {
+          "source": "toggle-with-text.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Italic } from \"lucide-svelte\";\r\n\timport { Toggle } from \"$lib/components/ui/toggle\";\r\n</script>\r\n\r\n<Toggle aria-label=\"Toggle italic\">\r\n\t<Italic class=\"mr-2 h-4 w-4\" />\r\n\tItalic\r\n</Toggle>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Tooltip",
+    "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it",
+    "docs_path": "./build/gits/huntabyte$shadcn-svelte/apps/www/src/content/components/tooltip.md",
+    "docs": {
+      "import": {
+        "source": "tooltip.svelte",
+        "code": "<script lang=\"ts\">\n  import * as Tooltip from \"$lib/components/ui/tooltip\";\n</script>"
+      },
+      "use": [
+        {
+          "source": "tooltip.svelte",
+          "code": "<script lang=\"ts\">\n  import * as Tooltip from \"$lib/components/ui/tooltip\";\n</script>\n\n<Tooltip.Root>\n  <Tooltip.Trigger>Hover</Tooltip.Trigger>\n  <Tooltip.Content>\n    <p>Add to library</p>\n  </Tooltip.Content>\n</Tooltip.Root>\n"
+        }
+      ],
+      "examples": [
+        {
+          "source": "tooltip-demo.svelte",
+          "code": "<script lang=\"ts\">\r\n\timport { Button } from \"$lib/components/ui/button\";\r\n\timport * as Tooltip from \"$lib/components/ui/tooltip\";\r\n</script>\r\n\r\n<Tooltip.Root>\r\n\t<Tooltip.Trigger asChild let:builder>\r\n\t\t<Button builders={[builder]} variant=\"outline\">Hover</Button>\r\n\t</Tooltip.Trigger>\r\n\t<Tooltip.Content>\r\n\t\t<p>Add to library</p>\r\n\t</Tooltip.Content>\r\n</Tooltip.Root>"
+        }
+      ]
+    }
+  }
+]
