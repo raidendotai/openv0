@@ -1,7 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+const axios = require(`axios`)
 const { PassThrough } = require("stream");
 const multipass = require(`./modules/multipass/index.js`);
+require("dotenv").config();
 
 const app = express();
 const port = 3000;
@@ -32,6 +34,10 @@ const Component = sequelize.define(
       allowNull: false,
     },
     version: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    description: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -76,17 +82,10 @@ app.get("/components/list", async (req, res) => {
   db_response
     .map((c) => c.toJSON())
     .map((c) => {
-      let description = ``;
-      try {
-        description = JSON.parse(c.logs).stages[`component-design-task`].data
-          .description.user;
-      } catch (e) {
-        false;
-      }
       const component = {
         version: c.version,
+        description: c.description,
         //code: c.code,
-        description,
       };
       if (Object.keys(retrieved_components).includes(c.name))
         retrieved_components[c.name].push(component);
@@ -118,18 +117,11 @@ app.get("/components/get", async (req, res) => {
   const retrieved_components = db_response
     .map((c) => c.toJSON())
     .map((c) => {
-      let description = ``;
-      try {
-        description = JSON.parse(c.logs).stages[`component-design-task`].data
-          .description.user;
-      } catch (e) {
-        false;
-      }
       return {
         name: c.name,
+        description: c.description,
         version: c.version,
         code: c.code,
-        description,
       };
     })
     .sort((a, b) => {
@@ -191,6 +183,53 @@ app.post("/components/iterate/description", async (req, res) => {
     },
   });
   duplexStream.end();
+});
+
+
+
+app.post("/components/share", async (req, res) => {
+  const query = req.body // {key,name,framework,...}
+  const response = await axios.post(
+    `${process.env.OPENV0__API}/dev/components/share`,
+    {
+      key: query.key,
+			name: query.name,
+			framework: query.framework,
+			components: query.components,
+			icons: query.icons,
+			data: {
+        versions: query.data.versions.map( (component_version) => {
+          if (!component_version.code || !component_version.code.length) return false;
+          return {
+            version: component_version.version,
+            description: component_version.description ? component_version.description : ``,
+            code: component_version.code,
+          }
+        }).filter(e=>e),
+      },
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  res.send(response.data)
+  /*
+  const duplexStream = new PassThrough();
+  duplexStream.pipe(res);
+  const generated = await multipass.preset({
+    stream: duplexStream,
+    preset: `componentNew_description`,
+    query: {
+      description: req.body.description,
+      framework: req.body.framework,
+      components: req.body.components,
+      icons: req.body.icons,
+    },
+  });
+  duplexStream.end();
+  */
 });
 
 /*

@@ -25,6 +25,10 @@ const Component = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },    
     framework: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -86,8 +90,17 @@ async function run(req) {
   let dbId = -1;
 
   if (req.pipeline.stages[`component`].success) {
+
+    let description = ``;
+    try {
+      description = req.pipeline.stages[`component-design-task`].data.description.user;
+    } catch (e) {
+      false;
+    }
+
     const newComponent = await Component.create({
       name: req.pipeline.stages[`component-design-task`].data.name,
+      description: description,
       version: req.pipeline.stages[`component`].data.version,
       framework: req.query.framework,
       components: req.query.components,
@@ -101,12 +114,14 @@ async function run(req) {
       stored: { component: { id: dbId } },
     });
   } else {
-    const failedComponent = await Component.create({
-      timestamp: Date.now(),
-      query: JSON.stringify(req.query),
-      logs: JSON.stringify(req.pipeline),
-    });
-    dbId = failedComponent.toJSON().id;
+    try{
+      const failedComponent = await Fail.create({
+        timestamp: Date.now(),
+        query: JSON.stringify(req.query),
+        logs: JSON.stringify(req.pipeline),
+      });
+      dbId = failedComponent.toJSON().id;
+    }catch(e){console.log(e)}
     console.dir({
       stored: { failure: { id: dbId } },
     });

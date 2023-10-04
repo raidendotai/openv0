@@ -30,8 +30,13 @@ tasks in progress
 * ✅ validation pass with babel, for each {framework x component} specifics
 * ✅ dashboard+reactivity for each starter template
 
+* ✅ setup openv0.com api
+* ✅ components sharing via openv0.com api
 ---
 
-* ⏳ setup openv0.com and npx CLI
-* ⏳ new feature : views/app from description
+* ⏳ openv0.com website
+* ⏳ npx cli ; for starting openv0 and adding components
+* ⏳ clean repo to ready for distribution and merges
+
 * ⏳ @pi0 structure & @denyncrawford virtual components + db
+* ⏳ new feature : views/app from description

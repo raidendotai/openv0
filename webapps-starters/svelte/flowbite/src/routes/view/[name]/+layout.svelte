@@ -6,6 +6,9 @@
   let userInput_description = ''
   let processing = false
 
+  let userApiKey = ''
+  let sharedComponent = false
+
   const libRelativePath = `../../../lib/openv0_generated`
   const name = $page.params.name;
 
@@ -14,7 +17,40 @@
   let mode = 'view'
   let LoadedComponents;
 
+  async function shareComponent() {
+    if (processing) return;
+    if (!userApiKey) return;
+    processing = true
 
+    const response = await fetch(
+      `http://localhost:3000/components/share` ,
+      {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body : JSON.stringify({
+          key: userApiKey,
+          name,
+          framework : `svelte`,
+          components: `flowbite`,
+          icons: `lucide`,
+          data: {
+            versions: component_versions,
+          },
+        }),
+      },
+    );
+    const responseData = await response.json()
+    console.log(responseData)
+    if (responseData.status) {
+      sharedComponent = true
+    } else {
+      alert(JSON.stringify(responseData))
+    }
+    processing = false
+  }
 
   async function iterate_component() {
     if (processing) return;
@@ -70,6 +106,9 @@
 
 
   async function fetchComponents(){
+    component_versions = [...[]]
+    currentComponentIndex = null
+    LoadedComponents = false
     const response = await fetch(
       `http://localhost:3000/components/get?framework=svelte&components=flowbite&icons=lucide&name=${name}`
     );
@@ -161,14 +200,19 @@
 					<span class="ml-4 font-bold text-lg">{name}</span>
 		    </h1>
 				<div class="text-xs ml-4 flex">
-					<a href="" on:click={()=>{mode = 'view'}}
-            class="p-1 px-2 bg-[#ddd] dark:bg-[#222] rounded opacity-50 hover:opacity-100 duration-200">
+					<a on:click={()=>{mode = 'view'}}
+            class="cursor-pointer p-1 px-2 bg-[#ddd] dark:bg-[#222] rounded opacity-50 hover:opacity-100 duration-200">
 						<img class="opacity-50 hover:opacity-100 dark:invert w-6 h-6" src="data:image/svg+xml;base64,PHN2ZyBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjIiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtMTEuOTk4IDVjLTQuMDc4IDAtNy43NDIgMy4wOTMtOS44NTMgNi40ODMtLjA5Ni4xNTktLjE0NS4zMzgtLjE0NS41MTdzLjA0OC4zNTguMTQ0LjUxN2MyLjExMiAzLjM5IDUuNzc2IDYuNDgzIDkuODU0IDYuNDgzIDQuMTQzIDAgNy43OTYtMy4wOSA5Ljg2NC02LjQ5My4wOTItLjE1Ni4xMzgtLjMzMi4xMzgtLjUwN3MtLjA0Ni0uMzUxLS4xMzgtLjUwN2MtMi4wNjgtMy40MDMtNS43MjEtNi40OTMtOS44NjQtNi40OTN6bTguNDEzIDdjLTEuODM3IDIuODc4LTQuODk3IDUuNS04LjQxMyA1LjUtMy40NjUgMC02LjUzMi0yLjYzMi04LjQwNC01LjUgMS44NzEtMi44NjggNC45MzktNS41IDguNDA0LTUuNSAzLjUxOCAwIDYuNTc5IDIuNjI0IDguNDEzIDUuNXptLTguNDExLTRjMi4yMDggMCA0IDEuNzkyIDQgNHMtMS43OTIgNC00IDQtNC0xLjc5Mi00LTQgMS43OTItNCA0LTR6bTAgMS41Yy0xLjM4IDAtMi41IDEuMTItMi41IDIuNXMxLjEyIDIuNSAyLjUgMi41IDIuNS0xLjEyIDIuNS0yLjUtMS4xMi0yLjUtMi41LTIuNXoiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvc3ZnPg==" />
 					</a>
 
-					<a href="" on:click={()=>{mode = 'code'}}
-            class="p-1 px-2 ml-2 bg-[#ddd] dark:bg-[#222] rounded opacity-50 hover:opacity-100 duration-200">
+					<a on:click={()=>{mode = 'code'}}
+            class="cursor-pointer p-1 px-2 ml-2 bg-[#ddd] dark:bg-[#222] rounded opacity-50 hover:opacity-100 duration-200">
 						<img class="opacity-50 hover:opacity-100 dark:invert w-6 h-6" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjQgMTAuOTM1djIuMTMxbC04IDMuOTQ3di0yLjIzbDUuNjQtMi43ODMtNS42NC0yLjc5di0yLjIyM2w4IDMuOTQ4em0tMTYgMy44NDhsLTUuNjQtMi43ODMgNS42NC0yLjc5di0yLjIyM2wtOCAzLjk0OHYyLjEzMWw4IDMuOTQ3di0yLjIzem03LjA0Ny0xMC43ODNoLTIuMDc4bC00LjAxMSAxNmgyLjA3M2w0LjAxNi0xNnoiLz48L3N2Zz4=" />
+					</a>
+
+          <a on:click={()=>{mode = 'share'}}
+            class="cursor-pointer p-1 px-2 ml-2 bg-[#ddd] dark:bg-[#222] rounded opacity-50 hover:opacity-100 duration-200">
+            <img class="opacity-50 hover:opacity-100 dark:invert w-6 h-6 p-1" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNNSA3YzIuNzYxIDAgNSAyLjIzOSA1IDVzLTIuMjM5IDUtNSA1LTUtMi4yMzktNS01IDIuMjM5LTUgNS01em0xMS4xMjIgMTIuMDY1Yy0uMDczLjMwMS0uMTIyLjYxMS0uMTIyLjkzNSAwIDIuMjA5IDEuNzkxIDQgNCA0czQtMS43OTEgNC00LTEuNzkxLTQtNC00Yy0xLjE2NSAwLTIuMjA0LjUwNi0yLjkzNSAxLjMwMWwtNS40ODgtMi45MjdjLS4yMy42MzYtLjU0OSAxLjIyOS0uOTQzIDEuNzY0bDUuNDg4IDIuOTI3em03Ljg3OC0xNS4wNjVjMC0yLjIwOS0xLjc5MS00LTQtNHMtNCAxLjc5MS00IDRjMCAuMzI0LjA0OS42MzQuMTIyLjkzNWwtNS40ODggMi45MjdjLjM5NS41MzUuNzEzIDEuMTI3Ljk0MyAxLjc2NGw1LjQ4OC0yLjkyN2MuNzMxLjc5NSAxLjc3IDEuMzAxIDIuOTM1IDEuMzAxIDIuMjA5IDAgNC0xLjc5MSA0LTR6Ii8+PC9zdmc+" />
 					</a>
 
 				</div>
@@ -187,6 +231,52 @@
                     {component_versions[currentComponentIndex].code}
                   {/if}
                 </div>
+              {:else if mode === `share`}
+                <div class="break-words max-h-96 overflow-auto">
+                  {#if currentComponentIndex>=0}
+                    <div class="border-b dark:border-[#222] pb-4">
+                     Share this component on
+                     <a class="font-medium text-purple-500 hover:text-purple-700 duration-200 dark:text-purple-400 dark:hover:text-purple-500" href="https://openv0.com" target="_blank">openv0.com</a>
+                    </div>
+
+                    {#if !sharedComponent}
+                      <div class="pt-4">
+                        Your openv0 API key
+                        - <span class="text-sm">get your key from <a class="font-medium text-purple-500 hover:text-purple-700 duration-200 dark:text-purple-400 dark:hover:text-purple-500" href="https://openv0.com" target="_blank">openv0.com</a></span>
+                        <br/>
+                        <span class="text-sm">note : if you previously shared this component, it will be overridden</span>
+                      </div>
+
+                      <div class="pt-4 md:flex md:items-center md:space-x-2 ">
+                        <input class="md:w-1/2 xl:1/3
+                                      outline-none border-none bg-transparent focus:ring-0 p-4 bg-purple-50 dark:bg-black"
+                                bind:value={userApiKey} placeholder="0v-01234567891489e8419ce357b2e0123" />
+                        {#if !processing}
+                          <button on:click={()=>{shareComponent()}} type="button" class="text-white duration-200
+                          bg-[#252525] hover:bg-black
+                          dark:bg-[#050708] dark:hover:bg-[#333]
+                          outline-none ring-0
+                          rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mt-2 md:mt-0 md:mr-2">
+                            Share →
+                          </button>
+                        {:else}
+                          <button disabled type="button" class="text-white opacity-50
+                          bg-[#252525]
+                          dark:bg-[#050708]
+                          outline-none ring-0
+                           rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mt-2 md:mt-0 md:mr-2">
+                            processing
+                          </button>
+                        {/if}
+                      </div>
+                    {:else}
+                      <div class="pt-4">
+                        Thank you for sharing :)
+                      </div>
+                    {/if}
+
+                  {/if}
+                </div>
               {/if}
             {:else if (component_stream) && currentComponentIndex == -1}
               <div class="text-xs font-mono whitespace-pre-wrap break-words max-h-96 overflow-auto">
@@ -201,16 +291,16 @@
 			<div class="md:col-span-3 lg:col-span-2 md:ml-2 mt-2 md:mt-0 max-h-screen overflow-auto">
 	      <div class="p-2 rounded bg-[#ccc] bg-opacity-10 grid grid-cols-2 md:grid-cols-1">
           {#if component_stream}
-            <a href="" on:click={()=>{ currentComponentIndex = -1 }}
-              class="m-1 p-2 hover:mx-2 duration-200 bg-white dark:bg-[#070707] dark:text-[#ccc] text-xs break-words">
+            <a on:click={()=>{ currentComponentIndex = -1 }}
+              class="cursor-pointer m-1 p-2 hover:mx-2 duration-200 bg-white dark:bg-[#070707] dark:text-[#ccc] text-xs break-words">
               new iteration
               <br/>
               <span class="text-xs opacity-50">in process</span>
             </a>
           {/if}
 	        {#each component_versions as c,i}
-	          <a href="" on:click={()=>{ currentComponentIndex = i }}
-              class="m-1 p-2 hover:mx-2 duration-200 bg-white dark:bg-[#070707] dark:text-[#ccc] text-xs break-words">
+	          <a on:click={()=>{ currentComponentIndex = i }}
+              class="cursor-pointer m-1 p-2 hover:mx-2 duration-200 bg-white dark:bg-[#070707] dark:text-[#ccc] text-xs break-words">
               {#if currentComponentIndex == i}
 	             {c.description}
               {:else}

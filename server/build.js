@@ -48,6 +48,7 @@ async function db() {
         id INTEGER PRIMARY KEY,
         name TEXT,
         version TEXT,
+        description TEXT,
         framework TEXT,
         components TEXT,
         icons TEXT,

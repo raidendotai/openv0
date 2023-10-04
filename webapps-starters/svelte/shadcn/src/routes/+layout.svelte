@@ -16,6 +16,8 @@
 	let openv0_components_list = [];
 
 	async function fetchComponents(){
+		openv0_components_list = [...[]]
+    LoadedComponents = false
 		const response = await fetch(
 			`http://localhost:3000/components/list?framework=svelte&components=shadcn&icons=lucide`
 		);
@@ -122,7 +124,7 @@
 				<path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
 			</svg>
 		</a>
-		<a href="" on:click={()=>{ dark = !dark }} class="opacity-30 hover:opacity-100 duration-200" >
+		<a on:click={()=>{ dark = !dark }} class="cursor-pointer opacity-30 hover:opacity-100 duration-200" >
 			<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 25 25">
 				<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
 			</svg>
@@ -144,7 +146,7 @@
 
 
 		{#if generate_mode === 'json'}
-		<a href="" on:click={()=>{ generate_mode = 'description' }} id="mode_json" class="hidden sm:block md:-ml-10">
+		<a on:click={()=>{ generate_mode = 'description' }} id="mode_json" class="cursor-pointer hidden sm:block md:-ml-10">
 			<div class="rounded rounded-full shadow shadow-md dark:shadow-[#111]
 				text-center p-4 text-center
 				bg-[#ddd] hover:bg-white
@@ -156,7 +158,7 @@
 			</div>
 		</a>
 		{:else if generate_mode === 'description'}
-			<a href="" on:click={()=>{ generate_mode = 'json' }} id="mode_description" class="hidden sm:block md:-ml-10">
+			<a on:click={()=>{ generate_mode = 'json' }} id="mode_description" class="hidden cursor-pointer sm:block md:-ml-10">
 				<div class="rounded rounded-full shadow shadow-md dark:shadow-[#111]
 				text-center p-4 text-center
 				bg-[#ddd] hover:bg-white
@@ -170,7 +172,7 @@
 		{/if}
 
 		<div class="sm:hidden flex flex-grow items-center pb-1 space-x-1">
-			<a  href="" on:click={()=>{ generate_mode = 'description' }} class="shadow shadow-md
+			<a on:click={()=>{ generate_mode = 'description' }} class="cursor-pointer shadow shadow-md
 				text-base text-center p-2
 				rounded rounded-lg
 				bg-[#f0f0f0] hover:bg-white
@@ -178,7 +180,7 @@
 				duration-200 cursor-pointer w-full">
 				description
 			</a>
-			<a href="" on:click={()=>{ generate_mode = 'json' }} class="shadow shadow-md
+			<a on:click={()=>{ generate_mode = 'json' }} class="cursor-pointer shadow shadow-md
 				text-base text-center p-2
 				rounded rounded-lg
 				bg-[#f0f0f0] hover:bg-white

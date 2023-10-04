@@ -1,17 +1,26 @@
 const PRESETS_MAP = require(`./presets/index.js`);
+require("dotenv").config();
+const log = parseInt(process.env.OPENV0__COLLECT_UIRAY) ? require(`../log/index.js`).uiray : require(`../log/index.js`).passThrough
 
 async function run(req) {
   /*
     req : {
-      stream , query {text?,framework,components,icons} , pipeline[passes] ,
+      stream ,
+      query {text?,framework,components,icons},
+      passes ,
       preset? //for log only
     }
   */
 
   console.dir({
     module: `multipass/run`,
-    ...req,
+    status: `starting`,
+    query: req.query,
+    preset: req.preset ? req.preset : false,
+    passes: req.passes,
   });
+
+
   let execution_multipass = {
     passes: {},
     stages: {},
@@ -33,6 +42,18 @@ async function run(req) {
       data: response.data,
     };
   }
+
+  await log({
+    query: req.query,
+    preset: req.preset ? req.preset : false,
+    passes: req.passes,
+    execution : execution_multipass,
+  })
+
+  console.dir({
+    module: `multipass/run`,
+    status: `done`,
+  })
 
   /*
   console.log(
@@ -57,7 +78,10 @@ async function preset(req) {
   });
   return await run({
     stream: req.stream,
-    preset: req.preset, // for log only
+    preset: {
+      name: req.preset,
+      description: PRESETS_MAP[req.preset].description,
+    }, // <- for log only
     query: req.query,
     passes: PRESETS_MAP[req.preset].passes,
   });
