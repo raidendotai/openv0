@@ -14,6 +14,7 @@
   "dependencies": {
     "fs-extra": "^11.1.1",
     "inquirer": "^8.0.0",
+    "node-7z": "^3.0.0",
     "ora": "^5.4.1"
   }
 }

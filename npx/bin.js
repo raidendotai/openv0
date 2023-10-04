@@ -4,11 +4,14 @@ const inquirer = require('inquirer');
 const ora = require('ora');
 const fs = require('fs-extra');
 const { promisify } = require('util');
+const Seven = require('node-7z');
+const seven = new Seven();
+
 const execAsync = promisify(exec);
 
 const GIT_REPO = `https://github.com/raidendotai/openv0.git`;
 const PROJECT_PATH = path.join( process.cwd() , `openv0` );
-const GIT_CLONE_CMD = `git clone -b dev --depth 1 ${GIT_REPO} ${PROJECT_PATH}`
+const GIT_CLONE_CMD = `git clone -b dev --depth 1 ${GIT_REPO} "${PROJECT_PATH}"`
 
 let ENV = {
 	OPENAI_MODEL : 'gpt-4',
@@ -125,9 +128,9 @@ async function main() {
 
 		// rm -rf clean
 		const spinnerRm = ora(`cleaning files`).start();
-		try{fs.rm(path.join(PROJECT_PATH, ".git"), { recursive: true, force: true })}catch(e){false}
-		try{fs.rm(path.join(PROJECT_PATH, "bin"), { recursive: true, force: true })}catch(e){false}
-		try{fs.rm(path.join(process.cwd() , "openv0/webapps-starters"), { recursive: true, force: true })}catch(e){false}
+		try{await fs.rm(path.join(PROJECT_PATH, ".git"), { recursive: true, force: true })}catch(e){false}
+		try{await fs.rm(path.join(PROJECT_PATH, "bin"), { recursive: true, force: true })}catch(e){false}
+		try{await fs.rm(path.join(process.cwd() , "openv0/webapps-starters"), { recursive: true, force: true })}catch(e){false}
 		spinnerRm.succeed();
 
 		// .env in server (try/catch)
@@ -142,6 +145,13 @@ async function main() {
 		)
 		spinnerEnv.succeed();
 
+		const spinner7z = ora(`extracting openv0/server/library/icons/lucide/vectordb/index.7z to index.json`).start();
+		await seven.extractFull(
+			path.join(process.cwd(), `openv0/server/library/icons/lucide/vectordb/index.7z`),
+			path.join(process.cwd(), `openv0/server/library/icons/lucide/vectordb`),
+		)
+		await fs.rm(path.join(process.cwd() , "openv0/server/library/icons/lucide/vectordb/index.7z"))
+		spinner7z.succeed();
 
 		process.chdir(PROJECT_PATH);
 		// install server packages
