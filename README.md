@@ -1,43 +1,86 @@
-branch to quick draft new features and integrations
+# openv0
 
-will figure out merges later
+**openv0** is a generative UI component framework
 
----
+It allows you to AI generate and iterate on UI components, with live preview.
 
-tasks in progress
+- **openv0** makes use of open source component libraries and icons to build a library of assets for the generative pipeline.
+- **openv0** is highly modular, and structured for elaborate generative processes
+- Component generation is a multipass pipeline - where every pass is a fully independent plugin
 
-* ✅ starter templates for {react,next,svelte} x {shadcn,nextui,flowbite}
-* ✅ new dashboard template
-* ✅🥳 write { parsers + library builders + code adapters } for each {framework x component library}
-  * react
-    * ✅ shadcn : `shadcn-ui/ui`
-    * ✅ nextui : `nextui-org/nextui`
-    * ✅ flowbite : `themesberg/flowbite-react`
-
-  * next
-    * ✅ shadcn : `shadcn-ui/ui`
-    * ✅ nextui : `nextui-org/nextui`
-    * ✅ flowbite : `themesberg/flowbite-react`
-
-  * svelte
-    * ✅ shadcn : `huntabyte/shadcn-svelte` - *icons use lucide-svelte, careful to adapt this in server generation passes later*
-    * ✅ flowbite : `themesberg/flowbite-svelte`
-    * ~~✅ nextui : `nextui-org/nextui`~~ *ported with react-preprocess, is buggy for dynamic data - disregard now, port library later*
-
-* ✅ prettify
-* ✅ modular multipass, each pass definition in new folder
-* ✅ new feature : component from API response
-* ✅ validation pass with babel, for each {framework x component} specifics
-* ✅ dashboard+reactivity for each starter template
-
-* ✅ setup openv0.com api
-* ✅ components sharing via openv0.com api
-* ✅ openv0.com website
-
-* ✅ npx cli ; for starting openv0 and adding components
-* ✅ clean repo to ready for distribution and merges
+(say hi [@n_raidenai](https://twitter.com/n_raidenai) 👋)
 
 ---
 
-* ⏳ @pi0 structure & @denyncrawford try out different DBs / virtual components / playground
-* ⏳ new feature : views/app from description
+# Currently Supported
+
+* Frontend frameworks
+  * React
+  * Next.js
+  * Svelte
+* UI libraries
+  * NextUI
+  * Flowbite
+  * Shadcn
+* Icons libraries
+  * Lucide
+
+The latest **openv0** update makes it easier to integrate new frameworks, libraries and plugins.
+
+Docs & guides on how to do so will be soon posted.
+
+Next updates :
+- public explore+share web app on [openv0.com](https://openv0.com) *(you can use the openv0 share API already)*
+- multimodal `UIray` vision model *(more details soon)*
+- better validation passes, more integrations & plugins
+
+
+
+---
+
+# Demo (previous version)
+
+[openv0_demo.webm](https://github.com/raidendotai/openv0/assets/127366981/53b14c27-22ec-40a3-a431-539daf197f49)
+
+---
+
+# Install
+
+* Open your terminal and run
+
+```sh
+npx openv0
+```
+
+It will download openv0, configure it based on your choices & install dependencies. Then :
+
+* Start the local server + webapp
+  * start server `cd server && node api.js`
+  * start webapp `cd webapp && npm run dev`
+* Open you web browser, go to `http://localhost:5173/`
+
+That is all. Have fun 🎉
+
+---
+
+**Alternatively** - you can also clone this repo and install manually
+
+To do so :
+* Clone repo, run `npm i` in `server/`
+* Unzip `server/library/icons/lucide/vectordb/index.zip` into that same folder
+* Configure your OpenAI key in `server/.env`
+* Web apps starter templates are in `webapps-starters/`
+  * run `npm i` in the web app starter of your choice
+  * make sure that `WEBAPP_ROOT` variable `server/.env` matches your webapp folder path
+* Start the server with `node api.js` and the web app with `npm run dev`
+
+---
+
+# How It Works
+
+Here is a simple explanation
+
+![openv0_process](https://github.com/raidendotai/openv0/assets/127366981/dad08255-f54a-4437-bf87-9560f69940a7)
+
+
+https://www.youtube.com/watch?v=fAEH2ZBO6BA
