@@ -32,6 +32,11 @@ It will download openv0 and install dependencies *(alternatively, you can also c
   * start webapp `cd openv0_vitereact && npm run dev`
 * Open you web browser, go to `http://localhost:5173/`
 
+## With Docker
+```sh
+docker-compose up --build -d
+```
+
 That is all. Have fun 🎉
 
 # How It Works
