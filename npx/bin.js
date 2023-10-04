@@ -131,6 +131,7 @@ async function main() {
 		try{await fs.rm(path.join(PROJECT_PATH, ".git"), { recursive: true, force: true })}catch(e){false}
 		try{await fs.rm(path.join(PROJECT_PATH, "bin"), { recursive: true, force: true })}catch(e){false}
 		try{await fs.rm(path.join(process.cwd() , "openv0/webapps-starters"), { recursive: true, force: true })}catch(e){false}
+		try{await fs.rm(path.join(process.cwd() , "openv0/npx"), { recursive: true, force: true })}catch(e){false}
 		spinnerRm.succeed();
 
 
@@ -169,7 +170,7 @@ async function main() {
 		const spinnerWebappNpmInstall = ora(`installing packages in openv0/webapp`).start();
 		await execAsync(`cd webapp && npm i`);
 		spinnerWebappNpmInstall.succeed('done');
-		
+
 
 		console.log(`\n\nhow to use --------------------------------------------------------------`);
 		console.log(`\t0. cd openv0`);
