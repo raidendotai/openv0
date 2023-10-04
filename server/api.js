@@ -91,7 +91,6 @@ app.get("/components/list", async (req, res) => {
         retrieved_components[c.name].push(component);
       else retrieved_components[c.name] = [component];
     });
-  // console.dir({retrieved_components})
   res.json({
     items: Object.keys(retrieved_components).map((k) => {
       return {
@@ -127,7 +126,6 @@ app.get("/components/get", async (req, res) => {
     .sort((a, b) => {
       return b.version - a.version;
     });
-  // console.dir({retrieved_components})
   res.json({
     items: retrieved_components,
   });
@@ -218,40 +216,7 @@ app.post("/components/share", async (req, res) => {
     },
   );
   res.send(response.data);
-  /*
-  const duplexStream = new PassThrough();
-  duplexStream.pipe(res);
-  const generated = await multipass.preset({
-    stream: duplexStream,
-    preset: `componentNew_description`,
-    query: {
-      description: req.body.description,
-      framework: req.body.framework,
-      components: req.body.components,
-      icons: req.body.icons,
-    },
-  });
-  duplexStream.end();
-  */
 });
-
-/*
-app.post('/stream_debug', async (req, res) => {
-  res.setHeader("Content-Type", "text/plain");
-  const duplexStream = new PassThrough();
-  async function generateText() {
-    for (let i = 0; i < 300; i++) {
-      const chunk = `Chunk ${i}\n`;
-      duplexStream.write(chunk);
-      await new Promise((resolve) => setTimeout(resolve, 10)); // Simulate work with a sleep
-    }
-  }
-  duplexStream.pipe(res);
-  await generateText();
-  duplexStream.write("\n");
-  duplexStream.end();
-});
-*/
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

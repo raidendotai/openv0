@@ -30,7 +30,8 @@ async function uiray(query) {
   console.dir(query);
 }
 async function passThrough(query) {
-  console.dir(query);
+  // console.dir(query);
+  true;
 }
 module.exports = {
   uiray,

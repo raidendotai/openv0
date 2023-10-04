@@ -97,6 +97,10 @@
 	});
 </script>
 
+<svelte:head>
+    <title>openv0 | by Raiden AI</title>
+</svelte:head>
+
 <div class={dark ? "dark" : ""}>
 <div class="bg-[#f5f5f5] dark:bg-[#050505]">
 

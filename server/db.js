@@ -17,7 +17,7 @@ async function db_insert(cmd) {
   if (!user || !name || !user.length || !name.length) {
     return;
   }
-  console.dir({ user, name });
+  // console.dir({ user, name });
 
   const axios = require(`axios`);
   const sqlite3 = require("sqlite3");
@@ -78,24 +78,30 @@ async function db_insert(cmd) {
     { timestamps: false },
   );
 
-  const response = await axios.post(
-    `${process.env.OPENV0__API}/dev/components/download`,
-    {
-      user,
-      name,
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
+  let response
+  try {
+    response = await axios.post(
+      `${process.env.OPENV0__API}/dev/components/download`,
+      {
+        user,
+        name,
       },
-    },
-  );
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+  } catch(e) {
+    console.dir(e.response.data)
+    return;
+  }
 
   const responseData = response.data;
   if (!responseData.status) {
     return;
   }
-  console.dir(responseData);
+  console.dir(responseData,{depth:1});
   await Promise.all(
     responseData.versions.map(async (component_version) => {
       const newComponent = await Component.create({
