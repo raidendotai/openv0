@@ -10,6 +10,8 @@ It allows you to AI generate and iterate on UI components, with live preview.
 
 (say hi [@n_raidenai](https://twitter.com/n_raidenai) 👋)
 
+![image](https://github.com/raidendotai/openv0/assets/127366981/65332d8b-6f95-4ce4-9b19-4be12762e4d8)
+
 ---
 
 # Currently Supported
