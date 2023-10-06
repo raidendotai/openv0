@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { exec } = require('child_process');
 const path = require('path');
 const inquirer = require('inquirer');
@@ -10,7 +12,7 @@ const execAsync = promisify(exec);
 
 const GIT_REPO = `https://github.com/raidendotai/openv0.git`;
 const PROJECT_PATH = path.join( process.cwd() , `openv0` );
-const GIT_CLONE_CMD = `git clone -b dev --depth 1 ${GIT_REPO} "${PROJECT_PATH}"`
+const GIT_CLONE_CMD = `git clone --depth 1 ${GIT_REPO} "${PROJECT_PATH}"`
 
 let ENV = {
 	OPENAI_MODEL : 'gpt-4',
@@ -38,23 +40,23 @@ async function main() {
   if (args.length > 0) {
 		if (args[0] === `flush`) {
 			const spinnerDb = ora(`flushing openv0 db`).start();
-			const { stdoutDb, stderrDb } = await execAsync(`cd server && node db flush`);
+			const { stdout, stderr } = await execAsync(`cd server && node db flush`);
 			// await sleep(1000);
-			console.log(stdoutDb);
-			console.error(stderrDb);
+			console.log(stdout);
+			console.error(stderr);
 			spinnerDb.succeed('done');
 		} else if (args[0] === `component`) {
 			// download component - update later when expanding to views
 			// npx openv0 component @user/ComponentExample
 			const spinnerDownload = ora(`download openv0 component : ${args[1]}`).start();
-			const { stdoutDownload, stderrDownload } = await execAsync(`cd server && node db download:component:${args[1]}`);
+			const { stdout, stderr } = await execAsync(`cd server && node db download:component:${args[1]}`);
 			// await sleep(1000);
 			spinnerDownload.succeed('done');
-			console.log(stdoutDownload);
-			console.error(stderrDownload);
+			console.log(stdout);
+			console.error(stderr);
 		} else if (args[0] === `magic`) {
 			// experimental features
-			console.log(`experimental features wip`)
+			true
 		}
   } else {
 	// setup openv0
@@ -117,7 +119,7 @@ async function main() {
 
 		// clone repo
 		const spinnerGit = ora(`cloning ${GIT_REPO} in ${PROJECT_PATH}`).start();
-		const { stdoutGit, stderrGit } = await execAsync(GIT_CLONE_CMD);
+		await execAsync(GIT_CLONE_CMD);
 		spinnerGit.succeed('cloned repo');
 
 
@@ -183,11 +185,11 @@ async function main() {
 		console.log(`\n-------------------------------------------------------------------------`);
 
 		console.log(`\n`);
-		console.log(`* example : install a shared component **********************************`);
-		console.log(`\n  $ cd openv0 && npx openv0 @user/ComponentExample`);
-		console.log(`\n* example : flush DB (warning : will delete; back up first) *************`);
+		console.log(`* example : install a shared component ****************************************************`);
+		console.log(`\n  $ cd openv0 && npx openv0 component @user/ComponentExample`);
+		console.log(`\n* example : flush DB (warning : running this will delete DB; back up first) *************`);
 		console.log(`\n  $ cd openv0 && npx openv0 flush`);
-		console.log(`\n*************************************************************************`);
+		console.log(`\n*****************************************************************************************`);
 
 		console.log(`updates on openv0.com`);
 
