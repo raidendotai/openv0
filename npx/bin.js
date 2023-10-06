@@ -54,7 +54,7 @@ async function main() {
 			console.error(stderrDownload);
 		} else if (args[0] === `magic`) {
 			// experimental features
-			true
+			console.log(`experimental features wip`)
 		}
   } else {
 	// setup openv0
