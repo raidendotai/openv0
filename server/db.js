@@ -127,7 +127,7 @@ async function db_flush() {
   try {
     fs.unlinkSync(`./openv0.sqlite`);
   } catch (e) {
-    false;
+    console.log(e);
   }
   await db_build();
 }

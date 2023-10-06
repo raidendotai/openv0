@@ -43,18 +43,21 @@ async function main() {
 			console.log(stdoutDb);
 			console.error(stderrDb);
 			spinnerDb.succeed('done');
-
-		} else if (args[0].startsWith(`@`) && args[0].includes(`/`)) {
+		} else if (args[0] === `component`) {
 			// download component - update later when expanding to views
-			const spinnerDownload = ora(`download openv0 component : ${args[0]}`).start();
-			const { stdoutDownload, stderrDownload } = await execAsync(`cd server && node db download:component:${args[0]}`);
+			// npx openv0 component @user/ComponentExample
+			const spinnerDownload = ora(`download openv0 component : ${args[1]}`).start();
+			const { stdoutDownload, stderrDownload } = await execAsync(`cd server && node db download:component:${args[1]}`);
 			// await sleep(1000);
 			spinnerDownload.succeed('done');
 			console.log(stdoutDownload);
 			console.error(stderrDownload);
+		} else if (args[0] === `magic`) {
+			// experimental features
+			true
 		}
-
   } else {
+	// setup openv0
     const query = await inquirer.prompt([
       {
         type: 'list',

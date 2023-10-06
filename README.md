@@ -1,4 +1,7 @@
+
 # openv0
+
+project website - [openv0.com](https://openv0.com)
 
 **openv0** is a generative UI component framework
 
@@ -9,6 +12,8 @@ It allows you to AI generate and iterate on UI components, with live preview.
 - Component generation is a multipass pipeline - where every pass is a fully independent plugin
 
 (say hi [@n_raidenai](https://twitter.com/n_raidenai) 👋)
+
+![image](https://github.com/raidendotai/openv0/assets/127366981/65332d8b-6f95-4ce4-9b19-4be12762e4d8)
 
 ---
 
@@ -38,7 +43,13 @@ Next updates :
 
 ---
 
-# Demo (previous version)
+# Demos
+
+## Current version
+
+https://github.com/raidendotai/openv0/assets/127366981/a249cf0d-ae44-4155-a5c1-fc2528bf05b5
+
+## Previous version
 
 [openv0_demo.webm](https://github.com/raidendotai/openv0/assets/127366981/53b14c27-22ec-40a3-a431-539daf197f49)
 
@@ -78,9 +89,17 @@ To do so :
 
 # How It Works
 
-Here is a simple explanation
+### Multipass Workflow
+
+A simple explanation is the following image
 
 ![openv0_process](https://github.com/raidendotai/openv0/assets/127366981/dad08255-f54a-4437-bf87-9560f69940a7)
 
+### Codebase
 
-https://www.youtube.com/watch?v=fAEH2ZBO6BA
+Youtube video by user [@elie2222](https://www.youtube.com/@elie2222) explains parts of the previous openv0 code base
+
+
+[![@elie2222](https://img.youtube.com/vi/fAEH2ZBO6BA/maxresdefault.jpg)](https://www.youtube.com/watch?v=fAEH2ZBO6BA)
+
+
