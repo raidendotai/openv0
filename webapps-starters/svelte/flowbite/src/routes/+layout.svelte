@@ -269,8 +269,10 @@
 						<div class="my-2 bg-white dark:bg-[#222] dark:text-white p-4 text-sm
 												max-h-52 max-w-32 overflow-hidden">
 							{#if LoadedComponents[idx] && LoadedComponents[idx] != 'fail'}
-								<svelte:component this={LoadedComponents[idx]} >
-								</svelte:component>
+								<div style={{zoom: '30%'}}>
+									<svelte:component this={LoadedComponents[idx]} >
+									</svelte:component>
+								</div>
 							{:else if LoadedComponents[idx] && LoadedComponents[idx] === 'fail'}
 							  <p class="text-xs">could not import</p>
 							{:else}

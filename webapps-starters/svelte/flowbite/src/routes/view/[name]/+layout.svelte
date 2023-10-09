@@ -304,9 +304,15 @@
               {#if currentComponentIndex == i}
 	             {c.description}
               {:else}
-                {c.description.length > 100 ? `${c.description.slice(0,97)} ...` : c.description}
+                {c.description.length > 23 ? `${c.description.slice(0,20)} ...` : c.description}
               {/if}
 	            <br/>
+              {#if LoadedComponents && i != null && i >= 0 && LoadedComponents[i]}
+                <div style={{zoom: '15%', pointerEvents: 'none'}}>
+                  <svelte:component this={LoadedComponents[i]} >
+                  </svelte:component>
+                </div>
+              {/if}
 	            <span class="text-xs opacity-50">{c.version}</span>
 	          </a>
 	        {/each}
