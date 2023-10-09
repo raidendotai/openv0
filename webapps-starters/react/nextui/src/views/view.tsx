@@ -361,15 +361,29 @@ function App() {
 											event.preventDefault() ;
 				              setCurrentComponentIndex(i);
 				            }}
-				            className="m-1 p-2 hover:mx-2 duration-200 bg-white dark:bg-[#070707] dark:text-[#ccc] text-xs break-words"
+				            className={`m-2 p-2 hover:mx-3  ${currentComponentIndex === i ? 'mx-3' : ''} duration-200 bg-white dark:bg-[#070707] dark:text-[#ccc] text-xs break-words rounded-lg`}
 				          >
 				            {currentComponentIndex === i ? (
 				              c.description
 				            ) : (
-				              c.description.length > 100 ? `${c.description.slice(0, 97)} ...` : c.description
+				              c.description.length > 23 ? `${c.description.slice(0, 20)} ...` : c.description
 				            )}
 				            <br />
+										{
+											loadedComponents &&
+											i != null &&
+											i >= 0 &&
+											loadedComponents[i] &&
+												<div style={{zoom: '15%', pointerEvents: 'none'}}>
+													{loadedComponents.slice(i,i+1).map((item, index) => (
+														<div key={index} >
+															{ index === 0 ? <item.component /> : ''}
+														</div>
+													))}
+												</div>
+											}
 				            <span className="text-xs opacity-50">{c.version}</span>
+
 				          </a>
 				        ))}
 				      </div>
