@@ -244,7 +244,9 @@ export default function Browse() {
 					        <h2 className="text-xs opacity-30 font-light">{component.versions} version(s)</h2>
 					        <div className="my-2 bg-white dark:bg-[#222] dark:text-white p-4 text-sm max-h-52 max-w-32 overflow-hidden">
 					          {component && component.component !== 'fail' ? (
-					            <component.component />
+					            <div style={{zoom: '30%'}}>
+												<component.component  />
+											</div>
 					          ) : component.component === 'fail' ? (
 					            <p className="text-xs">could not import</p>
 					          ) : (
