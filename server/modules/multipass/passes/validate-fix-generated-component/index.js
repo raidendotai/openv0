@@ -8,6 +8,7 @@ const tiktoken = require("@dqbd/tiktoken");
 const tiktokenEncoder = tiktoken.get_encoding("cl100k_base");
 require("dotenv").config();
 const openai = new OpenAI({
+  baseURL: process.env.OPENAI_API_BASEURL,
   apiKey: process.env.OPENAI_API_KEY,
 });
 
