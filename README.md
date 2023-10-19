@@ -87,6 +87,14 @@ To do so :
 
 ---
 
+# Try openv0
+
+You can try openv0 on Replit (using React as a framework) with minimal configuration
+
+[![Run on Repl.it](https://replit.com/badge/github/n-raidenai/openv0-react)](https://replit.com/@n-raidenai/openv0-react)
+
+---
+
 # How It Works
 
 ### Multipass Workflow
