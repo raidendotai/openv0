@@ -89,9 +89,15 @@ To do so :
 
 # Try openv0
 
-You can try openv0 on Replit (using React as a framework) with minimal configuration
+You can try openv0 (using React as a framework) with minimal configuration below
+
+### Replit
 
 [![Run on Repl.it](https://replit.com/badge/github/n-raidenai/openv0-react)](https://replit.com/@n-raidenai/openv0-react)
+
+### StackBlitz
+
+[![Run on StackBlitz](https://github-production-user-asset-6210df.s3.amazonaws.com/127366981/278114438-4e5b21fd-bbfb-41ca-9bda-9df0deba2b4a.png)](https://stackblitz.com/~/github.com/raidendotai/openv0/pull/9)
 
 ---
 
