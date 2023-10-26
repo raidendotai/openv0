@@ -1,0 +1,14 @@
+version: '3'
+services:
+  openv0:
+    image: openv0:latest
+    ports:            
+      - "5173:5173"
+    environment:
+      - OPENAI_API_KEY=
+      - OPENAI_MODEL=gpt-4
+      - PASS__CONTEXT__COMPONENTS_LIBRARY_EXAMPLES__TOKEN_LIMIT=600
+      - OPENV0__COLLECT_UIRAY=0
+      - OPENV0__API=https://api.openv0.com
+      - API__GENERATE_ATTEMPTS = 1
+      - WEBAPP_ROOT=/app/webapp/react/shadcn

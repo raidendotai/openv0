@@ -22,9 +22,8 @@ export default function ComponentView() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const componentId = searchParams.get('componentId')
-
-
-
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL || "/api";
+  
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
   };
@@ -39,7 +38,7 @@ export default function ComponentView() {
 
     try {
       // Make the API POST request with the user input
-      const response = await fetch('http://localhost:3000/component/iterate', {
+      const response = await fetch(`${SERVER_URL}/component/iterate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,7 +96,7 @@ export default function ComponentView() {
           setSelectedComponentIndex( components.length-1 )
           console.log(selectedComponentIndex)
         }
-        fetch(`http://localhost:3000/component/ping/?from=View Component&component=${componentId}`);
+        fetch(`${SERVER_URL}/component/ping/?from=View Component&component=${componentId}`);
       });
 
 
