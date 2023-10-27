@@ -95,7 +95,7 @@ To do so:
 * Update the `OPENAI_API_KEY` variable in `docker-compose.yaml` with your OAI key
 * Choose which webapp starter by updating the `WEBAPP_ROOT` variable in `docker-compose.yaml`
 * Run docker compose: `docker-compose up openv0`
-* UI should now be accesible at http://localhost:3000
+* UI should now be accesible at http://localhost:5173
 
 
 
