@@ -1,3 +1,9 @@
+# Note :
+
+**openv0** is no longer maintained , the new project is [**Cofounder**](https://github.com/raidendotai/cofounder)
+
+---
+
 
 # openv0
 
