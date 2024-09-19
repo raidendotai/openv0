@@ -19,6 +19,7 @@ function App() {
 	const [loadedComponents, setLoadedComponents] = useState([]);
 
 	const svgStyle = { fill: '#777' };
+	const SERVER_URL = import.meta.env.VITE_SERVER_URL || "/api";
 
 	async function shareComponent() {
     if (processing) return;
@@ -26,7 +27,7 @@ function App() {
     setProcessing(true)
 
     const response = await fetch(
-      `http://localhost:3000/components/share` ,
+      `${SERVER_URL}/components/share` ,
       {
         method: "POST",
         headers: {
@@ -59,7 +60,7 @@ function App() {
 		setComponentVersions([...[]])
 		setLoadedComponents([...[]])
 		const response = await fetch(
-			`http://localhost:3000/components/get?framework=react&components=nextui&icons=lucide&name=${name}`
+			`${SERVER_URL}/components/get?framework=react&components=nextui&icons=lucide&name=${name}`
 		);
 		const data = await response.json();
 		console.log(data)
@@ -104,7 +105,7 @@ function App() {
 		setComponentStream('')
 		let received_stream = ''
 		const response = await fetch(
-      `http://localhost:3000/components/iterate/description` ,
+      `${SERVER_URL}/components/iterate/description` ,
       {
         method: "POST",
         headers: {

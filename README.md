@@ -93,6 +93,18 @@ To do so :
 
 ---
 
+**Via Docker** - you can also clone this repo and run via docker (using react as a framework). This will run both server and UI in the same container.
+
+To do so:
+* clone and navigate to this repo
+* Build the docker image `docker build -f Dockerfile . -t openv0:latest`
+* Update the `OPENAI_API_KEY` variable in `docker-compose.yaml` with your OAI key
+* Choose which webapp starter by updating the `WEBAPP_ROOT` variable in `docker-compose.yaml`
+* Run docker compose: `docker-compose up openv0`
+* UI should now be accesible at http://localhost:5173
+
+
+
 # Try openv0
 
 You can try openv0 (using React as a framework) with minimal configuration below

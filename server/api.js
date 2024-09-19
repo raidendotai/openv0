@@ -10,6 +10,7 @@ const port = 3000;
 
 app.use(cors());
 app.use(express.json());
+console.log(`WEBAPP_ROOT=${process.env.WEBAPP_ROOT}`);
 
 const sqlite3 = require("sqlite3");
 const db = new sqlite3.Database("openv0.sqlite", (err) => {

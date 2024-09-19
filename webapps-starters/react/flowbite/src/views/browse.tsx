@@ -15,10 +15,11 @@ export default function Browse() {
 	const [openv0ComponentsList, setOpenv0ComponentsList] = useState([]);
 
 	const svgStyle = { fill: '#777' };
-
+	const SERVER_URL = import.meta.env.VITE_SERVER_URL || "/api";
+	
 	async function fetchComponents(){
 		const response = await fetch(
-			`http://localhost:3000/components/list?framework=react&components=flowbite&icons=lucide`
+			`${SERVER_URL}/components/list?framework=react&components=flowbite&icons=lucide`
 		);
 		const data = await response.json();
 		console.log(data)
@@ -69,7 +70,7 @@ export default function Browse() {
 			description: generateMode === `description` ? userInputDescription : userInputJson,
 		})
 		const response = await fetch(
-			`http://localhost:3000/components/new/${generateMode}` ,
+			`${SERVER_URL}/components/new/${generateMode}` ,
 			{
 				method: "POST",
 				headers: {
